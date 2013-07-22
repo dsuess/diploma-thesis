@@ -1,0 +1,182 @@
+\documentclass[a4paper,11pt,BCOR8mm,twoside,headsepline]{scrbook}
+\author{Daniel Süß}
+\title{Stochastical Dynamics of Open Quantum Systems}
+
+% Basic input and font encoding
+\usepackage{scrhack}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman, english]{babel}
+
+% math stuff
+\usepackage{amsfonts, amsmath, amssymb, amsthm}
+
+% additional features
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{enumerate}
+
+% package to provide if-statements in new commands
+\usepackage{ifthen}
+
+% enables referencing and generation of hyperlinks
+\usepackage{hyperref}
+\usepackage[all]{hypcap}
+
+% some custom spacing
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[margin=0.8cm, font=small, labelfont=bf]{caption}
+
+% better looking font setting
+%\usepackage{microtype}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom commands
+
+% Text commands/symbols
+\newcommand{\idef}[1]{\emph{#1}}    % Inline Definition
+\newcommand{\quotes}[1]{``#1''}
+
+% Math Macros
+\newcommand{\cc}[1]{{#1}^*}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
+\newcommand{\op}[1]{#1}
+\newcommand{\adj}[1]{\op{#1}^*}
+\newcommand{\dual}[1]{{#1}^*}
+\newcommand{\E}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\mathbb{E}}
+    {\mathbb{E}\left( #1 \right)}
+}
+\renewcommand{\exp}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\mathrm{exp}}
+    {\mathrm{e}^{#1}}
+}
+\newcommand{\varf}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\mathbb{\mathcal{C}}}
+    {\mathcal{C}\left( #1 \right)}
+}
+\newcommand{\intl}[3]{\int_{#1}^{#2}\mathrm{d}#3\,}
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+\renewcommand{\sp}[2]{\left\langle #1 , #2 \right\rangle}
+\newcommand{\dualp}[2]{\left( #1 , #2 \right)}
+
+                                       % Math Symbols
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\dd}{\, \mathrm{d}}
+\newcommand{\ZZ}{\cc{Z}}               % Our noise process
+\newcommand{\adjZZ}{\adj{\ZZ}}         % and it's adjoint
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\kk}{\vec{k}}
+\newcommand{\zz}{\vec{z}}
+\newcommand{\ee}{\vec{e}}
+\newcommand{\unit}{\op{\mathrm{I}}}    % Idendity operator/matrix
+\newcommand{\PM}{\mathbb{P}}           % Probability measure
+\newcommand{\ft}[1]{\Hat{#1}}
+\newcommand{\ift}[1]{\check{#1}}
+\newcommand{\CHF}{\mathcal{F}}         % Characteristic functional
+
+% Math Sets
+\newcommand{\Complex}{\mathbb{C}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\SchwartzS}{\mathcal{S}}
+\newcommand{\SchwartzSC}{\SchwartzS_\Complex}
+
+% Environments
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+\theoremstyle{remark} 
+\newtheorem*{rem}{Remark}
+
+% Make sure autoref print (.) for equations
+\let\oldtheequation\theequation
+\makeatletter
+  \def\tagform@#1{\maketag@@@{\ignorespaces#1\unskip\@@italiccorr}}
+  \renewcommand{\theequation}{(\oldtheequation)}
+\makeatother 
+
+% Autoref commands
+% \Autoref is for the beginning of the sentence
+\let\orgautoref\autoref
+\providecommand{\Autoref}
+        {\def\equationautorefname{Equation}%
+         \def\figureautorefname{Figure}%
+         \def\subfigureautorefname{Figure}%
+         \def\chapterautorefname{Chapter}
+         \def\sectionautorefname{Section}%
+         \def\subsectionautorefname{Section}%
+         \def\subsubsectionautorefname{Section}%
+         \def\Itemautorefname{Item}%
+         \def\tableautorefname{Table}%
+         \def\thmautorefname{Theorem}%
+         \orgautoref}
+
+% \Autorefs is plural for the beginning of the sentence
+\providecommand{\Autorefs}
+        {\def\equationautorefname{Equations}%
+         \def\figureautorefname{Figures}%
+         \def\subfigureautorefname{Figures}%
+         \def\chapterautorefname{Chapters}
+         \def\sectionautorefname{Sections}%
+         \def\subsectionautorefname{Sections}%
+         \def\subsubsectionautorefname{Sections}%
+         \def\Itemautorefname{Items}%
+         \def\tableautorefname{Tables}%
+         \orgautoref}
+
+% \autoref is used inside a sentence 
+% (this is a renew of the standard)
+\renewcommand{\autoref}
+        {\def\equationautorefname{Eq.}%
+         \def\figureautorefname{Fig.}%
+         \def\subfigureautorefname{Fig.}%
+         \def\chapterautorefname{Chap.}
+         \def\sectionautorefname{Sect.}%
+         \def\subsectionautorefname{Sect.}%
+         \def\subsubsectionautorefname{Sect.}%
+         \def\Itemautorefname{item}%
+         \def\tableautorefname{Table}%
+         \def\thmautorefname{Theorem}%
+         \orgautoref}
+
+% \autorefs is plural for inside a sentence
+\providecommand{\autorefs}
+        {\def\equationautorefname{Eqs.}%
+         \def\figureautorefname{Figs.}%
+         \def\subfigureautorefname{Figs.}%
+         \def\chapterautorefname{Chaps.}
+         \def\sectionautorefname{Sects.}%
+         \def\subsectionautorefname{Sects.}%
+         \def\subsubsectionautorefname{Sects.}%
+         \def\Itemautorefname{items}%
+         \def\tableautorefname{Tables}%
+         \orgautoref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\includeonly{nmqsd}
+
+\begin{document}
+\frontmatter
+\include{title}
+\mainmatter
+\newpage
+\include{introduction}
+\include{nmqsd}
+\include{numerics}
+\include{conclusions}
+
+\appendix
+\include{appendix}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}

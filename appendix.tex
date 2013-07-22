@@ -1,0 +1,161 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Mathematical Preliminaries}
+\label{ch:math}
+
+We will now substantiate the claim of \autoref{sub:nmqsd.interpretation.unitary_view}, that the linear Non-Markovian Stochastic Schrödinger Equation
+\begin{equation}
+  \partial \psi_t = -\ii h \psi_t + L\ZZ_t \psi_t - \adj{L}\int_0^t \alpha(t-s) \frac{\delta\psi_t}{\delta\ZZ_s} \dd s
+  \label{eq:math.nmsse}
+\end{equation}
+can also be understood as a Schrödinger equation for the closed system, consisting of the system and a generalized environment.
+Our investigation will proceed as follows: First we will be concerned with the kinematic structure and provide an explicit construction of the underlying bath Hilbert space;
+subsequently we will explore how the noise process $\ZZ_t$ and the functional derivative in \autoref{eq:math.nmsse} can be realized as operators on this Hilbert space.
+
+In this section we will not attempt to present a mathematical rigorous treatment of the NMSSE, but provide the basic idea, how \autoref{eq:math.nmsse} fits into the established framework of \emph{White Noise Analysis}.
+Therein we will follow the spirit of \cite{Hi80_brownian_motion,HiKuPoSt93_white_noise}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hilbert Space of \quotes{Time Oscillators}}
+\label{sec:math.hilbert_space}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO besser erklären, wie verschiede versionen zustande kommen
+%TODO reference
+%TODO ZZ_t explizit nochmal reinschreiben?
+%TODO Abkürzungen? NMSSE? BCF?
+Let us first recall some basic terminology from probability theory (see e.g.~\cite{Sc05_mims}):
+A $C$-valued \idef{random variable} $X$ is a measurable map from a measure space $(\Omega, \mathcal{A}, \PM)$ to the measurable space $(C, \mathcal{B})$.
+Here $\Omega$, $C$ denote sets, $\mathcal{A}$, $\mathcal{B}$ are $\sigma$-algebras of $\Omega$ and $C$ respectively, and $\PM$ is a probability measure on $(\Omega, \mathcal{A})$.\footnote{In what follows, we will consider only Borel-$\sigma$-algebras and therefore not mention them any further.}
+Expectation values, variances, etc., may then be expressed as integrals of $X$ with respect to $\PM$.
+
+%TODO Satz fertig
+It is important to mention, that --- versions\dots
+Therefore we may always use the microscopical version of $\ZZ_t$ defined in \autoref{eq:???}, where $\Omega=\Complex^N$ and $\PM=\exp[-\abs\zz^2]\dd^Nz$.
+But since this is---strictly speaking---valid only for a finite number $N$ of bath oscillators, we will take a different route:
+Using only the \emph{bath correlation function}
+\begin{equation}
+  \alpha(t) = \int_\Reals \exp[-\ii\omega t] \, J(\omega)\dd\omega,
+  \label{eq:math.def_alpha}
+\end{equation}
+we establish a suitable measure space, which will be used to support our new environmental Hilbert space afterwards.
+Here $J(\omega)\dd\omega$ denotes the \idef{spectral density}, which is a positive, bounded measure, i.e.~$J\ge0$ and $\int J(\omega)\dd\omega < \infty$.
+This restriction excludes the important Markovian limit $J=1 \iff \alpha(t)\propto\delta(t)$, but\dots
+Such a unified approach has the advantage of only making reference to the bath correlation function, stressing that it is the only property of the environment relevant within our model.\\
+
+
+%TODO interpretation von Ω?
+%TODO Write down conventions for Fourier Transform.
+As a first step, we will fix our space $\Omega$, which will be used as domain for our random variables later.
+Its physical interpretation will be more clearly after we have developed our formalism.
+In what follows the \idef{Schwartz space} $\SchwartzS$ of real valued, infinitely often differtiable functions on $\Reals$ with rapid decrease will play an important role---see \cite[184-188]{Ru91_functional_analysis} for its definition and properties.
+The reason for its importance is found in the following theorem.
+\begin{thm}[Minlos's Theorem, {{ \cite[Thm.~1.1]{HiKuPoSt93_white_noise }}}]
+  \label{thm:math.minlos}
+  Let $\CHF$ be a characteristic functional on $\SchwartzS$, i.e. $\CHF\colon \SchwartzS \rightarrow \Reals$ with the properties
+  \begin{enumerate}[i)]
+    \item $\CHF$ is continous on $\mathcal{S}$,
+    \item $\CHF$ is positive definite,
+    \item $\CHF(0) = 1$.
+  \end{enumerate}
+  Then there exists a unique probability measure $\PM$ on $\dual{\SchwartzS}$ (the dual space of $\SchwartzS$), such that for all $f \in\SchwartzS$
+  \begin{equation}
+    \int_{\dual{\SchwartzS}} \exp[\ii \, \dualp{\xi}{f}] \dd\mu(\xi) = \CHF(f).
+    \label{eq:math.fourier_minlos} 
+  \end{equation}
+\end{thm}
+
+Here $\dualp{\xi}{f}$ denotes the dual pairing of $\SchwartzS/\dual{\SchwartzS}$, which can formally be written as $\dualp{\xi}{f} = \int_\Reals \xi(t) f(t) \, \dd t$.
+We also recall that a function $f$ is called \idef{positive definite}, if\dots
+%TODO Insert definition POSTIVE DEFINITE
+In \cite{HiKuPoSt93_white_noise} they take advantage of this theorem to construct a real valued White Noise processes on $\dual\SchwartzS$ with the choice $\CHF(f) = \exp(-\int_\Reals f(t)^2 \dd t)$.
+This can be rephrased as $\CHF(f)=\exp(-\,\varf[f])$ with the \emph{variance functional} $\varf[f]=\int f(t)^2 \dd t$.
+
+
+\begin{lem}[{{Fourier transform, \cite[Thm.~7.7]{Ru91_functional_analysis}}}]
+  Let $\SchwartzSC=\SchwartzS+\ii\SchwartzS$ denote the complexified space of test-functions. The Fourier transform is a continuous, linear one-to-one mapping of $\SchwartzSC$ onto $\SchwartzSC$.
+\end{lem}
+But since we are interested in complex processes with memory, we have to generalize these results.
+The reformulation at the end of the last paragraph points us into the right direction; first of all we define an appropriate covariance functional by
+\begin{equation}
+  \varf[f] = \int_{\Reals^2} \alpha(t-s) f(t) f(s) \dd t \dd s \quad (f \in\SchwartzS).
+  \label{eq:math.def_covfunc}
+\end{equation}
+
+\begin{lem}
+  \label{lem:math.covf_sp}
+\end{lem}
+\begin{proof}
+  Since $\abs{\alpha(t)} \le \int J(\omega)\dd\omega = A < \infty$ for $t\in\Reals$, we have for $f,g\in\SchwartzSC$
+  \begin{equation*}
+    \abs{\varf(f,g)} \le \iint \abs{\alpha(t-s) \cc{f(t)} g(s)} \dd s \dd t
+                     \le A \int\abs{f(t)}\dd t \, \int\abs{g(s)}\dd s 
+                     < \infty,
+  \end{equation*}
+  where we used that all test-functions in $\SchwartzSC$ are also integrable.
+  Continuity also follows from this inequality, since convergence in the $\SchwartzSC$-sense implies convergence in the $L^1$-sense.
+  The linearity and conjugate-symmetry are trivial; therefore we only need to check that $\varf(f,f)=0$ implies $f=0$.
+  For this matter we use the well-known fact, that the Fourier transform is a one-to-one, continuous and linear mapping of $\SchwartzSC$ onto $\SchwartzSC$ (see \cite[Theorem 7.7]{Ru91_functional_analysis}).
+  Consequently for $f\in\SchwartzSC$ with $\varf(f,f) = 0$, there is a $\ift{f}\in\SchwartzSC$ with $\int\exp[-\ii\omega t]\ift{f}(\omega)\dd\omega = f(t)$.
+  A short calculation then reveals
+  \begin{align*}
+    \varf(f,f) & = \iint \alpha(t-s) \cc{f(t)} f(s) \dd t \dd s \\
+               & = \iint  \int\exp[-\ii \Omega (t-s)]J(\Omega)\dd\Omega  \int\exp[\ii\omega t]\cc{\ift{f}(\omega)}\dd\omega  \int\exp[-\ii\omega' s]\ift{f}(\omega') \dd\omega'  \dd s \dd t \\
+               & = \iiint \left(   \int \exp[-\ii(\Omega - \omega)t] \dd t  \int \exp[\ii(\Omega - \omega)s] \dd s  \right) \cc{\ift{f}(\omega)}\ift{f}(\omega') J(\Omega) \dd\Omega \dd\omega \dd\omega' \\
+               & \propto \int \abs{\ift{f}(\Omega)}^2 J(\Omega) \dd\Omega.
+  \end{align*}
+  Therefore $\varf(f,f)=0$ implies $\ift{f}=0$, leading to the conclusion $f=0$.
+\end{proof}
+\begin{rem}
+  For the Markovian regime the statement holds true as well, since $\varf$ coincides with the $L^2$-scalar product in that case.\\
+\end{rem}
+
+However, we cannot apply \autoref{thm:math.minlos} directly to $\CHF(f)=\exp[-\, \varf(f,f)]$ because it does not apply to the complexified space $\SchwartzSC$.
+Instead we will follow the strategy in \cite{Hi80_brownian_motion}: first we restrict $\varf$ to $\SchwartzS$, where it does not necessarily have the form \eqref{eq:math.def_covf}.
+
+
+
+We want complex Hilbert space, Minlos only works with real. First define complex one, read of ``real'' sp, complexify again. Define $\alpha$ as FT, Define complex Pre-Hilbert space; define Complexification of $\SchwartzS$
+\begin{lem}
+  $\sp{\cdot}{\cdot}$ is well defined scalar product, continous on $\SchwartzS_\Complex$
+\end{lem}
+Complete $\SchwartzS_\Complex$; Hilbert Space $\mathcal{H}_\Complex$
+\begin{lem}
+  $\mathcal{H}_\Complex$ is seperable
+\end{lem}
+
+Go over to $\SchwartzS$, what is scalar product, use polarisation; show that complexified scalar product gives back old scalar product
+\begin{thm} \label{thm:mp_existence}
+  On $(\dual{\mathcal{S}_\Complex}, \mathcal{B})$ there exists a Gauss Measure $\mu$ such that for $f \in \SchwartzS_\Complex$
+  \begin{equation}
+    \label{eq:mp_fourier_gauss}
+    \int_{\dual{\SchwartzS_\Complex}} \exp{\left(\ii \, \Re(\xi, f)\right)} \dd\mu(\xi) = \exp(-\frac{1}{4} \Vert f \Vert_\mathcal{H})
+  \end{equation}
+\end{thm}
+
+Define $(L^2)$; scalar product; In the language of probability theory we have prop space $(\dual{\SchwartzS_\Complex}, \mathcal{B}, \mu)$. For $f,g \in \SchwartzS$ we have random variables $\cc{(\cdot, f)}$ and $(\cdot, g)$ such that $\E \ldots$. Can be continued to $\mathcal{H}$; later $Z_t := (\cdot, \delta_t)$; Formally
+  \begin{equation*}
+  (\xi, f) = \int \xi(t) f(t) \dd t = \int \int \xi(s) \delta(s-t) \dd s f(t) \dd t = \int (\cdot, \delta_t) f(t) \dd t 
+  \end{equation*}
+Therefore $(\cdot, f) = \int Z_t f(t) \dd t$; Formal scalar product; Example Brownian motion, 
+
+  \begin{thm} \label{thm:mp_expansion}
+  $(L^2)$ has the following ONB...
+  \end{thm}
+Symmetric Fock Space, how to recover microscopical model
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Noise Creation- and Anhilation Operators}
+\label{sec:math.operators}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+On all elements with finite expansion, $f \in \mathcal{H}$ define $\op Z_f$; calculate Adjoint, Formal notation, define $\op Z_t$
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Numerical Implementaion}
+\label{cha:implement}
