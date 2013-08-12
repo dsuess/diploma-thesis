@@ -50,7 +50,7 @@ As a first step, we will fix our space $\Omega$, which will be used as domain fo
 Its physical interpretation will be more clearly after we have developed our formalism.
 In what follows the \idef{Schwartz space} $\SchwartzS$ of real valued, infinitely often differtiable functions on $\Reals$ with rapid decrease will play an important role---see \cite[184-188]{Ru91_functional_analysis} for its definition and properties.
 The reason for its importance is found in the following theorem.
-\begin{thm}[Minlos's Theorem, {{ \cite[Thm.~1.1]{HiKuPoSt93_white_noise }}}]
+\begin{thm}[Minlos's Theorem, {{\cite[Thm.~1.1]{HiKuPoSt93_white_noise }}}]
   \label{thm:math.minlos}
   Let $\CHF$ be a characteristic functional on $\SchwartzS$, i.e. $\CHF\colon \SchwartzS \rightarrow \Reals$ with the properties
   \begin{enumerate}[i)]
@@ -61,7 +61,7 @@ The reason for its importance is found in the following theorem.
   Then there exists a unique probability measure $\PM$ on $\dual{\SchwartzS}$ (the dual space of $\SchwartzS$), such that for all $f \in\SchwartzS$
   \begin{equation}
     \int_{\dual{\SchwartzS}} \exp[\ii \, \dualp{\xi}{f}] \dd\mu(\xi) = \CHF(f).
-    \label{eq:math.fourier_minlos} 
+    \label{eq:math.fourier_minlos}
   \end{equation}
 \end{thm}
 
@@ -89,7 +89,7 @@ The reformulation at the end of the last paragraph points us into the right dire
   Since $\abs{\alpha(t)} \le \int J(\omega)\dd\omega = A < \infty$ for $t\in\Reals$, we have for $f,g\in\SchwartzSC$
   \begin{equation*}
     \abs{\varf(f,g)} \le \iint \abs{\alpha(t-s) \cc{f(t)} g(s)} \dd s \dd t
-                     \le A \int\abs{f(t)}\dd t \, \int\abs{g(s)}\dd s 
+                     \le A \int\abs{f(t)}\dd t \, \int\abs{g(s)}\dd s
                      < \infty,
   \end{equation*}
   where we used that all test-functions in $\SchwartzSC$ are also integrable.
@@ -135,12 +135,12 @@ Go over to $\SchwartzS$, what is scalar product, use polarisation; show that com
 
 Define $(L^2)$; scalar product; In the language of probability theory we have prop space $(\dual{\SchwartzS_\Complex}, \mathcal{B}, \mu)$. For $f,g \in \SchwartzS$ we have random variables $\cc{(\cdot, f)}$ and $(\cdot, g)$ such that $\E \ldots$. Can be continued to $\mathcal{H}$; later $Z_t := (\cdot, \delta_t)$; Formally
   \begin{equation*}
-  (\xi, f) = \int \xi(t) f(t) \dd t = \int \int \xi(s) \delta(s-t) \dd s f(t) \dd t = \int (\cdot, \delta_t) f(t) \dd t 
+  (\xi, f) = \int \xi(t) f(t) \dd t = \int \int \xi(s) \delta(s-t) \dd s f(t) \dd t = \int (\cdot, \delta_t) f(t) \dd t
   \end{equation*}
-Therefore $(\cdot, f) = \int Z_t f(t) \dd t$; Formal scalar product; Example Brownian motion, 
+Therefore $(\cdot, f) = \int Z_t f(t) \dd t$; Formal scalar product; Example Brownian motion,
 
   \begin{thm} \label{thm:mp_expansion}
-  $(L^2)$ has the following ONB...
+  $(L^2)$ has the following ONB\dots
   \end{thm}
 Symmetric Fock Space, how to recover microscopical model
 
@@ -148,6 +148,7 @@ Symmetric Fock Space, how to recover microscopical model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Noise Creation- and Anhilation Operators}
 \label{sec:math.operators}
+% * prove of Novikov Formula
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 On all elements with finite expansion, $f \in \mathcal{H}$ define $\op Z_f$; calculate Adjoint, Formal notation, define $\op Z_t$

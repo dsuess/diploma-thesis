@@ -3,7 +3,7 @@
 \title{Stochastical Dynamics of Open Quantum Systems}
 
 % Basic input and font encoding
-\usepackage{scrhack}
+%\usepackage{scrhack}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman, english]{babel}
@@ -43,13 +43,16 @@
 \newcommand{\abs}[1]{\left\vert #1 \right\vert}
 \newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
 \newcommand{\op}[1]{#1}
-\newcommand{\adj}[1]{\op{#1}^*}
+\newcommand{\adj}[1]{\op{#1}^\dagger}
 \newcommand{\dual}[1]{{#1}^*}
+
 \newcommand{\E}[1][\empty]{
   \ifthenelse{\equal{#1}{\empty}}
     {\mathbb{E}}
     {\mathbb{E}\left( #1 \right)}
 }
+\newcommand{\qmean}[1]{\langle #1 \rangle}
+
 \renewcommand{\exp}[1][\empty]{
   \ifthenelse{\equal{#1}{\empty}}
     {\mathrm{exp}}
@@ -61,38 +64,63 @@
     {\mathcal{C}\left( #1 \right)}
 }
 \newcommand{\intl}[3]{\int_{#1}^{#2}\mathrm{d}#3\,}
+
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 \newcommand{\bra}[1]{\langle #1 |}
 \newcommand{\ket}[1]{| #1 \rangle}
-\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+%\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
 \renewcommand{\sp}[2]{\left\langle #1 , #2 \right\rangle}
 \newcommand{\dualp}[2]{\left( #1 , #2 \right)}
 
-                                       % Math Symbols
+% Math Symbols
 \newcommand{\ii}{\mathrm{i}}
 \newcommand{\dd}{\, \mathrm{d}}
+\newcommand{\intdd}{\int\mathrm{d}}
+\newcommand{\Tr}[1]{\operatorname{Tr}_\mathrm{#1}}
+\newcommand{\mudz}{\, \mu(\mathrm{d} z)}
+
 \newcommand{\ZZ}{\cc{Z}}               % Our noise process
+\newcommand{\tildeZZ}{\cc{\tilde Z}}
 \newcommand{\adjZZ}{\adj{\ZZ}}         % and it's adjoint
-\newcommand{\Tr}{\operatorname{Tr}}
+
 \newcommand{\kk}{\vec{k}}
 \newcommand{\zz}{\vec{z}}
+
+\newcommand{\psitz}{\psi_t(\cc\zz)}
+\newcommand{\psitZ}{\psi_t(\ZZ)}
+\newcommand{\psitphi}{\psi_t(\cc{\vec\phi}_t(\cc\zz))}
+
+\newcommand{\phitla}{\phi_{t, \lambda}}
+\newcommand{\ccphitla}{\cc\phi_{t, \lambda}}
+
 \newcommand{\ee}{\vec{e}}
 \newcommand{\unit}{\op{\mathrm{I}}}    % Idendity operator/matrix
 \newcommand{\PM}{\mathbb{P}}           % Probability measure
 \newcommand{\ft}[1]{\Hat{#1}}
 \newcommand{\ift}[1]{\check{#1}}
 \newcommand{\CHF}{\mathcal{F}}         % Characteristic functional
+\renewcommand{\propto}{\sim}
+
+% Operators
+\newcommand{\Htot}{H_\mathrm{tot}}
+\newcommand{\Hsys}{H}
+\newcommand{\Henv}{H_\mathrm{env}}
+\newcommand{\Hint}{H_\mathrm{int}}
 
 % Math Sets
 \newcommand{\Complex}{\mathbb{C}}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\SchwartzS}{\mathcal{S}}
 \newcommand{\SchwartzSC}{\SchwartzS_\Complex}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\HHenv}{\HH_\mathrm{env}}
+\newcommand{\HHsys}{\HH_\mathrm{sys}}
 
 % Environments
 \newtheorem{thm}{Theorem}
 \newtheorem{lem}[thm]{Lemma}
-\theoremstyle{remark} 
+\theoremstyle{remark}
 \newtheorem*{rem}{Remark}
 
 % Make sure autoref print (.) for equations
@@ -100,7 +128,7 @@
 \makeatletter
   \def\tagform@#1{\maketag@@@{\ignorespaces#1\unskip\@@italiccorr}}
   \renewcommand{\theequation}{(\oldtheequation)}
-\makeatother 
+\makeatother
 
 % Autoref commands
 % \Autoref is for the beginning of the sentence
@@ -131,7 +159,7 @@
          \def\tableautorefname{Tables}%
          \orgautoref}
 
-% \autoref is used inside a sentence 
+% \autoref is used inside a sentence
 % (this is a renew of the standard)
 \renewcommand{\autoref}
         {\def\equationautorefname{Eq.}%
@@ -161,7 +189,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\includeonly{nmqsd}
+%\includeonly{nmqsd}
 
 \begin{document}
 \frontmatter
