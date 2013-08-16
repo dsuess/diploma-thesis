@@ -19,6 +19,7 @@
 % TODO Nonlinear models?
 % TODO initial state; correlation function
 % TODO Typical correlation functions for infinite systems; decay rate, etc.
+% TODO Why oscillator bath?! Feynman Hibbs p.354 --> all cold baths are equivalent
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Although the first and foremost goal of our work is the description of the system's reduced dynamics, we focus on a full system-environment description at first.
@@ -225,7 +226,7 @@ Using the convention $\int_0^t \delta(t-s) \dd s = \frac{1}{2}$ \autoref{eq:nmqs
 where the driving process is a complex White Noise with $\E{Z_t \ZZ_s} = \delta(t-s)$.
 In a formally exact manner the equation above should be written as
 \begin{equation}
-  \dd\psi_t = (-\ii\Hsys\psi_t - \frac{1}{2} \adj{L}L \psi_t) \dd t + L\psi_t \circ \dd \cc\xi_t
+  \dd\psi_t = (-\ii\Hsys\psi_t - \frac{1}{2} \adj{L}L \psi_t) \dd t + L\psi_t \dd \cc\xi_t
   \label{eq:nmqsd.ito}
 \end{equation}
 with a complex Brownian motion $\xi_t$.
@@ -514,6 +515,7 @@ For to application to any realistic physical system---except a few exactly solva
 % * time oscillators
 % * structure of interaction
 % * make contact with Brownian motion picture
+% * breakdown of interpretation for T ≠ 0
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -521,37 +523,182 @@ For to application to any realistic physical system---except a few exactly solva
 \label{sec:nmqsd.temperature}
 % * why necessary
 % * why approach does not work anymore
-% * breakdown of interpretation
-% * quantum vs. classical noise
+%
+% TODO quantum vs. classical noise
+% TODO How it solves the negative frequency problem
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Until now we were only concerned with the temperature zero theory, which was defined by an initial product state with the environment in the vacuum state $\ket{\Psi_0} = \ket{\psi_0} \otimes \ket{\vec 0}$.
+It translates into our NMSSE-framework as the demand of vanishing functional derivatives at the time $t = 0$
+\begin{equation*}
+  \frac{\delta \psi_0}{\delta \ZZ_s} = 0 \quad (s \in \Reals).
+\end{equation*}
+% TODO What about U_s→ t L U^*_s→ t
+This allows us to restrict the integral domain for the derivatives in \autoref{eq:nmqsd.nmsse} and is therefore crucial for the $O$-operator substitution.
+Without the upper limit $t$ for the integral the hierarchical equations of motion presented in \autoref{sec:num.sheom} fail as well.
+In order to treat non-zero temperature systems with the non-Markovian stochastic Schrödinger equation we devise two methods that map to the vacuum initial conditions of the zero-temperature case.
+
+To start off we assume a product initial state, but this time with a Gibbs state $\rho(\beta) = \frac{\exp[-\beta \Henv]}{Z}$ on the environment's side
+\begin{equation}
+  \rho_0 = \ket{\psi_0}\bra{\psi_0} \otimes \rho(\beta)
+  \label{eq:nmqsd.initial_rho}
+\end{equation}
+with the bath partition function $Z = \Tr \exp[-\beta \Henv]$ at inverse temperature $\beta = 1/k_B T$.
+This choice amounts to the following experimental setting:
+At $t_\mathrm{init} \to -\infty$ the environment is brought into contact with an even larger heat bath at given temperature, while the coupling to the system is switched off.
+% TODO What about the bath--superbath entanglement?
+% TODO BAD GRAMMAR!
+The environment is allowed to thermalize until $t=0$ when the super-bath is removed and the system-coupling is instantly tuned as given by \autoref{eq:nmqsd.Hint}.
+% TODO Really? Elaborate!
+The choice of a pure state projector for the system in \autoref{eq:nmqsd.initial_rho} is merely for convenience;
+in contrast we cannot drop its product form.
+% TODO Too complicated?
+Therefore a initial thermal state of the system and bath with respect to $\Htot$ cannot be treated with the NMSSE due to entanglement.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Thermofield Method}
+\subsection{Thermo Field Method}
 \label{sub:nmqsd.temperature.thermofield}
 % * method
-% * how it solves negative frequency problem
-% * trouble when using within hierarchies
+%
+% TODO Physical interpreatation of the thermal occupation number prefactors? Spontaneous and induced excitation/relaxation?
+% TODO Purely real α --> classical thermal noise
+
+Thermo field dynamics was introduced as a real-time approach to quantum fields at finite temperature \cite{???}.
+It is favored over other methods in application to the NMSSE since it does not change the equation of motion~\cite{DiGiSt98_nmqsd} as shown below.
+In the course of this section we follow the slightly more detailed accounts of Yu and Strunz \cite{Yu04_heat_bath,St01_habil}.
+
+The main idea is to introduce a second fictitious bath of oscillators, which is independent from the physical environment and does not interact with the system.
+Expressing its degrees of freedom in ladder operators $b_\lambda$ and $\adj{b}_\lambda$ gives us the new Hamiltonian in the Schrödinger picture
+\begin{equation}
+  \Htot = \Hsys \otimes \unit + \sum_\lambda (\cc{g}_\lambda L\otimes\adj{a}_\lambda + g_\lambda \adj{L}\otimes a_\lambda) + \unit \otimes \sum_\lambda \omega_\lambda (\adj{a}_\lambda a_\lambda - \adj{b}_\lambda b_\lambda).
+  \label{eq:nmqsd.Htot_thermal}
+\end{equation}
+Although this Hamiltonian is not bounded from below due to negative frequencies of the fictitious oscillators, there are no stability problems since they do not interact with the physical degrees of freedom.
+For the same reason the reduced dynamics obtained from \autoref{eq:nmqsd.Htot_thermal} are identical to the original microscopical model~\ref{eq:nmqsd.Htot}.
+Therefore both yield equal reduced density matrices for our system provided we choose an initial state that reproduces \autoref{eq:nmqsd.initial_rho} upon tracing of the unphysical degrees of freedom.
+% TODO Mhhh...
+Since these are given by a product the choice of a total initial state is independent from the system and is equivalent to demand
+\begin{equation}
+  \Tr{b} \tilde\rho = \rho(\beta)
+  \label{eq:nmqsd.rho_tilde}
+\end{equation}
+for the density matrix of both environments.
+Here $\Tr{b}$ denotes the partial trace with respect to the fictitious degrees of freedom.
+
+Remarkably a solution $\tilde\rho$ of \autoref{eq:nmqsd.rho_tilde} is given by the pure state projector on a vacuum state with respect to new annihilation operators $A$, $B$.
+They are connected to the old ladder operators by a temperature dependent Bogoliubov transformation
+\begin{align*}
+  A_\lambda &= \sqrt{\bar n_\lambda + 1} \, a_\lambda + \sqrt{\bar n_\lambda} \, \adj{b}_\lambda \\
+  B_\lambda &= \sqrt{\bar n_\lambda} \, \adj{a}_\lambda + \sqrt{\bar n_\lambda + 1} \, b_\lambda,
+\end{align*}
+with $\bar n_\lambda = \left( \exp(\beta \omega_\lambda) - 1 \right)^{-1}$ denoting the mean thermal occupation number of the (physical) oscillator mode $\lambda$.
+% TODO Source! Sounds good?
+An extensive but elementary calculation reveals that $\ket{0_{AB}}\bra{0_{AB}}$ with $\ket{0_{AB}} = \ket{0_A} \otimes \ket{0_B}$ defined by $A_\lambda\ket{0_{AB}} = B_\lambda\ket{0_{AB}} = 0$ satisfies \autoref{eq:nmqsd.rho_tilde}.
+
+% TODO Sounds strange!
+The doubling in degrees of freedom ensures that the reduced density matrix obtained from an initial pure state $\ket{\tilde\Psi_0} = \ket{\psi_0}\otimes\ket{0_{AB}}$ in the enlarged Hilbert space coincides with the original one lacking unphysical bath oscillators.
+Expressed in these new coordinates the total Hamiltonian~\ref{eq:nmqsd.Htot_thermal} reads
+\begin{align}
+  \Htot = \Hsys\otimes\unit &+ \sum_\lambda \sqrt{\bar n_\lambda + 1} \, \left(\cc g_\lambda L\otimes\adj{A}_\lambda + g_\lambda \adj{L}\otimes A_\lambda \right) \nonumber \\
+        \label{eq:nmqsd.Htot_thermal_shifted}
+        &+ \sum_\lambda \sqrt{\bar n_\lambda} \, \left( g_\lambda \adj{L}\otimes\adj{B}_\lambda  + \cc g_\lambda L \otimes B_\lambda \right) \\
+        &+ \unit \otimes \sum_\lambda \omega_\lambda \left( \adj{A}_\lambda A_\lambda - \adj{B}_\lambda B_\lambda \right). \nonumber
+\end{align}
+Our new Hamiltonian is identical to the zero-temperature model except for the system coupling to two separate oscillator baths instead of one;
+therefore we need two independent processes $\ZZ_t$ and $\cc{W}_t$ for a stochastic version of \autoref{eq:nmqsd.Htot_thermal_shifted} in general:
+\begin{align}
+  \partial_t \psi_t = -\ii\Hsys\psi_t &+ L\ZZ_t\psi_t - \adj{L}\int_0^t \alpha_1(t-s) \frac{\delta \psi_t}{\delta \ZZ_s} \dd s \nonumber \\
+  &+ \adj{L} \cc{W}_t \psi_t - L\int_0^t \alpha_2(t-s) \frac{\delta\psi_t}{\delta \cc{W}_s} \dd s.
+  \label{eq:nmqsd.nmsse_thermal_2processes}
+\end{align}
+All effects of the original thermal initial state are now encoded in the correlation functions
+\begin{equation*}
+  \alpha_1(t) = \sum_\lambda (\bar n_\lambda + 1) \abs{g_\lambda}^2 \exp[-\ii\omega_\lambda t] \quad \mbox{and} \quad
+  \alpha_2(t) = \sum_\lambda \bar n_\lambda \abs{g_\lambda}^2 \exp[\ii\omega_\lambda t]
+\end{equation*}
+for $\ZZ_t$ and $\cc{W}_t$ respectively.
+Since both are Gaussian, their independence is equivalent to the vanishing of all their mutual correlations $\E[\ZZ_t W_s] = \E[Z_t W_s] = 0$.
+
+% TODO FIX THE WHOLE PARAGRAPH FOR T=0 LIMITING CASE!
+% * finite number of oscillators → no Bose Einstein condenstion, no problems!
+As we doubled the bath degrees of freedom merely to cope with a thermal initial state it is quite natural that the zero-temperature result from \autoref{eq:nmqsd.nmsee} with a single driving process is recovered in the limit $T \to 0$\dots
+
+The thermo field approach to our non-Markovian Schrödinger equation turns out to be especially simple in the case of self-adjoint coupling operators $\adj{L}$:
+From \autoref{eq:nmqsd.nmsse_thermal_2processes} we see how both driving processes $\ZZ_t$ and $\cc{W}_t$ can be combined into a single one, which we will denote by $\ZZ_t$ again.
+% TODO Too much since...
+Since we took them to be mutually independent we find for our new sum process using $2\bar n_\lambda + 1 = \coth{\frac{\beta\omega_\lambda}{2}}$:
+\begin{equation}
+  \E[Z_t \ZZ_s] = \sum_\lambda \left(\abs{g_\lambda}^2 \, \coth{\frac{\beta \omega_\lambda}{2}} \, \cos{\omega_\lambda (t-s)} - \ii \sin{\omega_\lambda (t-s)} \right).
+  \label{eq:nmqsd.combined_correlation}
+\end{equation}
+
+Consequently the finite temperature NMSSE takes the form identical to zero temperature theory.
+They only differ in how the correlation function is obtained from a microscopical model or rather from a spectral density.
+% TODO Too much?
+It is not surprising that our combined correlation function~\ref{eq:nmqsd.combined_correlation} agrees with the result of Feynman and Vernon \cite{FeVe63_quantum_dissipative} derived in the path integral formalism for quantum Brownian motion.
+But our approach is much more general since it can tackle any kind of open quantum system with linear coupling.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Unitary Noise}
+\subsection{unitary noise}
 \label{sub:nmqsd.temperature.unitary}
 % * method
 % * would be better for hierarchies
 % * still negative energies
 % * problematic integral
+% * classical noise --> alpha purely real
 
+As shown in the last section we can treat classical thermal noise on the same footing as quantum noise under certain circumstances just by using a modified correlation function~\ref{eq:nmqsd.combined_correlation}.
+It is worth noticing how the influence of thermal fluctuations modify only the real part of $\alpha$, a feature that explicitly distinguishes noisy classical perturbations \cite{FeHi10_path_integrals}.
+Therefore it is quite instructive to present a different method for treating non-zero temperature within the non-Markovian quantum state diffusion.
+
+We start off by expanding the thermal bath state in a coherent state basis \cite{WaMi08_quantum_optics}
+\begin{equation*}
+  \rho(\beta) = FILL IN
+\end{equation*}
+which is quite reminiscent of the expansion for a pure state projector that lead to our stochastic Schrödinger equation.
+The corresponding pure initial states are a product involving all environmental oscillators
+\begin{equation*}
+  \ket{\Psi_0(\xi)} = \exp[-\frac{\abs{\vec\xi}^2}{2}] \ket{\psi_0} \bigotimes_\lambda \ket{\xi_\lambda}
+\end{equation*}
+where the additional prefactor is usually absorbed by using normalized coherent states.
+A simple shift for the creation and annihilation operators $\adj{A}_\lambda = \adj{a}_\lambda - \cc{\xi}_\lambda$ and $A_\lambda = a_\lambda - \xi_\lambda$ respectively maps the environmental part of the initial state above onto the vacuum.
+Therefore we can apply our zero-temperature derivation to the total Hamiltonian expressed in $A$ and $\adj{A}_\lambda$.
+The resulting NMSSE reads
+%TODO Fix apperance
+\begin{equation}
+  \partial_t \psi_t(\ZZ, \xi) = \left( -\ii\Hsys + L\cc\xi_t + \adj{L}\xi_t + L\ZZ_t - \adj{L}\int_0^t \alpha(t - s) \frac{\delta}{\delta \ZZ_s} \dd s \right) \psi_t(\ZZ, \xi, \cc\xi)
+  \label{eq:nmqsd.nmsse_thermal_classic}
+\end{equation}
+with a classical driving process $\xi_t = \sum_\lambda g_\lambda \xi_\lambda \exp[-\ii \omega_\lambda t]$ and its familiar quantum counterpart $\ZZ_t$.
+The former's properties are once again fixed by its correlations
+\begin{equation*}
+  \E\,\xi_t = 0, \quad \E\,\xi_t \xi_s =0, \quad\mbox{and}\quad \E\,\xi_t \cc{\xi}_s = 2\sum_\lambda \bar n_\lambda \abs{g_\lambda}^2 \cos{\omega_\lambda(t-s)}.
+  \label{eq:nmqsd.process_properties}
+\end{equation*}
+% TODO Too much zero temperature...
+Recovering the reduced density matrix not only requires an average over $\ZZ$ but also over all realizations of the thermal noise process $\xi_t$.
+Since all thermal occupation numbers $\bar n_\lambda$ tend to zero for $T \to 0$, we obtain the zero temperature limit simply by setting $\xi_t = 0$.
+This amounts to the trivial decomposition $\rho(T = 0) = \ket{\vec 0}\bra{\vec 0}$ of the zero temperature environmental state.
+% TODO What is correlation? Why no functional derivative?
+% TODO DISCUSSION!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Jaynes-Cummings Model}
-\label{sec:nmqsd.jaynes_cummings}
+\section{Dissipative Two-level System}
+\label{sec:nmqsd.two_level}
 % * analytic solution
-% * existence of O-operator
+% * existence of o-operator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Intro, model, paper, what does it model...
+% TODO Introduction
+\begin{equation*}
+  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + g \sigma_- \psi_t - \cc g\sigma_+ \int_0^t \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Convolutionless Formulation}
-\label{sub:nmqsd.jaynes_cummings.convolutionless}
+\subsection{O-Operator Method}
+\label{sub:nmqsd.two_level.o}
 
-At first we
+As we have elaborated in \autoref{sub:nmqsd.lin_nmsse.convolutionless}
+
+
