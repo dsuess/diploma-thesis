@@ -277,13 +277,15 @@ Depending on the validity of the $O$-substitution the corresponding NMSSE~\ref{e
 For a few simple models---one is presented in \autoref{sec:nmqsd.twolevel}---an exact analytic expression for $O$ is known.
 In these cases one proocedes as follows \cite{DiGiSt98_nmqsd}:
 From the consistency condition
-\begin{equation*}
+\begin{equation}
   \partial_t \frac{\delta \psi_t(\ZZ)}{\delta \ZZ_s} = \frac{\delta}{\delta \ZZ_s} \partial_t \psi_t(\ZZ)
-\end{equation*}
+  \label{eq:nmqsd.consistency_condition}
+\end{equation}
 and the initial condition familiar from \autoref{sec:nmqsd.markov}
-\begin{equation*}
+\begin{equation}
   O(s, s, \ZZ) = L
-\end{equation*}
+  \label{eq:nmqsd.o_initial}
+\end{equation}
 we can derive an equation of motion for $O(t, s, \ZZ)$.
 It still contains the functional derivative, but with an appropriate ansatz for the $\ZZ$-dependence of $O$, this is transformed into a system of coupled equations independent of the noise.
 Nevertheless most treatments rely on approximation schemes, for example perturbation expansion for a small coupling parameter or nearly-Markovian environments \cite{YuDiGiSt99_pertubation}.
@@ -691,14 +693,95 @@ This amounts to the trivial decomposition $\rho(T = 0) = \ket{\vec 0}\bra{\vec 0
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TODO Introduction
-\begin{equation*}
-  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + g \sigma_- \psi_t - \cc g\sigma_+ \int_0^t \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s
-\end{equation*}
+\begin{equation}
+  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + c \sigma_- \ZZ_t \psi_t - c\sigma_+ \int_0^t \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s
+  \label{eq:nmqsd.nmsse_twolevel}
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{O-Operator Method}
 \label{sub:nmqsd.two_level.o}
+%
+% TODO Check for complex c, if all terms are correct
 
-As we have elaborated in \autoref{sub:nmqsd.lin_nmsse.convolutionless}
+As elaborated in \autoref{sub:nmqsd.lin_nmsse.convolutionless} we can simplify the NMSSE~\ref{eq:nmqsd.nmsse_twolevel} by replacing the functional derivative with an operator $O(t, s, \ZZ)$.
+We try to solve the consistency condition~\ref{eq:nmqsd.consistency_condition} by a noise-independent ansatz
+\begin{equation}
+  O(t, s) = c f(t, s) \sigma_-,
+  \label{eq:nmqsd.o_ansatz}
+\end{equation}
+hence all non-Markovian feedback from the environment is now encoded in the function $f(t, s)$ to be determined.
+Plugging this ansatz into the evolution equation for $O$ yields
+\begin{equation}
+  \partial_t c f(t, s) \sigma_- = \left[-\ii \frac{\omega}{2} \sigma_z - c^2 F(t) \sigma_+\sigma_-, c f(t, s) \sigma_-\right]
+  \label{eq:nmqsd.eom_for_o}
+\end{equation}
+with a shorthand notation $F(t) := \int_0^t \alpha(t-s) f(t, s) \dd s$.
+From its definition~\ref{eq:nmqsd.o_bar} we see that $F$ is also the prefactor for the integrated operator $\bar O(t) = c F(t) \sigma_-$.
+% TODO Sounds pretty much copied!
+Since the operator algebra in \autoref{eq:nmqsd.eom_for_o} closes, our ansatz solves the equation of motion for $O$ provided $f$ evolves according to
+% TODO Better way to write (s < t); indentation looks strange
+\begin{equation*}
+  \partial_t f(t, s) = \left(\ii \omega + c^2 F(t)\right) \, f(t, s) \quad (s \le t).
+\end{equation*}
+Appropriate initial conditions follow trivially from \autoref{eq:nmqsd.o_initial}; they read $f(s, s) = 1$.
+In the special case of an exponential bath correlation function $\alpha(t) = g \exp[-\gamma\abs{t} - \ii\Omega t]$ we can also derive a differential equation that is closed in $F$
+\begin{equation*}
+  \partial_t F(t) = g + (\ii (\omega - \Omega) - \gamma) F(t) + c^2 F(t)^2.
+\end{equation*}
+Such correlation functions play a major role in the subsequent work.
+
+As shown in \autoref{sub:nmqsd.lin_nmsse.master}, a convolutionless NMSEE with noise independent $O$-operator can be transformed into a master equation without any approximation.
+For the model under consideration it turns out to closely resemble a Lindblad-type equation except for time-dependent coefficients
+\begin{equation*}
+  \partial_t \rho_t = -\ii \frac{\omega}{2} [\sigma_z, \rho_t] + c^2 [\sigma_-, \rho_t \sigma_+] + c^2 F(t) [\sigma_- \rho_t, \sigma_+].
+  \label{eq:nmqsd.two_level_master}
+\end{equation*}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Noise-Expansion Method}
+\label{sub:nmqsd.expansion}
+
+In this section we propose a different method for solving \autoref{eq:nmqsd.nmsse_twolevel}:
+% TODO Add reference
+It is based on the expansion discussed in \autoref{???}, which allows us to express the quantum trajectories $\psitZ$ in a functional Taylor series with respect to the noise process.
+Due to the particular coupling structure of the model we can neglect all terms higher than linear order in $\ZZ_t$.
+As further elaborated in \autoref{sec:tla.general}, our NMSSE~\ref{eq:nmqsd.nmsse_twolevel} reduces to a $\Complex$-valued integro-differential equation
+\begin{equation}
+  \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t) - c^2 \int_0^t \alpha(t - s) \exp[\ii \frac{\omega}{2} (t - s)] \psi^+(s) \dd s,
+  \label{eq:nmqsd.dotpsi_plus}
+\end{equation}
+which is nevertheless quite involved---even from a numerical point of view.
+% TODO Bad grammar
+The situation is noticeably simpler for an exponential correlation function for which we calculate an analytic solution in the appendix as well.
+
+But even without an explicit solution for $\psi^+(t)$ we may still discover some illuminating consequences concerning the $O$-operator from the last section.
+With $\psi^-(t) = \psi^-(0) \, \exp(\ii \omega t / 2)$ the full quantum trajectory reads
+\begin{equation}
+  \psi_t(\ZZ) = \left(\begin{array}{c}
+    \psi^+(t) \\ \psi^-(t)
+    \end{array}\right)
+  + c \int_0^t \left(\begin{array}{c}
+    0 \\ \exp[\ii \frac{\omega}{2} (t-s)] \psi^+(s)
+    \end{array}\right)
+  \ZZ_s \dd s.
+  \label{eq:nmqsd.solution}
+\end{equation}
+% TODO Good idea?
+This allows us to calculate the functional derivative with respect to the driving process explicitly;
+for $0 \le s \le t$ we find\footnote{For $s = t$ there is no additional prefactor $\frac{1}{2}$ from integrating a $\delta$-function localized at the upper integral boundary as explained in the footnote on page~\pageref{fn:tla.boundaries}.}
+\begin{equation*}
+  \frac{\delta \psi_t(\ZZ)}{\delta \ZZ_s} = c \left(\begin{array}{c}
+    0 \\ \exp[\ii \frac{\omega}{2}(t - s)] \psi^+(s),
+    \end{array}\right)
+\end{equation*}
+which agrees with out ansatz~\ref{eq:nmqsd.o_ansatz} in case we choose
+\begin{equation}
+  f(t, s) = \frac{\psi^+(s)}{\psi^+(t)} \, \exp[-\ii \frac{\omega}{2}(s - t)].
+  \label{eq:nmqsd.o_ansatz_psi}
+\end{equation}
+A similar structure for the $O$-operator has been obtained by Strunz \cite{St01_habil} within a Heisenberg-operator method.
+
+
+% TODO Discussion, different results, Pictures!
