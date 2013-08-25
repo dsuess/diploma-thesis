@@ -1,0 +1,94 @@
+## Standard plotting Options
+# Backend
+backend               : pgf
+interactive           : False
+pgf.texsystem         : pdflatex
+
+# Lines
+lines.linewidth       : 1.0        # line width in points
+lines.linestyle       : -          # solid line
+lines.color           : blue
+lines.marker          : None       # the default marker
+lines.markeredgewidth : 0.5        # the line width around the marker symbol
+lines.markersize      : 6          # markersize, in points
+lines.antialiased     : True       # render lines in antialised (no jaggies)
+
+# Patches, especially for legend-frame
+patch.linewidth   : .5
+patch.facecolor   : white
+patch.edgecolor   : black
+patch.antialiased : True
+
+# Font
+font.family           : serif
+#font.style            : normal
+#font.variant          : normal
+#font.weight           : medium
+#font.stretch          : normal
+font.size             : 10.0
+font.serif            :
+font.sans-serif       :
+text.usetex         : True
+text.latex.unicode  : False
+#mathtext.cal            : cursive
+#mathtext.rm             : serif
+#mathtext.tt             : monospace
+#mathtext.it             : serif     : italic
+#mathtext.bf             : serif     : bold
+#mathtext.sf             : sans
+#mathtext.fontset        : cm
+#mathtext.fallback_to_cm : True
+#mathtext.default        : it
+
+#axes.hold           : True    # whether to clear the axes by default on
+#axes.facecolor      : white   # axes background color
+#axes.edgecolor      : black   # axes edge color
+#axes.linewidth      : 0.2     # edge linewidth
+#axes.grid           : False   # display grid or not
+#axes.titlesize      : large   # fontsize of the axes title
+#axes.labelsize      : medium  # fontsize of the x any y labels
+#axes.labelcolor     : black
+#axes.axisbelow      : False   # whether axis gridlines and ticks are below
+#                              # the axes elements (lines, text, etc)
+#axes.formatter.limits : -7, 7 # use scientific notation if log10
+#                              # of the axis range is smaller than the
+#                              # first or larger than the second
+#axes.unicode_minus  : True    # use unicode for the minus symbol
+#axes.color_cycle    : b, g, r, c, m, y, k  # color cycle for plot lines
+#polaraxes.grid      : True    # display grid on polar axes
+#axes3d.grid         : True    # display grid on 3d axes
+#
+#xtick.major.size     : 2      # major tick size in points
+#xtick.minor.size     : 2      # minor tick size in points
+#xtick.major.pad      : 3      # distance to major tick label in points
+#xtick.minor.pad      : 4      # distance to the minor tick label in points
+#xtick.color          : k      # color of the tick labels
+#xtick.labelsize      : medium # fontsize of the tick labels
+#xtick.direction      : in     # direction: in or out
+#
+#ytick.major.size     : 2      # major tick size in points
+#ytick.minor.size     : 2      # minor tick size in points
+#ytick.major.pad      : 3      # distance to major tick label in points
+#ytick.minor.pad      : 4      # distance to the minor tick label in points
+#ytick.color          : k      # color of the tick labels
+#ytick.labelsize      : medium # fontsize of the tick labels
+#ytick.direction      : in     # direction: in or out
+#
+#
+#grid.color       :   black   # grid color
+#grid.linestyle   :   :       # dotted
+#grid.linewidth   :   0.5     # in points
+
+### Legend
+legend.fancybox      : False   # if True, use a rounded box for the
+legend.isaxes        : True
+legend.numpoints     : 1      # the number of points in the legend line
+legend.fontsize      : medium
+legend.borderpad     : .7    # border whitspace in fontsize units
+#legend.markerscale   : 1.0    # the relative size of legend markers vs. original
+#legend.labelspacing  : 0.020  # the vertical space between the legend entries
+#legend.handlelength  : 0.10   # the length of the legend lines
+legend.handletextpad : 0.10   # the space between the legend line and legend text
+#legend.borderaxespad : 0.10   # the border between the axes and legend edge
+legend.shadow        : True
+legend.frameon       : True

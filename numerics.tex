@@ -16,24 +16,253 @@
 \section{Stochastic Hierarchical Equations of Motion}
 \label{sec:num.sheom}
 % * main idea
+%
+% TODO more general cases?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this section we present one of the main results of this work, namely a numerical method to solve the non-Markovian stochastic Schrödinger equation
+\begin{equation}
+  \partial \psi_t = -\ii h \psi_t + L\ZZ_t \psi_t - \adj{L}\int_0^t \alpha(t-s) \frac{\delta\psi_t}{\delta\ZZ_s} \dd s
+  \label{eq:num.nmsse}
+\end{equation}
+without making use of the $O$-operator substitution.
+Therefore we need to conceive a different way to deal with the nonlocality of the functional derivative with respect to time and the noise-process, as it prevents us from employing the common techniques for dealing with stochastic Schrödinger equations in the Markovian regime \cite{???}.
+
+It turns out that for certain correlation functions the linear NMSSE~\ref{eq:num.nmsse} is formally equivalent to an infinite hierarchy of completely local stochastic differential equations.
+% TODO Really?
+Although we borrow the main idea from the hierarchical equations of motion presented in the last section, we need to deal with some peculiarities of our NMSSE first.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Time derivation}
 %TODO change title
 \label{sub:num.sheom.time_deriv}
 
+% TODO Make clear, that we dont imply normalization
+The basic idea is to absorb the action of the functional derivative on $\psitZ$ into an auxiliary stochastic pure state
+\begin{equation}
+  \psitZ[1] := \int_0^t \alpha(t - s) \frac{\delta \psi_t(\ZZ)}{\delta \ZZ_s} \dd s.
+  \label{eq:num.first_order}
+\end{equation}
+We recall that the integral boundaries arise only after we apply the derivative on states $\psi_t(\ZZ)$ that satisfy the additional condition $\delta \psitZ / \delta \ZZ_s = 0$ for $ s < 0$ and $s > t$.
+Therefore we may write \autoref{eq:num.first_order} more concise as
+\begin{equation*}
+  \psitZ[1] = \left( \int \alpha(t - s) \frac{\delta}{\delta \ZZ_s} \dd s \right) \psitZ =: \adjZZ_t \psitZ
+\end{equation*}
+with the integrated functional derivation operator $\adjZZ_t$.
+
+% TODO Hierarchies for arbitrary α?
+The first step toward deriving an equation of motion for $\psitZ[1]$ is answering the question under which conditions a simple expression for $\dot\adjZZ_t$ exists.
+Since the latter is given by $\dot\adjZZ_t = \int\dot\alpha(t-s) \, \delta / \delta \ZZ_s \dd s$ we assume an exponential bath correlation function
+\begin{equation*}
+  \alpha(t) = g \, \exp[-\gamma \abs{t} - \ii \Omega t] = g \exp[-\ii \Omega t] \left( \Theta(t) \exp[-\gamma t] + \Theta(-t) \exp[\gamma t] \right).
+\end{equation*}
+with the Heaviside function $\Theta$.
+As the singular terms in the time derivative cancel we obtain
+\begin{equation*}
+  \dot\alpha(t) = g \exp[-\ii \Omega t] \left( (-\gamma - \ii\Omega) \Theta(t) \exp[-\gamma t] + (\gamma - \ii\Omega)\Theta(-t)\exp[\gamma t] \right).
+\end{equation*}
+Therefore we cannot exploit $\dot\adjZZ_t \propto \adjZZ_t$ on the level of operators in general.
+Even the vanishing of the functional derivative $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s > t$ with some arbitrary stochastic state $\phi_t(\ZZ)$ does not imply $\dot\adjZZ_t \phi_t(\ZZ) \propto \adjZZ_t\phi_t(\ZZ)$ as the following example shows:
+Take $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$ for some noise independent system state $\varphi$ and $0 < t' < t$.
+It clearly satisfies the required boundary conditions, but
+\begin{equation*}
+  \dot\adjZZ_t \phi_t(\ZZ) = (\dot\alpha(0) + \dot\alpha(t-t')) \varphi = \left( -2\ii\Omega - (\gamma + \ii\Omega) \exp[-(\gamma + \ii\Omega) (t-t')] \right) \varphi
+\end{equation*}
+which is not proportional to
+\begin{equation*}
+  \adjZZ_t \phi_t(\ZZ) = (\alpha(0) + \alpha(t - t')) \varphi = g (1 + \exp(-\gamma + \ii \Omega)(t-t')) \varphi.
+\end{equation*}
+We see that the problematic first summand arises due to singular behavior of $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s = t$.
+
+% TODO Where.
+Such problems do not occur once we restrict $\dot\adjZZ_t$ to solutions of our NMSSE~\ref{eq:num.nmsse} with vacuum initial conditions.
+Indeed we see from \autoref{eq:???} that the functional derivative of $\psitZ$ at the upper boundary is regular and therefore has vanishing weight under the integral.
+Hence we obtain for the time derivative of our integrated derivation operator
+\begin{equation}
+  % TODO Watch for change in \psitZ
+  \dot\adjZZ_t \psitZ = - (\gamma + \ii \Omega) \adjZZ_t\psitZ
+  \label{eq:num.dot_adjZZt}
+\end{equation}
+In the remaining work we use the shorthand notation $w = \gamma + \ii\Omega$.
+% TODO Finalize!
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Linear Hierarchy}
 \label{sub:num.sheom.lin}
 % * derivation
 % * terminator
+%
+% TODO Surpession by γ / Ω; differences, in the following combined into w
+
+We now return to our non-Markovian stochastic Schrödinger equation; with the auxiliary stochastic state~\ref{eq:num.first_order} it can written as
+\begin{equation*}
+  \partial_t \psitZ = -\ii\Hsys\psitZ + L\ZZ_t\psitZ - \adj{L}\psitZ[1].
+\end{equation*}
+Hence if we can derive a tractable equation of motion for $\psitZ[1]$ we reduce the problems with a functional derivative to propagating a coupled system of simpler equations.
+With the result from the last section \autoref{eq:num.dot_adjZZt} and the original NMSSE~\ref{eq:num.nmsse} we find
+\begin{align}
+  \partial_t (\adjZZ_t \psi_t) &= - w \adjZZ_t\psi_t + \adjZZ_t ( -\ii\Hsys + L\ZZ_t - \adj{L} \adjZZ_t ) \psi_t \nonumber \\
+  &= (-\ii\Hsys - w + L\ZZ_t) \psit[1] + [\adjZZ_t, \ZZ_t] L\psit - \adj{L} \adjZZ_t \psit[1],
+  \label{eq:num.dot_psi1}
+\end{align}
+where we use that $\adjZZ_t$ commutes with all system operators.
+It is not surprising that the functional derivative reappears in the equation for $\psit[1]$; therefore we need to introduce another auxiliary state.
+This scheme leads to an infinite hierarchy of auxiliary states defined by
+\begin{equation}
+  \psit[k] := \adjZZ_t \psit[k-1] = \adjZZ_t^k \psit.
+  \label{eq:num.auxiliary_states}
+\end{equation}
+Expressed in the new auxiliary states and with $[\adjZZ_t, \ZZ_s] = \alpha(t-s)$ \autoref{eq:num.dot_psi1} reads
+\begin{equation*}
+  \partial_t \psit[1] = (-\ii\Hsys - w + L\ZZ_t) \psit[1] + \alpha(0) L\psit[0] - \adj{L}\psit[2].
+\end{equation*}
+Along these lines it is straightforward to derive the full hierarchy of equations of motions for all $\psit[k]$.
+Since the commutator $[\adjZZ_t, \ZZ_s]$ is a $\Complex$-number each auxiliary state only couples to the order directly above and below
+% TODO More steps?
+\begin{equation}
+  \partial_t\psit[k] = (-\ii\Hsys - kw + L\ZZ_t)\psit[k] + k \alpha(0) \psit[k-1] - \adj{L} \psit[k+1].
+  \label{eq:num.hierarchy_lin}
+\end{equation}
+The vacuum initial condition for the true quantum trajectory $\delta \psi_0 / \delta \ZZ_s = 0$ requires that all auxiliary states vanish at $t=0$.
+
+% TODO Check grammar
+Of course the infinite hierarchy is even more intricate to solve than the original non-Markovian stochastic Schrödinger equation; therefore we need to truncate at some finite order.
+It is quite remarkable that this can be done in a self-consistent manner, which even approximately incorporates all truncated orders into the remaining equations.
+We start by transforming \autoref{eq:num.linear_hierarchy} into an equivalent integral equation.
+Notice that
+\begin{align}
+  \psit[k + 1] = &\int_0^t \exp[-(k+1)w(t-s)] \Texp[\int_s^t -\ii\Hsys + L\ZZ_u \dd u] \nonumber \\
+  &\left( (k+1) \alpha(0)L\psi_s^{(k)} - \adj{L} \psi_s^{(k+2)} \right) \dd s
+  \label{eq:num.terminator_integral}
+\end{align}
+% TODO "Formally" correct here?
+formally satisfies the corresponding equation of motion together with the required initial condition.
+
+% TODO Continue!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Nonlinear Hierarchy}
 \label{sub:num.sheom.nonlin}
 % * derivation
 
+We mention in \autoref{sec:nmqsd.nonlin_nmsse} how the scaling of our Monte-Carlo sampling with the number of realizations improves drastically we use a nonlinear version.
+This can be achieved within our microscopical using the comoving coherent states defined in \autoref{eq:nmqsd.comoving_flow}.
+Up to a certain extend this method can also be employed for our hierarchical equations of motion.
+
+As a function of the coherent state labels $\cc\zz$ instead of the process $\ZZ$ we define comoving auxiliary states by
+\begin{equation*}
+  \tilde\psi_t^{(k)}(\cc\zz) := (\psit[k] \circ \vec\phi_t)(\cc\zz) = \psit[k](\vec\phi_t(\cc\zz)).
+\end{equation*}
+Then the same steps that give \autoref{eq:nmqsd.nmsse_nonlin} lead to a similar result
+% TODO More steps?
+\begin{align}
+  \partial_t \tilde\psi_t^{(k)}(\cc\zz) &= \left( -\ii\Hsys - kw + L\ZZ_t + L \int_0^t \cc{\alpha(t-s)} \qmean{\adj L}_s \dd s \right)\tilde\psi_t^{(k)}(\cc\zz) \nonumber\\
+  &+ k \alpha(0) L \tilde\psi_t^{(k-1)} - (\adj{L} - \qmean{\adj L}_t) \tilde\psi_t^{(k+1)}(\cc\zz),
+  \label{eq:num.hierarchy_nonlin}
+\end{align}
+with the normalized expectation value taken with respect to the true quantum trajectory---or put differently with respect to the zeroth order auxiliary state
+\begin{equation*}
+  \qmean{\adj L}_s = \frac{\bra{\tilde\psi_t^{(0)}} \adj{L} \ket{\tilde\psi_t^{(0)}}}{\braket{\tilde\psi_t^{(0)}}{\tilde\psi_t^{(0)}}}.
+\end{equation*}
+Notice that the exponential correlation function necessary for the hierarchy also simplifies the treatment of the memory-term in \autoref{eq:num.hierarchy_nonlin}.
+% TODO Improve!
+Indeed we can derive a simple and closed evolution equation for it.
+
+But one caveat remains: for the convolutionless formulation we can go one step further and even derive an equation for normalized pure state trajectories~\ref{eq:nmqsd.nmsse_nonlin_full}.
+The same does not hold true for the hierarchical equations of motion.
+% TODO Elaborate!
+
+% TODO Terminator
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Multimodes}
+\label{sub:num.sheom.nonlin}
+% * rectangular vs triangular truncation
+% TODO Change title
+% TODO Seperate section in chapter 2?
+% TODO Reference to Schulten paper?
+
+Of course most physically interesting systems cannot be modeled with only a single exponential bath mode.
+We now present the changes necessary to accommodate a more general environmental structure given by a finite number of exponential modes coupling to the system with arbitrary operators.
+As the crucial points do not depend on the choice of linear or nonlinear version we are only concerned with the former in this section.
+
+% TODO Grammar!
+The linear non-Markovian stochastic Schrödinger equation for a finite number $N$ of independent environments may be derived along the same lines presented in \autoref{sec:nmqsd.lin_nmsse}.
+It reads
+\begin{equation*}
+  \partial_t \psit = -\ii\Hsys\psit + \sum_{j=1}^N L_j \ZZ_{j, t} \psit - \sum_{j=1}^N \adj{L}_j \int_0^t \alpha_j(t - s) \frac{\delta \psit}{\delta \ZZ_{j, t}} \dd s
+\end{equation*}
+with independent noise processes satisfying
+\begin{equation*}
+  \E\,Z_{i, t} = 0, \quad \E\,Z_{i, t} Z_{j, s} =0, \quad\mbox{and}\quad \E\,Z_{i, t} \ZZ_{j, s} = \delta_{ij}\alpha_i(t-s).
+\end{equation*}
+Remember that our hierarchical equations of motion rely on an exponential bath correlation function; therefore we need to introduce several derivation operators $\adjZZ_{j, t}$, one for each process.
+Just as in the single-mode case, the auxiliary states are obtained by successively applying $\adjZZ_{i, t}$ on the quantum trajectory $\psitZ$
+\begin{equation}
+  \psit[k_1, \dots, k_N] := \adjZZ_{1, t}^{k_1} \dots \adjZZ_{N, t}^{k_N} \psit.
+  \label{eq:num.auxiliary_states_multi}
+\end{equation}
+Note that all $\adjZZ_{j, t}$ mutually commute.
+Consequently \autoref{eq:num.auxiliary_states_multi} is the most general form how a functional derivative may occur in the derivation of the corresponding hierarchy.
+Hereinafter we use the shorthand notation $\psit[\kk]$ for the auxiliary state defined above.
+Similar to~\ref{eq:num.hierarchy_lin} its equation of motion reads
+\begin{equation}
+  \partial_t\psit[\kk] = (-\ii\Hsys - \kk\cdot\ww + \sum_j L_j \ZZ_{j, t})\psit[\kk] + \sum_j k_j \alpha_j(0) \psit[\kk - \ee_j] - \sum_j \adj{L}_j \psit[\kk + \ee_j],
+  \label{eq:num.hierarchy_lin_multi}
+\end{equation}
+where $\ee_j$ denotes the $j$-th unit vector in $\Reals^N$ and $\kk\cdot\ww = \sum_j k_jw_j$ is the euclidean scalar product.\footnote{Although $\ww$ is complex in general no complex conjugation occurs at any time.}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{.4\textwidth}
+    \centering
+    % TODO Add quadratic hierarchy picture
+    \caption{Quadratic}
+    \label{fig:num.trunc_cubic}
+  \end{subfigure}
+  \qquad
+  \begin{subfigure}[b]{.4\textwidth}
+    \centering
+    % TODO Add triangular hierarchy picture
+    \caption{Triangular}
+    \label{fig:num.trunc_tria}
+  \end{subfigure}
+\caption{Comparison of the two truncation schemes in the special case of $N=2$ processes with order $D$.}
+% TODO Insert more blabla
+\label{fig:num.trunc}
+\end{figure}
+% TODO Too much "states"
+When it comes to truncating the hierarchy~\ref{eq:num.hierarchy_lin_multi} the most obvious strategy is simply to cut off each mode separately at given order $D$.
+In other words the truncation condition reads $0 \le k_j \le D$ for all $j=1,\dots,N$; any auxiliary state not satisfying it is set to zero.
+We refer to this scheme as \quotes{cubic truncation scheme} since the shape of all states under consideration resembles an $N$-cube (see also \autoref{fig:num.trunc_cubic}).
+Clearly the number of auxiliary states scales exponentially like $(D+1)^N$, which makes the treatment of physically interesting systems with $N$ in the order of $100$ absolutely impossible.
+
+Examining \autoref{eq:num.hierarchy_lin_multi} closer we notice that the term responsible for suppression of the $\kk$-th order auxiliary state is $\exp(-\kk \cdot \ww)$.
+Instead of treating each mode individually we use a condition better suited for the product $\kk\cdot\ww$, namely $0 \le \abs{\kk} \le D$ with $\abs{\kk} = \sum_j k_j$.
+For $N=2$ the corresponding states form a triangular shape as shown in \autoref{fig:num.trunc_tria}, hence the name \quotes{triangular truncation}.
+The appropriate generalization to arbitrary $N$ is a simplex where the number of elements is given by
+\begin{equation*}
+  \sum_{d=0}^D {d + N - 1 \choose N - 1} \approx % TODO Stirling, Polynomial
+\end{equation*}
+showing a much softer scaling compared to the cubic scheme.
+% TODO Polynomial for large N?
+In \autoref{fig:num.scaling} we display the number of auxiliary states required for a given number of modes and truncation order $D$.
+The difference is even more pronounced for larger $N$ required in the study of realistic systems.
+% TODO Done that? Really?
+As an example take the Fenna-Matthews-Olson complex further investigated in \autoref{sec:num.fmo}:
+In a simplified model we attach one independent environment with 13 exponential terms to each of its seven sites for a total of 91 modes.
+This yields an insurmountable number of about $10^{30}$ auxiliary states for the cubic truncation, compared to only 5151 using the triangular scheme.
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width=\columnwidth]{img/scaling}
+\end{center}
+%TODO Caption
+\caption{Comparison\dots}
+\label{fig:num.scaling}
+\end{figure}
+
+% TODO Mention manual cutoff????
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Correlation Function Expansion}

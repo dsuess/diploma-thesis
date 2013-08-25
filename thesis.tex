@@ -13,8 +13,12 @@
 
 % additional features
 \usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf}
+%\DeclareGraphicsExtensions{.pgf}
+\usepackage{subcaption}
 \usepackage{cite}
 \usepackage{enumerate}
+\usepackage{tikz}
 \usepackage{pgf}
 
 % package to provide if-statements in new commands
@@ -59,6 +63,11 @@
     {\mathrm{exp}}
     {\mathrm{e}^{#1}}
 }
+\newcommand{\Texp}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\mathrm{exp}_+}
+    {\operatorname{T}_+\mathrm{e}^{#1}}
+}
 \newcommand{\varf}[1][\empty]{
   \ifthenelse{\equal{#1}{\empty}}
     {\mathbb{\mathcal{C}}}
@@ -83,13 +92,27 @@
 
 \newcommand{\ZZ}{\cc{Z}}               % Our noise process
 \newcommand{\tildeZZ}{\cc{\tilde Z}}
-\newcommand{\adjZZ}{\adj{\ZZ}}         % and it's adjoint
+\newcommand{\adjZZ}{\mathcal{D}}         % and it's adjoint
 
 \newcommand{\kk}{\vec{k}}
 \newcommand{\zz}{\vec{z}}
+\newcommand{\ww}{\vec{w}}
 
-\newcommand{\psitz}{\psi_t(\cc\zz)}
-\newcommand{\psitZ}{\psi_t(\ZZ)}
+\newcommand{\psit}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t}
+    {\psi_t^{(#1)}}
+}
+\newcommand{\psitz}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t(\zz)}
+    {\psi_t^{(#1)(\zz)}}
+}
+\newcommand{\psitZ}[1][\empty]{
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t(\ZZ)}
+    {\psi_t^{(#1)}(\ZZ)}
+}
 \newcommand{\psitphi}{\psi_t(\cc{\vec\phi}_t(\cc\zz))}
 \newcommand{\psio}[1]{\psi^{(#1)}}
 
@@ -191,7 +214,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\includeonly{nmqsd,appendix}
+%\includeonly{nmqsd,appendix}
+\includeonly{numerics}
 
 \begin{document}
 \frontmatter

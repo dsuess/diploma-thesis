@@ -27,7 +27,6 @@ On one hand this serves the purpose to better understand the emergence of the ty
 But more important, starting with a closed quantum system is the only strategy that enables a derivation from first principles, in our case the Schrödinger equation.
 A last argument in favor of the microscopic approach, PRODUCT STATES, ENTANGLEMENT, etc. ---we will not dwell on the this any further.\\
 
-
 As a starting point we consider an environment consisting of a finite number $N$ of uncoupled harmonic oscillators.
 %\footnote{We will use "environment", "reservoir" and "bath" interchangeably, altough the later two suggest a large size compared to the system.}
 This model has been studied extensively for example in the book of Weiss \cite{We99_dissipative_systems}.
@@ -444,9 +443,10 @@ It is quite remarkable that a closed equation of motion for the $\tilde\psi_t$ c
 For the first term we can use the evolution equation~\ref{eq:nmqsd.nmsse_o} of the fixed-basis relative states $\psi_t$ with the $O$-operator substitution in place.
 Replacing the coherent state labels by their comoving counterparts leads us to a shifted process:
 The integral form of \autoref{eq:nmqsd.zdot}
-\begin{equation*}
+\begin{equation}
   \ccphitla(\cc z_\lambda) = \cc z_\lambda + \ii g_\lambda \int_0^t \exp(-\ii \omega_\lambda s) \qmean{\adj L}_s \dd s
-\end{equation*}
+  \label{eq:nmqsd.comoving_flow}
+\end{equation}
 plugged into the microscopic version of the process~\ref{eq:nmqsd.stochastic_process} yields the shifted stochastic driving as
 \begin{equation}
   \tildeZZ_t(\cc\zz) := \ZZ_t(\cc{\vec\phi}_t(\cc\zz)) = \ZZ_t(\cc\zz) + \int_0^t \cc{\alpha(t-s)} \qmean{\adj L}_s \dd s.
@@ -782,6 +782,4 @@ which agrees with out ansatz~\ref{eq:nmqsd.o_ansatz} in case we choose
   \label{eq:nmqsd.o_ansatz_psi}
 \end{equation}
 A similar structure for the $O$-operator has been obtained by Strunz \cite{St01_habil} within a Heisenberg-operator method.
-
-
 % TODO Discussion, different results, Pictures!
