@@ -4,7 +4,7 @@ from __future__ import division
 from __future__ import print_function
 
 import matplotlib
-#matplotlib.use('pgf')
+matplotlib.use('pgf')
 import numpy as np
 from matplotlib.pyplot import *
 from scipy.misc import comb
@@ -25,9 +25,12 @@ PtPerIn = 72.27
 # Standard columnwidth in points
 columnwidth = 402.32205
 
+# file format
+outformat = 'pdf'
+
 
 # Main plotting routines ######################################################
-def ScalingBehavior(outfilename, width=columnwidth, ratio=.6):  # {{{
+def ScalingBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{
    """
       Plots the scaling behavior of our Hierarchichal Equations for two
       different numbers of modes.
@@ -44,7 +47,7 @@ def ScalingBehavior(outfilename, width=columnwidth, ratio=.6):  # {{{
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(0, figsize=figsize)
    ax = subplot(111, autoscale_on=False)
-   subplots_adjust(left=.2, bottom=.2, right=.9, top=.88)
+   subplots_adjust(left=.2, bottom=.13, right=.9, top=.99)
 
    Depth_Max = 12
    Depths = np.arange(1, Depth_Max)
@@ -66,17 +69,17 @@ def ScalingBehavior(outfilename, width=columnwidth, ratio=.6):  # {{{
       # Triangular Shape
       num = NumberStates(Depths, N)
       plot(np.array(Depths), np.array(num), 'x', color=colors[i],
-            label='Tri., N={}'.format(N))
+            label='Tri., $N={}$'.format(N))
       # Rectangular Shape
       num = (Depths + 1.)**N
       plot(np.array(Depths), np.array(num), 'o', color=colors[i],
-            label='Cub., N={}'.format(N))
+            label='Cub., $N={}$'.format(N))
 
    ax.axis([.5, Depth_Max - 1 + .5, 10e-1, 10e11])
    legend(ncol=2, loc='upper right')
-   savefig(outfilename)
+   savefig(''.join([outfilename, '.', outformat]))
    print('Success.')
 #}}}
 
 if __name__ == '__main__':
-   ScalingBehavior('scaling.pgf')
+   ScalingBehavior()

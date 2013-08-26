@@ -1,0 +1,34 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+
+\usepackage{relsize}
+\tikzset{fontscale/.style = {font=\relsize{#1}}
+    }
+
+\usepackage{ifthen}
+\newcommand{\psit}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t}
+    {\psi_t^{(#1)}}
+}
+\begin{document}
+\begin{tikzpicture}
+
+\matrix[matrix of math nodes, left delimiter={(}, right delimiter={)}] (mattri) at (0, 0)
+{%
+  \psit[0, 0]   & \psit[0, 1]   & \cdots & \psit[0, D] \\
+  \psit[1, 0]   & \psit[1, 1]   & \cdots & 0 \\
+                &               &        & \\
+  \psit[D-2, 0] & \psit[D-2, 1] & \cdots & 0 \\
+  \psit[D-1, 0] & \psit[D-1, 1] & \cdots & 0 \\
+  \psit[D, 0]   & 0             & \cdots & 0 \\
+};
+\node (rmattri) at ($ (mattri) + (-4.1,0) $) {$k_1$};
+\node (tmattri) at ($ (mattri) + (0,2.7) $) {$k_2$};
+\draw[->, very thick] ($(rmattri) + (.3, 1.5)$) -- +(0, -3);
+\draw[->, very thick] ($(tmattri) + (-1.5, -.3)$) -- +(3, 0);
+
+\end{tikzpicture}
+\end{document}

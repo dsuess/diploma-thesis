@@ -14,12 +14,18 @@
 % additional features
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf}
-%\DeclareGraphicsExtensions{.pgf}
 \usepackage{subcaption}
 \usepackage{cite}
 \usepackage{enumerate}
-\usepackage{tikz}
+
 \usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+
+\usepackage{standalone}
 
 % package to provide if-statements in new commands
 \usepackage{ifthen}
@@ -36,6 +42,11 @@
 % better looking font setting
 %\usepackage{microtype}
 
+\newcommand{\includetikz}[1]{%
+    \tikzsetnextfilename{#1}%
+    \input{img/#1.tikz}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Custom commands
 
@@ -51,24 +62,24 @@
 \newcommand{\adj}[1]{\op{#1}^\dagger}
 \newcommand{\dual}[1]{{#1}^*}
 
-\newcommand{\E}[1][\empty]{
+\newcommand{\E}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\mathbb{E}}
     {\mathbb{E}\left( #1 \right)}
 }
 \newcommand{\qmean}[1]{\langle #1 \rangle}
 
-\renewcommand{\exp}[1][\empty]{
+\renewcommand{\exp}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\mathrm{exp}}
     {\mathrm{e}^{#1}}
 }
-\newcommand{\Texp}[1][\empty]{
+\newcommand{\Texp}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\mathrm{exp}_+}
     {\operatorname{T}_+\mathrm{e}^{#1}}
 }
-\newcommand{\varf}[1][\empty]{
+\newcommand{\varf}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\mathbb{\mathcal{C}}}
     {\mathcal{C}\left( #1 \right)}
@@ -98,17 +109,17 @@
 \newcommand{\zz}{\vec{z}}
 \newcommand{\ww}{\vec{w}}
 
-\newcommand{\psit}[1][\empty]{
+\newcommand{\psit}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\psi_t}
     {\psi_t^{(#1)}}
 }
-\newcommand{\psitz}[1][\empty]{
+\newcommand{\psitz}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\psi_t(\zz)}
     {\psi_t^{(#1)(\zz)}}
 }
-\newcommand{\psitZ}[1][\empty]{
+\newcommand{\psitZ}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
     {\psi_t(\ZZ)}
     {\psi_t^{(#1)}(\ZZ)}

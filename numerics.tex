@@ -212,24 +212,24 @@ Similar to~\ref{eq:num.hierarchy_lin} its equation of motion reads
 \end{equation}
 where $\ee_j$ denotes the $j$-th unit vector in $\Reals^N$ and $\kk\cdot\ww = \sum_j k_jw_j$ is the euclidean scalar product.\footnote{Although $\ww$ is complex in general no complex conjugation occurs at any time.}
 
+% TODO Do this with pure tikz
 \begin{figure}
   \centering
-  \begin{subfigure}[b]{.4\textwidth}
+  \begin{subfigure}[b]{.4\columnwidth}
     \centering
-    % TODO Add quadratic hierarchy picture
+    \includegraphics[scale=.85]{img/cubic_hierarchy}
     \caption{Quadratic}
     \label{fig:num.trunc_cubic}
   \end{subfigure}
-  \qquad
-  \begin{subfigure}[b]{.4\textwidth}
+  \begin{subfigure}[b]{.4\columnwidth}
     \centering
-    % TODO Add triangular hierarchy picture
+    \includegraphics[scale=.85]{img/triang_hierarchy}
     \caption{Triangular}
     \label{fig:num.trunc_tria}
   \end{subfigure}
-\caption{Comparison of the two truncation schemes in the special case of $N=2$ processes with order $D$.}
+  \caption{Comparison of the two truncation schemes in the special case of $N=2$ processes with order $D$.}
 % TODO Insert more blabla
-\label{fig:num.trunc}
+  \label{fig:num.trunc}
 \end{figure}
 % TODO Too much "states"
 When it comes to truncating the hierarchy~\ref{eq:num.hierarchy_lin_multi} the most obvious strategy is simply to cut off each mode separately at given order $D$.
@@ -254,12 +254,10 @@ In a simplified model we attach one independent environment with 13 exponential 
 This yields an insurmountable number of about $10^{30}$ auxiliary states for the cubic truncation, compared to only 5151 using the triangular scheme.
 
 \begin{figure}
-\begin{center}
-    \includegraphics[width=\columnwidth]{img/scaling}
-\end{center}
-%TODO Caption
-\caption{Comparison\dots}
-\label{fig:num.scaling}
+  \centering
+  \includegraphics{img/scaling.pdf}
+  \caption{Comparison\dots}
+  \label{fig:num.scaling}
 \end{figure}
 
 % TODO Mention manual cutoff????
@@ -269,7 +267,11 @@ This yields an insurmountable number of about $10^{30}$ auxiliary states for the
 \label{sec:num.expansion}
 % * pade spectrum decomposition
 % * also mention other (Matsubara e.g.)
+% * uniqueness? Theoretically yes, in practices doesnt matter!
+% * Plot for Ohmic spectral density (where do these appear?)
+% * Show highly structured density, approximation!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,3 +301,4 @@ This yields an insurmountable number of about $10^{30}$ auxiliary states for the
 \subsection{Transfer Dynamics}
 \label{sub:num.fmo.dynamics}
 
+\cite{PlMGr86_casimir}

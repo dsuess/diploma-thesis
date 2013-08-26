@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+
+\usepackage{ifthen}
+\newcommand{\psit}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t}
+    {\psi_t^{(#1)}}
+}
+\begin{document}
+\begin{tikzpicture}
+\matrix[matrix of math nodes, left delimiter={(}, right delimiter={)}] (matcub) at (0, 0)
+{%
+  \psit[0, 0]   & \psit[0, 1]   & \cdots & \psit[0, D] \\
+  \psit[1, 0]   & \psit[1, 1]   & \cdots & \psit[1, D] \\
+                &  \vdots       &        & \\
+  \psit[D-2, 0] & \psit[D-2, 1] & \cdots & \psit[D-2, D] \\
+  \psit[D-1, 0] & \psit[D-1, 1]             & \cdots & \psit[D-1, D] \\
+  \psit[D, 0]   & \psit[D, 1]   & \cdots & \psit[D, D] \\
+};
+\node (rmatcub) at ($ (matcub) + (-3.9,0) $) {$k_1$};
+\node (tmatcub) at ($ (matcub) + (0,2.9) $) {$k_2$};
+\draw[->, very thick] ($(rmatcub) + (.3, 1.5)$) -- +(0, -3);
+\draw[->, very thick] ($(tmatcub) + (-1.5, -.3)$) -- +(3, 0);
+
+\end{tikzpicture}
+\end{document}
