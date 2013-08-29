@@ -53,9 +53,10 @@ with the integrated functional derivation operator $\adjZZ_t$.
 % TODO Hierarchies for arbitrary α?
 The first step toward deriving an equation of motion for $\psitZ[1]$ is answering the question under which conditions a simple expression for $\dot\adjZZ_t$ exists.
 Since the latter is given by $\dot\adjZZ_t = \int\dot\alpha(t-s) \, \delta / \delta \ZZ_s \dd s$ we assume an exponential bath correlation function
-\begin{equation*}
+\begin{equation}
   \alpha(t) = g \, \exp[-\gamma \abs{t} - \ii \Omega t] = g \exp[-\ii \Omega t] \left( \Theta(t) \exp[-\gamma t] + \Theta(-t) \exp[\gamma t] \right).
-\end{equation*}
+  \label{eq:num.exp_bcf}
+\end{equation}
 with the Heaviside function $\Theta$.
 As the singular terms in the time derivative cancel we obtain
 \begin{equation*}
@@ -272,7 +273,60 @@ This yields an insurmountable number of about $10^{30}$ auxiliary states for the
 % * Show highly structured density, approximation!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Applicability of our hierarchical equations of motion to any physically interesting system depends predominantly on the ability to express the relevant bath correlation function
+\begin{equation}
+  \alpha(t) = \int_0^\infty J(\omega) \left( \coth \frac{\beta \omega}{2} \cos \omega(t-s) - \ii\sin \omega(t-s) \right) \mathrm{d}s
+  \label{eq:num.alpha_thermal}
+\end{equation}
+as a sum of exponentials like~\ref{eq:num.exp_bcf}.
+Such exponential functions arise as Fourier transforms of a Lorentzian spectral density
+\begin{equation}
+  J(\omega) = \frac{1}{\pi} \frac{\gamma}{(\omega - \Omega)^2 + \gamma^2}.
+  \label{eq:num.lorentzian}
+\end{equation}
+Hence they can be obtained from \autoref{eq:num.alpha_thermal} in the zero-temperature limit provided we expand the integral domain to include arbitrary negative frequencies as well.
+This unphysical assumption is a good approximation to the exact case without negative frequencies only for certain parameters as \autoref{fig:num.lorentzian} shows:
+For $\gamma\ll\Omega$ the Lorentzian density $J$ is concentrated mostly on the positive semi-axis and the negative frequency contribution to \autoref{eq:num.alpha_thermal} can be neglected.
+\begin{figure}
+  \centering
+  \includegraphics{img/lorentzian}
+  \caption{Lorentzian spectral densities (see \autoref{eq:num.lorentzian} for notation).}
+  % TODO More caption?
+  \label{fig:num.lorentzian}
+\end{figure}
 
+A more systematic way to obtain the desired bath correlation function in the case $T > 0$ was proposed by Meier and Tannor \cite{MeTa99_non_markovian}.
+They employ anti-symmetrized Lorentzian distributions $\tilde J(\omega) := J(\omega) - J(-\omega)$ to include the negative frequencies without any approximation.
+% TODO "Indeed, since" good idea?; Check grammer in general!
+Indeed, since $\tilde J$, $\coth$, and $\sin$ are anti-symmetric and $\cos$ is symmetric with respect to reflection at the origin we have
+\begin{equation*}
+  \int_0^\infty \tilde J(\omega) (\dots) \mathrm{d}\omega = \frac{1}{2}\int_{-\infty}^\infty \tilde J(\omega) (\dots) \mathrm{d}\omega.
+\end{equation*}
+Of course the same holds true for any anti-symmetric spectral density.
+Still the bath correlation function does not have the form necessary due to the additional $\coth$ for $T > 0$.
+This can only be accomplished approximately by expanding the latter and evaluating \autoref{eq:num.alpha_thermal} using the residue theorem.
+
+A commonly used scheme is the Matsubara spectrum decomposition of the hyperbolic cotangens \cite{Ma00_many_particle}
+\begin{equation}
+  % TODO Check
+  \coth\left(\frac{\beta \omega}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\omega_n - \omega},
+  \label{eq:num.matsubara_expansion}
+\end{equation}
+with the Matsubara frequencies $\omega_n = 2\pi n / \beta$.
+
+% Pros: Simple!!!!
+% Cons: Slow convergence
+
+\begin{figure}
+  \centering
+  \includegraphics{img/expansions}
+  \caption{\blindtext}
+  \label{fig:num.expansion}
+\end{figure}
+
+
+% TODO Expansion of general spectral density; not unique!
+% TODO Discussion J(0) = 0 physical necessary, linear (ohmic) decrease, etc.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spin-Boson Model}

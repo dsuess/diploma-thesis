@@ -282,5 +282,77 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4c^2 g}$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Numerical Implementaion}
-\label{cha:implement}
+\chapter{Expansions of Hyperbolic Cotangens}
+\label{cha:coth}
+%
+% * punktierte Umgebung = punctured
+
+Before presenting the two expansion schemes for the hyperbolic cotangens function mentioned in \autoref{sec:num.expansion} we need to introduce a few ideas from complex analysis.
+For more details and proofs we refer to the book of Rudin \cite{Ru87_analysis}.
+
+% TODO Is this already enough citation?
+First recall that a function $f$ with an isolated singularity $a\in\Complex$ can always be expanded in a Laurent series around $a$
+\begin{equation}
+  f(z) = \sum_{j=0}^\infty a_j (z - a)^j + \sum_{j=1}^\infty \frac{a_{-j}}{(z-a)^j} \qquad (0 < \abs{z-a} < \varepsilon).
+  \label{eq:coth.laurent}
+\end{equation}
+% TODO Mention punctured environment
+The first sum is called \idef{analytical part} while the second one is called \idef{principal part}.
+Clearly if $a$ is a removable singularity, that is the principal part vanishes, we can continue $f$ to a function analytical for all $z$ with $\abs{z-a} < \varepsilon$.
+A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\subset\Complex$ if it is analytical on $\Omega$ except a set $A \subset\Omega$ of isolated points, which are poles for $f$.
+%Roughly speaking meromorphic functions are analytical leaving out some isolated poles; this reading is further substantiated by the following theorem.
+%\begin{thm}[Mittag-Leffler, {{\cite[13.10]{Ru87_analysis}}}]
+%  Suppose $\Omega$ is an open set in the complex plane, $A \subset \Omega$ has no limit points in $\Omega$, and to each $a \in A$ there is a polynomial of finite order $P_a(z)$ in $1/(z-a)$, that is
+%  \begin{equation*}
+%    P_a(z) = \sum_{j=1}^{o(a)} \frac{c_{j,a}}{(z-a)^j}.
+%  \end{equation*}
+%  Then there exists a meromorphic function $f$ in $\Omega$, whose principle part at each $a \in A$ is $P_a$ and which has no further singularities in $\Omega$.
+%  \label{thm:coth.mittag_leffler}
+%\end{thm}
+%Clearly the choice of such a $f$ is not unique as we can always add a function analytical in $\Omega$ to $f$.
+%On the other hand this exhausts all possibilities: if $f$ and $f'$ both satisfy the conditions mentioned above then they have identical isolated singularities given by the elements of $A$.
+%The same applies to their difference $g = f - f'$; but since all principle parts for $f$ and $f'$ at each $a \in A$ match, we can continue $g$ to an analytical function on $\Omega$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matsubara Expansion}
+\label{sec:coth.matsubara}
+
+In \autoref{sec:num.expansion} we use the expansion of the hyperbolic cotangens in terms of Matsubara frequencies \cite{Ma00_many_particle}
+\begin{equation}
+  \omega_n = \frac{2\pi n}{\beta} \qquad (n \in \Integers).
+  \label{eq:coth.matsubara_freq}
+\end{equation}
+It provides a sum over poles representation, namely
+\begin{equation}
+  % TODO Check
+  \coth\left(\frac{\beta z}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\omega_n - z},
+  \label{eq:coth.matsubara_expansion}
+\end{equation}
+with singularities evenly distributed along the imaginary axis.
+
+In order to proof \autoref{eq:coth.matsubara_expansion} notice that $\ii\omega_n$ are exactly the isolated singularities of $z \mapsto \coth(\beta z / 2)$.
+Indeed, using the representation
+\begin{equation}
+  f(z) := \coth\left(\frac{\beta z}{2}\right) = \frac{1 + \exp[-\beta z]}{1 - \exp[-\beta z]}
+  \label{eq:coth.representation}
+\end{equation}
+we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \omega_n$.
+% TODO Elaborate?
+A short calculation reveals that these $z$ are simple poles with $\operatorname{Res}f(\ii\omega_n) = 2/\beta$.
+
+Let us now define $g$ by the right hand side of \autoref{eq:coth.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
+\begin{equation}
+  g(z) = \frac{2}{\beta} \, \lim_{N\to\infty} \sum_{n=-N}^{N} \frac{1}{\ii\omega_n - z} = - \frac{2}{\beta} \, \left( \sum_{n=0}^\infty \frac{2z}{\omega_n^2 + z^2} + \frac{1}{z} \right)
+  \label{eq:coth.series}
+\end{equation}
+where we used $\omega_{-n} = -\omega_n$ in the second step.
+Since $\omega\propto n$ the infinite series for $g$ in \autoref{eq:coth.series} converges absolutely unless $z = \ii\omega_n$ and defines a meromorphic function with the same poles and principal parts as $f$.
+This leads to the conclusion that $h := f - g$ can be continued to an analytical function on the entire complex plane.
+We now show that $h$ is bounded on $\Complex$ and therefore a constant function by Liouville's Theorem.
+% TODO Fill in!
+Expanding both $f$ and $g$ in a Laurent series about 0 allows us to calculate $f() = g() = $ as % lies within the convergence disk of both series.
+In conclusion we find $h = 0$, or put differently $f = g$---the Matsubara expansion~\ref{eq:coth.matsubara_expansion} is valid on the entire complex plane.
+
+% TODO Boundness of h!!
+%
+% Idea: Show f and g are bounded for Re z --> infinty; enough since periodic

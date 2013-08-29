@@ -13,3 +13,5 @@ img/*.pdf
 .$references.bib$
 tikz/
 *.auxlock
+img/spinboson/
+references.bib.bak

@@ -2,6 +2,8 @@
 # Backend
 backend               : pgf
 interactive           : False
+#backend               : TkAgg
+#interactive           : True
 pgf.texsystem         : pdflatex
 
 # Lines
@@ -9,7 +11,7 @@ lines.linewidth       : 1.0        # line width in points
 lines.linestyle       : -          # solid line
 lines.color           : blue
 lines.marker          : None       # the default marker
-lines.markeredgewidth : 0.5        # the line width around the marker symbol
+lines.markeredgewidth : 0.0        # the line width around the marker symbol
 lines.markersize      : 6          # markersize, in points
 lines.antialiased     : True       # render lines in antialised (no jaggies)
 
@@ -88,7 +90,7 @@ legend.borderpad     : .7    # border whitspace in fontsize units
 #legend.markerscale   : 1.0    # the relative size of legend markers vs. original
 #legend.labelspacing  : 0.020  # the vertical space between the legend entries
 #legend.handlelength  : 0.10   # the length of the legend lines
-legend.handletextpad : 0.10   # the space between the legend line and legend text
+legend.handletextpad : 0.30   # the space between the legend line and legend text
 #legend.borderaxespad : 0.10   # the border between the axes and legend edge
 legend.shadow        : True
 legend.frameon       : True
