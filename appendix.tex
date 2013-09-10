@@ -286,6 +286,7 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4c^2 g}$
 \label{cha:coth}
 %
 % * punktierte Umgebung = punctured
+% * picture of coth-singularities
 
 Before presenting the two expansion schemes for the hyperbolic cotangens function mentioned in \autoref{sec:num.expansion} we need to introduce a few ideas from complex analysis.
 For more details and proofs we refer to the book of Rudin \cite{Ru87_analysis}.
@@ -314,7 +315,7 @@ A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\s
 %The same applies to their difference $g = f - f'$; but since all principle parts for $f$ and $f'$ at each $a \in A$ match, we can continue $g$ to an analytical function on $\Omega$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Matsubara Expansion}
+\section{Matsubara Spectrum Decomposition}
 \label{sec:coth.matsubara}
 
 In \autoref{sec:num.expansion} we use the expansion of the hyperbolic cotangens in terms of Matsubara frequencies \cite{Ma00_many_particle}
@@ -338,7 +339,7 @@ Indeed, using the representation
 \end{equation}
 we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \omega_n$.
 % TODO Elaborate?
-A short calculation reveals that these $z$ are simple poles with $\operatorname{Res}f(\ii\omega_n) = 2/\beta$.
+A short calculation reveals that these $z$ are simple poles with $\Res f(\ii\omega_n) = 2/\beta$.
 
 Let us now define $g$ by the right hand side of \autoref{eq:coth.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
 \begin{equation}
@@ -356,3 +357,12 @@ In conclusion we find $h = 0$, or put differently $f = g$---the Matsubara expans
 % TODO Boundness of h!!
 %
 % Idea: Show f and g are bounded for Re z --> infinty; enough since periodic
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Padé Spectrum Decomposition}
+\label{sec:coth.pade}
+%
+% * idea; rational functions, numerical superiority, defintion...
+% * Basic idea: polynomials bad for functions since no singularities allowed
+% * simplest functions with singularities: rational functoins; their poles shall cover the poles of f

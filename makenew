@@ -6,6 +6,7 @@ for file in $TIKZFILES ; do
 	pdflatex -interaction=nonstopmode "$file.tikz"
 done
 ./numerics.py
+./sbplots.py
 
 cd ..
 latexmk -pdf -pv -f thesis.tex

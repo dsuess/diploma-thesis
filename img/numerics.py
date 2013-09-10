@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# flake8: noqa
 from __future__ import division
 from __future__ import print_function
+
+from settings import *
 
 import numpy as np
 from matplotlib.pyplot import *
@@ -13,16 +16,6 @@ sys.path.append('/home/dsuess/Documents/Diplomarbeit/Exp Expansion/')
 
 #from jcfull import JCHierarchy
 #from libbath import OscillatorBath
-
-# Some LaTeX specific parameters
-PtPerIn = 72.27
-
-# Standard columnwidth in points
-columnwidth = 402.32205
-
-# file format
-outformat = 'pdf'
-
 
 ## Helper functions ###########################################################
 
@@ -58,61 +51,6 @@ def SpinBosonSigmaZ(filename):  # {{{1
 
 
 # Main plotting routines ######################################################
-
-def LinVsNonlin(outfilename='linnonlin', width=columnwidth, ratio=.8):  # {{{1
-   """
-      Plots to compare lin vs. nonlin method.
-   """
-   print('Creating lin vs nonlin plot...')
-   figsize = (width / PtPerIn, width * ratio / PtPerIn)
-   figure(figsize=figsize)
-   subplots_adjust(left=.11, bottom=.15, right=.89, top=.99, wspace=0.,
-         hspace=.03)
-
-   axlintop = subplot(221, autoscale_on=True)
-   axnontop = subplot(222, autoscale_on=True)
-   axlinbot = subplot(223, autoscale_on=True)
-   axnonbot = subplot(224, autoscale_on=True)
-
-   # Plotting the data
-
-   ## Strong coupling
-   for i in [0, 1, 2]:
-      t, sz, opt = SpinBosonSigmaZ('spinboson/lin{}.pkl'.format(i))
-      p, = axlinbot.plot(t, sz)
-      t, sz, opt = SpinBosonSigmaZ('spinboson/nonlin{}.pkl'.format(i))
-      axnonbot.plot(t, sz, color=p.get_color(),
-            label=r'N={}'.format(opt['Trajectories']))
-
-   # Setup the subplot
-   ## Only left ones
-   for ax in [axlintop, axlinbot]:
-      ax.set_ylabel(r'$\langle\sigma_z\rangle$')
-
-   ## Only right ones
-   for ax in [axnontop, axnonbot]:
-      ax.set_yticklabels([])
-
-   ## Only top ones
-   for ax in [axlintop, axnontop]:
-      ax.set_xticklabels([])
-
-   ## Only bottom ones
-   for ax in [axlinbot, axnonbot]:
-      ax.set_xlabel(r'$t$')
-
-   ## All of dem
-   for ax in [axlintop, axnontop, axlinbot, axnonbot]:
-      ax.axis([0, 50, -1.1, 1.1])
-
-   axnonbot.legend(loc='lower right')
-   savefig('.'.join([outfilename, outformat]))
-   savefig('.'.join([outfilename, outformat]))
-
-   close()
-   print('Success.')
-   pass
-
 
 def Lorentzians(outfilename='lorentzian', width=columnwidth, ratio=.35):  # {{{1
    """
@@ -293,7 +231,6 @@ def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{1
 # 1}}}
 
 if __name__ == '__main__':
-   #ScaleBehavior(width=.9*columnwidth)
-   #Lorentzians(width=.8*columnwidth)
-   LinVsNonlin()
-   #Expansions(quality='low')
+   ScaleBehavior(width=.9*columnwidth)
+   Lorentzians(width=.8*columnwidth)
+   Expansions(quality='low')

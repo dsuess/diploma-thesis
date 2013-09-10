@@ -94,6 +94,7 @@ In the remaining work we use the shorthand notation $w = \gamma + \ii\Omega$.
 % * terminator
 %
 % TODO Surpession by γ / Ω; differences, in the following combined into w
+% TODO Time-local/nonlocal terminators
 
 We now return to our non-Markovian stochastic Schrödinger equation; with the auxiliary stochastic state~\ref{eq:num.first_order} it can written as
 \begin{equation*}
@@ -248,11 +249,12 @@ The appropriate generalization to arbitrary $N$ is a simplex where the number of
 showing a much softer scaling compared to the cubic scheme.
 % TODO Polynomial for large N?
 In \autoref{fig:num.scaling} we display the number of auxiliary states required for a given number of modes and truncation order $D$.
-The difference is even more pronounced for larger $N$ required in the study of realistic systems.
+Clearly the triangular truncation is far superior although for small $N$ both methods are still feasible.
+The difference is more pronounced for larger $N$ required in the study of realistic systems.
 % TODO Done that? Really?
 As an example take the Fenna-Matthews-Olson complex further investigated in \autoref{sec:num.fmo}:
-In a simplified model we attach one independent environment with 13 exponential terms to each of its seven sites for a total of 91 modes.
-This yields an insurmountable number of about $10^{30}$ auxiliary states for the cubic truncation, compared to only 5151 using the triangular scheme.
+In a simplified model we couple mutually independent environments with 13 exponential terms to each of its seven sites for a total of 91 modes.
+This yields an insurmountable number of about $10^{30}$ auxiliary states for the cubic truncation in first order hierarchy, compared to only 5151 using the triangular scheme.
 
 \begin{figure}
   \centering
@@ -271,6 +273,11 @@ This yields an insurmountable number of about $10^{30}$ auxiliary states for the
 % * uniqueness? Theoretically yes, in practices doesnt matter!
 % * Plot for Ohmic spectral density (where do these appear?)
 % * Show highly structured density, approximation!
+%
+% TODO Expansion of general spectral density; not unique!
+%      Cool to use antisymmetric lorentzians
+% TODO Discussion J(0) = 0 physical necessary, linear (ohmic) decrease, etc.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Applicability of our hierarchical equations of motion to any physically interesting system depends predominantly on the ability to express the relevant bath correlation function
@@ -284,7 +291,8 @@ Such exponential functions arise as Fourier transforms of a Lorentzian spectral 
   J(\omega) = \frac{1}{\pi} \frac{\gamma}{(\omega - \Omega)^2 + \gamma^2}.
   \label{eq:num.lorentzian}
 \end{equation}
-Hence they can be obtained from \autoref{eq:num.alpha_thermal} in the zero-temperature limit provided we expand the integral domain to include arbitrary negative frequencies as well.
+Hence they can be obtained from \autoref{eq:num.alpha_thermal} in the zero-temperature limit provided we extend the integral domain to include arbitrary negative frequencies as well.
+% TODO Keep figure?
 This unphysical assumption is a good approximation to the exact case without negative frequencies only for certain parameters as \autoref{fig:num.lorentzian} shows:
 For $\gamma\ll\Omega$ the Lorentzian density $J$ is concentrated mostly on the positive semi-axis and the negative frequency contribution to \autoref{eq:num.alpha_thermal} can be neglected.
 \begin{figure}
@@ -303,30 +311,129 @@ Indeed, since $\tilde J$, $\coth$, and $\sin$ are anti-symmetric and $\cos$ is s
   \int_0^\infty \tilde J(\omega) (\dots) \mathrm{d}\omega = \frac{1}{2}\int_{-\infty}^\infty \tilde J(\omega) (\dots) \mathrm{d}\omega.
 \end{equation*}
 Of course the same holds true for any anti-symmetric spectral density.
-Still the bath correlation function does not have the form necessary due to the additional $\coth$ for $T > 0$.
+% TODO Mhhh...
+However, the bath correlation function does not have the form necessary due to the additional $\coth$ for $T > 0$.
 This can only be accomplished approximately by expanding the latter and evaluating \autoref{eq:num.alpha_thermal} using the residue theorem.
-
-A commonly used scheme is the Matsubara spectrum decomposition of the hyperbolic cotangens \cite{Ma00_many_particle}
+We focus on the real part of \autoref{eq:num.alpha_thermal} given by
 \begin{equation}
-  % TODO Check
+  a(t) = \frac{1}{2} \int_{-\infty}^\infty J(\omega) \coth \frac{\beta\omega}{2} \cos \omega t
+  = \frac{1}{2} \int_{-\infty}^\infty J(\omega) \coth \frac{\beta\omega}{2} \exp[ii \omega t],
+  \label{eq:num.alpha_thermal_re}
+\end{equation}
+since it encodes all thermal effects.
+Calculating the corresponding imaginary part is straightforward.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Matsubara Spectrum Decomposition}
+\label{sub:num.expansion.matsubara}
+
+A commonly used expansion scheme for the hyperbolic cotangens is the Matsubara spectrum decomposition \cite{Ma00_many_particle}
+\begin{equation}
   \coth\left(\frac{\beta \omega}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\omega_n - \omega},
   \label{eq:num.matsubara_expansion}
 \end{equation}
 with the Matsubara frequencies $\omega_n = 2\pi n / \beta$.
+A short proof and remarks on the convergence of the series above is given in \autoref{sec:coth.matsubara}.
+Let us parametrize the anti-symmetrized Lorentzian by
+\begin{equation}
+  \tilde J(\omega) = \frac{P \omega}{((\omega - \Omega)^2 + \gamma^2) ((\omega + \Omega)^2 + \gamma^2)}
+  \label{eq:num.anti_lorentz}
+\end{equation}
+% TODO Discussion general features
+Leaving aside the degenerate case $\gamma = 0$ there are four simple poles of $\tilde J$ given by $\omega = \ii(\pm\Omega \pm\ii\gamma)$.
+The symmetry with respect to complex conjugation is due to $\tilde J(\omega)$ being real for $\omega\in\Reals$ whereas point symmetry with respect to the origin carries over from $\tilde J$.
+As the singularities of $\tilde J$ and $\coth$ are distinct and do not posses an accumulation point the integral~\ref{eq:num.alpha_thermal_re} can be expressed a sum over individual poles
+\begin{equation}
+  a(t) = \sum_{\omega = \pm\Omega + \ii\gamma} \Res J(\omega) \coth \frac{\beta \omega}{2} \exp[\ii\omega t]
+  + \sum_{\omega_n > 0} \Res \coth \frac{\beta\cdot}{2}(\ii\omega_n) J(\ii\omega_n) \exp[-\omega_n t]
+  \label{eq:num.sum_over_poles}
+\end{equation}
+% TODO Better; J(0) = 0
+For $t>0$ we close the integration contour in the upper complex half-plane; hence only poles with non-negative imaginary part need to be included.
+Therefore the factor $\exp(-\omega_n t)$ goes to zero as $n\to\infty$ and we can safely truncate the sum at some finite $n_0$.
+% TODO Elaborate
+This leads exactly to the desired sum-of-exponentials form for the bath correlation function with in general complex parameters; we will discuss the connected problems in\dots\\
 
 % Pros: Simple!!!!
 % Cons: Slow convergence
 
 \begin{figure}
+  % TODO This picture tells absolutely nothing!
   \centering
   \includegraphics{img/expansions}
-  \caption{\blindtext}
+  \caption{Comparisson\dots}
   \label{fig:num.expansion}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Padé Spectrum Decomposition}
+\label{sub:num.expansion.pade}
 
-% TODO Expansion of general spectral density; not unique!
-% TODO Discussion J(0) = 0 physical necessary, linear (ohmic) decrease, etc.
+Although the Matsubara spectrum decomposition provides the desired form for the bath correlation function it is worthwhile to consider alternative schemes---especially since the computational effort of our hierarchical equations of motion depends crucially on the numbers of exponential modes under consideration.
+Only recently Hu et al.\ proposed an expansion based on the Padé approximant \cite{HuXuYa10_pade,Hu11_pade}, which is vastly superior to the Matsubara expansion in terms of convergence speed.
+% TODO Really?
+For further details on the theory of Padé approximants we refer to the book by Baker and Graves-Morris \cite{BaGr96_pade}.
+
+To start off we recall that the hyperbolic cotangens has a simple pole at $z=0$ with $\Res\coth(0) = 1$; therefore we have the convergent Taylor series
+\begin{equation}
+  f(z) := \coth z - \frac{1}{z} = \lim_{N\to\infty} z \sum_{k=0}^{2N-1} a_k z^{2k} = \lim_{N\to\infty} z \, f_{2N-1}(z)
+  \label{eq:num.coth_expansion}
+\end{equation}
+where we use that $\coth$ as well as $z \mapsto 1/z$ are anti-symmetric function; consequently all even terms in the Taylor series vanish.
+By definition of the coefficients $a_k$ we have $f(z) - z \, f_{2N-1}(z) = \mathcal{O}(z^{4N + 1})$ for $\abs{z} < \pi$.
+In fact the radius of convergence cannot be increased any further since there are additional singularities of $f$ at $z = \pm\ii\pi$ and the approximating functions $f_N$ are analytical.
+
+% TODO Elimniate the
+The main idea in using a Padé approximant is to incorporate these poles into the approximating functions.
+The simplest choice is the class of rational functions, that is functions of the form $f_{M,N}(z) = P_M(z) / Q_N(z)$ with polynomials $P_M$ and $Q_N$ of degree less than $M$ and $N$ respectively.
+We refer to these as $[M,N]$-approximants.
+% TODO Better word than treatment
+% TODO Better reason?
+In order to simplify the following treatment we only consider approximants of class $[N-1, N]$, which have proven to be especially suitable for Bose-Einstein and Fermi-Dirac distribution function \cite{Hu11_pade}.
+Let us also introduce the shorthand notation $x = z^2$.
+In order to replace $f_N$ in \autoref{eq:num.coth_expansion} with a $[N-1,N]$ Padé approximant $f_{N-1,N}$, the latter needs to fulfill the interpolation condition
+\begin{equation*}
+  f_{2N-1}(x) = \sum_k^{2N-1} a_k x^k = \frac{P_{N-1}(x)}{Q_N(x)} + \mathcal{O}(x^{2N})
+\end{equation*}
+by the usual abuse of notation $f_{2N-1}(z) = f_{2N-1}(x)$.
+Unless $Q_N(0) = 0$ this is equivalent to $Q_N(x)f_{2N-1}(x) = P_{N-1}(x) + \mathcal{O}(x^{2N})$, which always has a unique solution as shown by comparing coefficients on both sides.
+Using the Padé approximant we can rewrite \autoref{eq:num.coth_expansion} as
+\begin{equation}
+  \coth(z) = \frac{1}{z} + z \frac{P_{N-1}(z^2)}{Q_N(z^2)} + \mathcal{O}(z^{4N+1})
+  \label{eq:num.coth_pade}
+\end{equation}
+
+Although $P_{N-1}$ and $Q_N$ are of degree $N-1$ and $N$ respectively there are only $2N$ free parameters because both are only fixed up to a common prefactor.
+% TODO Really
+Therefore $f_{N-1,N}$ and $f_{2N-1}$ have the same number of coefficients to be determined; details on the numerical implementation can be found in\dots
+
+% TODO CHECK
+It is quite remarkable that the Padé approximant not only converges on larger subset of $\Complex$ than the power series in general, but also provides a superior sum-over-poles decomposition compared to the Matsubara expansion \autoref{eq:num.matsubara_expansion}.
+It turns out that the roots of $Q_N(x)$ are mutually distinct and negative \cite{HuXuYa10_pade}; therefore we denote them by $\xi_i^2$ ($i=1,\dots,N$).
+Replacing the analytic approximant $f_N$ in \autoref{eq:num.coth_expansion} by $f_{N-1,N}$ and expanding the latter in terms of partial fractions gives
+\begin{equation}
+  \coth\left( \frac{\beta\omega}{2} \right) = \frac{2}{\beta\omega} + \frac{2}{\beta} \sum_{j=1}^N \left( \frac{\eta_j}{\omega + \ii\xi_j} + \frac{\eta_j}{\omega - \ii\xi_j} \right) + \mathcal{O}(\omega^{4N+1})
+  \label{eq:num.pade_expansion}
+\end{equation}
+which agrees with \autoref{eq:num.matsubara_expansion} for $N\to\infty$.
+% TODO Correct wording?
+It is only for a finite number of summands that the Padé expansion comes to fruition.
+% TODO Same notation as above!?
+As an example take $N=5$, then we find
+\begin{align*}
+  \left( \frac{\beta \xi_j}{2\pi j} \right)_j &= (1.00, 1.00, 1.01, 1.18, 2.69) \\
+  \left( \frac{\beta\eta_j}{2} \right)_j &= (1.00, 1.00, 1.11, 2.80, 26.59),
+\end{align*}
+% TODO Too much that
+showing a noticeable different behavior than the Matsubara poles and residues given by $\beta \xi_j/2\pi j = 1$ and $\beta \eta_j/2 = 1$ respectively.
+Also recall from \autoref{eq:num.sum_over_poles} that the suppressing term for the sum over poles is given by $\exp^{-\xi_j t}$; hence the super-linear growth of the Padé poles ensure that less summands and thus less exponential modes in our hierarchical equations are needed.
+In conclusion the Padé spectrum decomposition~\ref{eq:num.pade_expansion} can be interpreted as an optimally corrected truncated Matsubara expansion, where neglected terms are included by adjusting the final poles and residues.
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Spin-Boson Model}
@@ -334,16 +441,127 @@ with the Matsubara frequencies $\omega_n = 2\pi n / \beta$.
 % * short intro
 % * Depth-dependence
 % * dependence on number of expansion terms
+% * Terminator dependence
+% * lin vs nonlin
+% * nr. of realizations for different sets of paramters
 % * single trajectories
+% * divergences for large coupling --> cause bad truncation
+%
+% TODO Add application citations
+% TODO Better convergence criterion than "looks good"
+% TODO What about γ=0 convergence? Sample Size?
+% TODO ASKWALTER: How many details on numerical parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The Spin-Boson model is a well known example in the fields of solid state physics and quantum optics for a dissipative system \cite{}.
+Despite being comparatively simple and traceable it shows many characteristics like that can be found in more realistic systems as well:\dots
+% TODO Add!
+Therefore it is well suited to investigate the properties of a general open quantum system and their dependence on the environmental parameters.
+It can also be used to approximately describe systems with a continuous degree of freedom confined by a double well potential \cite{Le87_spinboson}.
+Examples for the latter are the motion of defects in some crystalline solids or the motion of the magnetic flux trapped in a superconducting qubit \cite{CaLe83_diss_system}.
+% FIXME sounds strange
+In this section we use it to further investigate our hierarchy and the dependence on numerical parameters like its depth or the number of realizations.
+
+In general the model is given by a two-level system with the free time evolution described by the Hamiltonian
+\begin{equation*}
+  \Hsys = - \frac{1}{2}\Delta \sigma_x + \frac{1}{2} \epsilon \sigma_z,
+\end{equation*}
+% FIXME Check all units
+coupled linearly to a bath of harmonic oscillators by $L=c \sigma_z$.
+Here $\sigma_i$ denotes the Pauli matrices.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sample Size}
+\label{sub:num.spin_boson.sample_size}
+%
+% TODO Perturbative calculation?
+% TODO What about γ
+
+
+\begin{figure}[p]
+  \centering
+  \includegraphics{img/linvsnonlin_averaged.pdf}
+  % TODO Add parameters
+  % TODO Better picutres; varying only one parameter?; better comparable
+  \caption{%
+    Expectation values for the $\sigma_z$-operator calculated using the linear (left) and nonlinear (right) hierarchical equations for two sets of parameters.
+    On the top we display a weakly coupled system given by parameters\dots
+    In contrast the bottom pictures show a strongly coupled system with\dots
+  }
+  \label{fig:num.linvsnonlin}
+\end{figure}
+
+
+% TODO Check this whole paragraph
+% TODO Fixed Depth!!
+Since our hierarchical equations of motion are based upon a stochastic differential equation, it is crucial to assess their reliability in dependence on the sample size.
+In this section we emphasize in particular the superiority of the nonlinear version~\ref{eq:num.hierarchy_nonlin} over the linear hierarchy~\ref{eq:num.hierarchy_lin}.
+For a systematic investigation we study the Spin-Boson model using two quite distinct sets of parameters, which we refer to as weakly and strongly coupled, although other parameters as the memory time of the bath $\gamma^{-1}$ have to be taken into account as well.
+% TODO Want????
+The former choice of parameters can even be treated using an improved perturbation scheme \cite{GaHuZh10_qubit,HuZh08_qubit}.
+Nevertheless the nonlinear equations of motion constitute a noticeable improvement in convergence speed even in these almost trivial parameter regimes.\\
+
+In \autoref{fig:num.linvsnonlin} we plot the expectation value of the spin-operator in $z$-direction for an initial eigenstate corresponding to the eigenvalue $s_z = +\frac{1}{2}$.
+In the case of the weakly coupled system at the top there seems to be almost no difference between the linear version on the left and the nonlinear version on the right.
+Nevertheless for very few realizations the latter is still in better agreement with the more accurate results.
+Especially for large times the dampening on the right hand side is more pronounced as comparing the graph for a sample size of ten reveals.
+
+When it comes to the strongly coupled parameter set at the bottom the picture changes dramatically:
+First notice that the sample size has to be increased by an order of magnitude to obtain a reliable result.
+Notwithstanding the linear version does display any visible change for the different sample sizes shown; hence we cannot expect convergence for even larger numbers of realizations.
+Even qualitative features as the vanishing of $\qmean{\sigma_z}$ for $t \to \infty$ cannot be reproduced in this scheme.
+It is only for very small times that both sides agree up to a certain extent.
+In contrast the nonlinear version improves steadily with growing sample size and provides a good approximation with only minor fluctuations already at 1000 trajectories. \\
+% TODO Rough picture correct for N=100
+
+% FIXME Two times "To ..."
+To understand this behavior recall that we have introduced the nonlinear equations of motion in order to achieve an average over single contributions of the same order of magnitude.
+As already mentioned in \autoref{sec:nmqsd.nonlin_nmsse} individual trajectories of the linear version violate this requirement in general.
+To get a better assessment of different contributions over time we have to rescale the norm as follows:
+First we calculate the reduced density operator $\rho_t$ by the usual Monte-Carlo average
+\begin{equation}
+  \rho_t = \sum_{n=1}^N \ket{\psi_t(\ZZ_n)} \bra{\psi_t(\ZZ_n)}
+  \label{eq:num.monte_carlo_avg}
+\end{equation}
+over a large number of noise process realizations $\ZZ_n$.
+Afterwards we obtain a genuine, normalized density matrix by rescaling with $(\Tr{} \rho_t)^{-1}$.
+Therefore we can assess the contribution of single trajectory $\psi_t(\ZZ_n)$ to \autoref{eq:num.monte_carlo_avg} by $\lfloor \psi_t(\ZZ_n) \rfloor / N$ with
+\begin{equation}
+  \lfloor \psi_t(\ZZ_n) \rfloor = \sqrt{%
+    \frac{\sp{\psi_t(\ZZ_n)}{\psi_t(\ZZ_n)}}{\Tr{} \rho_t}.
+  }
+  \label{eq:num.contribution}
+\end{equation}
+Since the states in \autoref{eq:num.monte_carlo_avg} are normalized for the nonlinear equation, we have for its realizations $\lfloor\psi_t(\ZZ_n)\rfloor = 1$.
+
+We display the contribution using the linear version in \autoref{eq:num.normcomp}; clearly we do not obtain a constant contribution for both sets of parameters.
+But for the weakly coupled system on the left all trajectories remain roughly the same order of magnitude.
+In contrast the contributions on the right hand side belonging to the strongly coupled system all vanish for large $t$, but also show pronounced peaks for a few trajectories.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{img/normcomp.pdf}
+  % FIXME Caption
+  \caption{%
+    Contributions of single trajectories to the reduced density operator for the linear equations.
+    Left: weakly; right: strongly
+    For definition see \autoref{eq:num.contribution}\dots
+    Parameters are the same as in \autoref{fig:num.linvsnonlin}
+    Dotted line = nonlinear.
+  }
+  \label{fig:num.normcomp}
+\end{figure}
+
+% FIXME Conclusion
+%  * small times ok
+%  * additional expense for nonlinear always worth!
+In conclusion\dots
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{FMO-Complex}
 \label{sec:num.fmo}
 % * model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Absorption Spectra}
@@ -354,5 +572,3 @@ with the Matsubara frequencies $\omega_n = 2\pi n / \beta$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transfer Dynamics}
 \label{sub:num.fmo.dynamics}
-
-\cite{PlMGr86_casimir}
