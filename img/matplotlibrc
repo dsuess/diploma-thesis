@@ -89,8 +89,8 @@ legend.fontsize      : medium
 legend.borderpad     : .7    # border whitspace in fontsize units
 #legend.markerscale   : 1.0    # the relative size of legend markers vs. original
 #legend.labelspacing  : 0.020  # the vertical space between the legend entries
-#legend.handlelength  : 0.10   # the length of the legend lines
-legend.handletextpad : 0.30   # the space between the legend line and legend text
+legend.handlelength  : 1.   # the length of the legend lines
+legend.handletextpad : 0.50   # the space between the legend line and legend text
 #legend.borderaxespad : 0.10   # the border between the axes and legend edge
 legend.shadow        : True
 legend.frameon       : True

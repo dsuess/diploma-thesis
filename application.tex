@@ -1,0 +1,308 @@
+\chapter{Application}
+\label{chap:app}
+% * why?
+% * current results/techniques
+% transfer of electronic excitation
+% preparation: external lase pulse resonant to S_0 -> S_1 transition
+% transfer by Coulomb interaction
+% state made up by excited electron and a hole (unoccupied electron state in the highest occupied molecule orbital)
+% when both are localized at the same molecule: Frenkel exciton
+% Examples: molecular crystals of armoatic compounds and rare gases in the solid phase, dye aggregats
+% HERE: energy transfer in light harvesting photosyntetic antenna systems
+% coherent and incoherent (FÖRSTER) transfer posible
+% Time scales (p. 365) ?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% * Growing interest, application, ...
+% * to show its working apply our method to energy transfer and absorption spectra of molecular aggregat
+% * DEF. Molecular aggregat: assemblies of monomers (molecules, atoms, ...), where monomers largely keep individual properties
+%     * interaction leads to collevcitve phenomena
+%     * for sake of clarity: monomer = molecule in our notation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Basic Model}
+\label{sec:app.model}
+% * assumptions
+% * Frenkel excitons
+%
+% FIXME Too many subsections?
+% TODO Experimental setup, necessary for app.model.exciton
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Aggregat Hamiltonian}
+\label{sub:app.model.hamiltonian}
+
+% GENERAL MOLECULE
+% ---------------
+% * molecular Hamiltonian, Born Oppenheimer approx (large difference in mass)
+%     => seperation of time scales,
+% * split into electronic and vibrational degrees of freedom
+% * in aggregat further vibrational degrees of freedom: inter- and intramolecular as well as solvent
+%
+% FIXME Rename V_mn since we use it below for matrix elements
+
+In the follwing chapter we treat molecular aggregats with a size in the order of magnitude from a few up to a hundred molecules.
+Let us consider the latter composed of electrons and point-like nuclei quantum mechanically described by canonical-conjugated pairs of operators $(p_j, q_j)$ and $(P_j, Q_j)$ respectively.
+The corresponding Hamiltonian is given by
+\begin{equation}
+  \opH{mol} = \opT{el} + \opT{nuc} + \opV{el-el} + \opV{nuc-nuc} + \opV{el-nuc}
+  \label{eq:app.mol_hamil}
+\end{equation}
+% TODO More?
+with the kinetic energies $T$ and appropriate Coulomb interactions $V$.
+% TODO Really?
+We drop possible contributions from internal spin degrees of freedom since they induce only negligible corrections for the systems under consideration.
+
+The vast difference in masses of electrons and nuclei allows us to separate the dynamics of both into two individual parts using the Born-Oppenheimer approximation:
+As electrons move on a much faster time scale they can respond to any changes in the nuclear arrangement almost instantaneously.
+This amounts to including the motion of nuclei mediated by the Coulomb potential $\opV{el-nuc}$ only adiabatically when calculating the electron dynamics from \autoref{eq:app.mol_hamil}.
+% TODO Is this clear and to the point?
+Therefor we can reorganize the summands in \autoref{eq:app.mol_hamil} more appropriately to
+\begin{equation}
+  \opH{mol} = \opH{el}(\QQ) + \opT{nuc} + \opV{nuc-nuc},
+  \label{eq:app.mol_hamil_bo}
+\end{equation}
+where the notation $\opH{el} = \opT{el} + \opV{el-el} + \opV{el-nuc}(\QQ)$ indicates that we regard the electronic Hamiltonian to depend only parametrically on the nuclear coordinates $\QQ$.
+% FIXME Notice??
+For the processes under consideration only the valence electrons need to be taken into account explicitly; others are included to the nucleon-part without further notice.
+
+
+% FIXME In all possible combinations?
+The same reasoning applies to the complete Hamiltonian of the aggregat, which besides contributions of the form~\ref{eq:app.mol_hamil} for each individual molecule contains intermolecular interactions between electrons and nuclei in all possible combinations.
+Therefore it can rephrased similarly to \autoref{eq:app.mol_hamil_bo}
+\begin{equation}
+  \opH{agg} = \opH{el}(\QQ) + \opT{vib} + \opV{vib-vib},
+  \label{eq:app.agg_hamil}
+\end{equation}
+Here we use the more general notion of vibrational degrees of freedom, which not only comprises the intra- and intermolecular nuclear coordinates, but also possible environmental degrees of freedom not belonging to the aggregat.
+These appear for example when studying molecular compounds immersed in a liquid solvent.
+
+% ELECTRONIC PART
+% ---------------
+% * Holstein model
+% * no exchange interaction due to seperation of molecules, no overlap (tight binding)
+%     => anti-symmetrization in Hartree anatz non necessary; product basis
+%        =>   H_el = Σ_ma ε_ma |φ_ma><φ_ma|  +  ½ Σ ...
+
+The Born-Oppenheimer approximation allows us to analyse the electronic separately from the vibrational part of \autoref{eq:app.agg_hamil} for a fixed coordinate vector $\QQ$.
+We split up the former into contributions for each individual electron
+\begin{equation*}
+  \opH{el} = \sum_m H_m^\mathrm{(el)} + \frac{1}{2} \sum_{m,n} U_{mn}^\mathrm{(el-el)},
+\end{equation*}
+where $H_m^\mathrm{(el)}$ contains the $m$\th electron's kinetic energy as well as its coupling to the vibrational degrees of freedom and $U_{mn}$ is simply the Coulomb interaction between the $m$\th and $n$\th electron.
+The \quotes{free} Hamiltonians $H_m^\mathrm{(el)}$ define distinct electronic states by
+\begin{equation*}
+  H_m^\mathrm{(el)}(\QQ) \varphi_{ma} (q, \QQ) = \epsilon_{ma}(\QQ) \varphi_{ma} (q, \QQ)
+\end{equation*}
+for each given environmental configuration $\QQ$.
+The index $m$ runs over all electrons under consideration and $a$ is used to label the individual states, which we assume to be ordered by the corresponding energies.
+Similar to the Hartree-Fock method we build up an expansion basis for the total electronic state by a product ansatz
+\begin{equation}
+  \phi_{\vec a}(\qq, \QQ) = \prod_m \varphi_{m, a_m}(q_m, \QQ),
+  \label{eq:app.product_states}
+\end{equation}
+which in general needs to be anti-symmetrized to fulfill the Pauli exclusion principle.
+
+If there is at most one valence electron per molecule we need to take into consideration, which is furthermore tightly bound, then the situation simplifies dramatically:
+In this case the spreading of the single-electron states $\ket{\varphi_{ma}} = \ket{m, a}$ is small compared to the distance between two molecules; we can neglect the overlap $\braket{m, a}{n, b}$ for different molecules $m \neq n$.
+Consequently \autoref{app.product_states} yields a complete basis for the electronic degrees of freedom.
+We also have the following representation for the Hamiltonian~\ref{eq:app.agg_hamil}% FIXME Formula!
+\begin{equation}
+  \opH{el} = \sum_{m, a} \epsilon_{m, a} \, \ket{m, a}\bra{m, a} + \frac{1}{2}\sum_{m,n,a,b,a',b'} U_{mn}(aa', bb') \, \ket{m,a; n,b}\bra{m,a'; n,b'}
+  \label{eq:app.agg_hamil_basis}
+\end{equation}
+with the matrix elements of the Coulomb interaction\footnote{%
+  % TODO Mutual enough?
+  This does not include the exchange interaction, since we assume a vanishing mutual overlap for the electrons.
+}
+\begin{equation*}
+  U_{mn}(aa', bb') = \bra{m,a; n,b} U_{mn} \ket{m,a'; n,b'}.
+\end{equation*}
+% TODO Is this correct?
+Note that all terms in \autoref{eq_app.agg_hamil_basis} still depend on vibrational coordinates.
+For example the matrix elements $U_{mn}(aa'; bb')$ is influenced by the distance between the $m$\th and $n$\th molecule, while the electronic eigenenergies $\epsilon_{m, a}$ primarily depend on the positions of other electrons belonging to the same molecule.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Exciton Model}
+\label{sub:app.model.exciton}
+% * beside electronic ground state only first excited singlet state φ_m^g, φ_m^e for each molecule
+%     => effective 2 level system
+%     * ok if only one S_1 state is initially excited and all first-level energies are same order of magnitude
+% * different contributions to interaction term; Heitler-London approximation (p.370)
+%     => Interaction term gives only "hopping" contributions (resonant excitation energy transfer)
+%     => if we start with single excitation, we remain in the single-excitation Hilbert space
+%     => basis vectors |π_n> = |φ_n^e> Π_i≠n |φ_i^g> => single exciton state
+%     * need ground state |0> = Π_i |φ_i^g> as well due to dissipation
+%     * multi-exciton states for nonlinear stuff
+%     * interaction matrix elements can be calculated from center-of-mass coordinate of molecule and Coulomb interaction
+%        => more details (dipole approximation, etc.) in spectrum-section
+%
+% TODO Dipol-Dipol interactoin approximation (p.372)
+
+% TODO Good? Position of footnote?
+% FIXME I am too long!!!
+In order to describe the experimental setting described in the introduction we do not need to consider the complete electronic Hamiltonian~\ref{eq:app.agg_hamil_basis}:
+if only a single valence electron is initially in the lowest excited state $S_1$ above its ground state $S_0$\footnote{%
+  Note that $S_0$ describes the lowest energy state of the valence electron with all other electrons of the molecule fixed, not to be confused with the atomic ground states.
+}
+and if the various transition energies are in the same order of magnitude, then it is sufficient to take only the $S_0$ state $\ket{m, 0}$ as well as the first excited stated $\ket{m, 1}$ for each molecule into account.
+% FIXME Is charged induced transition a word?
+Under these circumstances the matrix elements $U_{mn}(aa', bb')$ can be classified with respect to a few physical processes such as electrostatic interactions or charge-induced transitions.
+But most important is the resonant contribution $U_{mn}(01; 10)$ (and its inversion $U_{mn}(10; 01)$) describing a $S_0 \to S_1$ excitation for the $m$\th electron induced by a  $S_0 \to S_1$ transition at the $n$\th molecule.
+In the following we neglect all but the last class of processes, which is frequently called Heitler-London approximation.
+
+Restricting the allowed electronic states to the two lowest energy levels has a remarkable interpretation in terms of quasi-particles:
+The product
+\begin{equation}
+  \ket{m} = \ket{m, 1} \prod_{n \neq m} \ket{n, 0}
+  \label{eq:app.exciton_state}
+\end{equation}
+% TODO What about gorund state?
+% FIXME Too much due to, therefore,...
+describes an excited electron localized in the vicinity of the $m$\th molecule, which we refer to as an exciton of the electronic system.
+Due to the Heitler-London approximation our adiabatic Hamiltonian~\ref{eq:app.agg_hamil_basis} conserves the number of excitons.
+Therefore an initial state $\ket{m}$ (or linear combinations thereof) always remains in the one-exciton Hilbert space $\HH^{(1)}$.
+% TODO WHY???
+The interaction matrix elements
+\begin{equation*}
+  V_{mn} = V_{nm} = \bra{m, 0; n, 1} U_{mn} \ket{m, 1; n, 0}
+\end{equation*}
+allow us to express the restriction of $\opH{el}$ to $\HH^{(1)}$ as
+\begin{equation*}
+  \opH{el}^{(1)}(\QQ) = \sum_m \epsilon_m(\QQ) \ket{m}\bra{m} + \sum_{m,n} V_{mn}(\QQ) \ket{n}\bra{m}.
+\end{equation*}
+% FIXME Second sentence strange...
+For the rest of this section we assume the $V_{mn}$ to be independent of vibrational degrees of freedom; a more general treatment poses no further difficulties.\\
+
+% VIBRATIONAL PART
+% ----------------
+% * include dynamica
+
+% FIXME Too much "degrees of freedom"
+Up to this point we have neglected the dynamical evolution of the vibrational environment, which is essential in a complete description of a molecular aggregat.
+% TODO REALLY? WHY?
+In common settings for the physical systems under consideration a harmonic approximation is sufficient to obtain a realistic model.
+There are two reasons for this:
+First of all most proteins disintegrate at temperatures much higher than room temperature; therefore thermal excitation only leads to small energy gains for each vibrational degree of freedom.
+The other mechanism for driving the environment is dissipation of the electronic system.
+But the latter is small compared to the vast number of vibrational degrees of freedom and energy typically spreads evenly across the environment.
+We can thusly assume that all $Q_\lambda$ experience only a small displacement from their equilibrium positions, which we set to $Q_\lambda = 0$.
+
+% TODO More?
+As a consequence both $\opV{vib-vib}(\QQ)$ and $\epsilon_m(\QQ)$ can be expanded in a Taylor series neglecting all but the first non-trivial term.
+To alleviate notation we further assume that each vibrational degree of freedom only couples to one specific exciton.
+This leads to exactly the original model we use to derive the NMSSE: a bath of harmonic oscillators linearly coupled to the electronic system
+\begin{align*}
+  \opH{agg} =
+  \sum_m \epsilon_m(0) \ket{m}\bra{m} + \sum_{m,n} V_{mn} \ket{m}\bra{n} + \sum_{m, \lambda} \omega_{m, \lambda} \adj{A}_{m, \lambda} A_{m, \lambda} \\
+  + \sum_{m, \lambda} g_{m, \lambda} \ket{m}\bra{m} \otimes \left( \adj{A}_{m, \lambda} + A_{m, \lambda} \right),
+\end{align*}
+where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding to the $\lambda$\th vibrational mode coupling to the $m$\th exciton.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transfer Dynamics}
+\label{sec:app.fmo}
+% * FMO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%  * why interesting --> first observed quantum coherence in light harvesting systems
+%     => function: connecting large light harvesting antenna;
+%        transmit excitation energy to reaction centers
+%     * role: avoid local energetic traps; aid efficient trapping of electronic energy by the pigments facing the reaction center \cite{IsFl09_fmo}
+%  * important: long-lived electronic quantum coherence
+%     => exciton superposition states (formed during fast excitation event) allow the excitation to "reversibly sample all posible paths"
+%     => efficient directing the energy transfer to find the most effective sink for the excitation energy \cite{EnCaRe07_photosyn}
+%     => efficiency beyond classical sampling-by-hopping
+%  * FMO: green sulfur bacteria
+%
+% * before that: semiclass. hopping (Förster theory)
+%
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=.6]{img/monomer_full600.png}
+  % FIXME Better caption
+  % FIXME Higher dpi
+  \caption{%
+    Spatial arrangement of the FMO monomer and numbering of the BChls.
+    Here all eight BChls.
+    Created using PyMol, based on PDB entry 3ENI \cite{pymol,TrCaBl09_fmo_structure}
+  }
+  \label{fig:app.monomer_full}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics{img/fmo_transfer.pdf}
+  % FIXME Caption
+  % FIXME Change plot to 2Term fit
+  \caption{%
+    Exciton transfer of the simplified FMO-monomer with seven BChls using our hierarchical equation of motion up to first~(doted line) and second order~(dashed line).
+    We place the initial excitation on both receiving BChls, that is the first~(left) and the sixth molecule~(right).
+    For comparison the solid line shows the results of Ishizaki and Fleming~\cite{IsFl09_fmo}, which were obtained in the density-matrix HEOM approach.
+  }
+  \label{fig:app.fmo_transfer_2}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img/fmo_transfer_0.png}
+    \caption{%
+      $t = 0.00 \, \mathrm{fs}$
+    }
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img/fmo_transfer_1.png}
+    \caption{%
+      $t = 0.25 \, \mathrm{fs}$
+    }
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img/fmo_transfer_2.png}
+    \caption{%
+      $t = 0.50 \, \mathrm{fs}$
+    }
+  \end{subfigure}
+  \vspace{1cm}
+
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img/fmo_transfer_3.png}
+    \caption{%
+      $t = 1.00 \, \mathrm{fs}$
+    }
+  \end{subfigure}
+  \begin{subfigure}[b]{0.3\textwidth}
+    \includegraphics[width=\textwidth]{img/fmo_transfer_4.png}
+    \caption{%
+      $t = 2.00 \, \mathrm{fs}$
+    }
+  \end{subfigure}
+
+  \caption{%
+    Same as \autoref{fig:app.fmo_transfer_2term} with initial excitation on the sixth BChl~(orange).
+    Notice how the energy flow is not evenly distributed but shows a pronounced drift towards the energy sink located at the third BChl~(blue).
+    For the sake of clarity we do not show the full molecular structure.
+  }
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Absorption Spectra}
+\label{sec:app.spectra}
+% * experimental setup
+% * why not so good, but we still use them -> 2D spectroscopy
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{NMSSE for Spectra}
+\label{sub:app.spectra.nmsse}
+% * why nmsse so good for this?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Results}
+\label{sub:app.spectra.results}
+% * other techniques
+% * cool behavior of hierarchies

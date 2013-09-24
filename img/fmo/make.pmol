@@ -1,0 +1,88 @@
+load monomer_reduced.pdb
+
+# define the bcls
+select bcl1, (chain A and resi 371)
+select bcl2, (chain A and resi 372)
+select bcl3, (chain A and resi 373)
+select bcl4, (chain A and resi 374)
+select bcl5, (chain A and resi 375)
+select bcl6, (chain A and resi 376)
+select bcl7, (chain A and resi 377)
+select bcl8, (chain A and resi 378)
+
+# set the viewpos
+# viewpos for plotting transfer
+set_view (\
+    -0.708368361,   -0.228798211,    0.667739987,\
+    -0.314554185,    0.949209511,   -0.008441104,\
+    -0.631886423,   -0.216020331,   -0.744351387,\
+     0.000038780,   -0.000076610, -149.600830078,\
+    10.535236359,   -8.700254440,   -3.233623743,\
+  -1084.116088867, 1383.295043945,  -20.000000000 )
+
+# and the monomer with 7 bcls which is of interest
+select monomer, bcl1 bcl2 bcl3 bcl4 bcl5 bcl6 bcl7
+
+# show only what we need
+hide
+show sticks, monomer
+
+# no raytracing fog
+set ray_trace_fog, 0
+set ray_trace_mode, 0
+set ray_opaque_background, 1
+set antialias, 2
+
+# and white background
+
+set bg_rgb, [1, 1, 1]
+
+# set the appropriate colors
+color black, bcl1
+color green, bcl2
+color blue, bcl3
+color magenta, bcl4
+color cyan, bcl5
+color orange, bcl6
+color red, bcl7
+color yellow, bcl8
+
+# add some labels
+set label_outline_color, black
+set label_shadow_mode, 4
+
+select lab1, id 5472
+label lab1, "1"
+
+select lab2, id 5555
+label lab2, "2"
+
+select lab3, id 5615
+label lab3, "3"
+
+select lab4, id 5704
+label lab4, "4"
+
+select lab5, id 5754
+label lab5, "5"
+
+select lab6, id 5807
+label lab6, "6"
+
+select lab7, id 5940
+label lab7, "7"
+
+select lab8, id 5977
+label lab8, "8"
+
+set label_color, black, lab1
+set label_color, green, lab2
+set label_color, blue, lab3
+set label_color, magenta, lab4
+set label_color, cyan, lab5
+set label_color, orange, lab6
+set label_color, red, lab7
+set label_color, yellow, lab8
+set label_size, 50
+
+# Use control+shift for repositioning

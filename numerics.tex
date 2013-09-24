@@ -440,11 +440,10 @@ In conclusion the Padé spectrum decomposition~\ref{eq:num.pade_expansion} can b
 \label{sec:num.spin_boson}
 % * short intro
 % * Depth-dependence
-% * dependence on number of expansion terms
 % * Terminator dependence
-% * lin vs nonlin
-% * nr. of realizations for different sets of paramters
-% * single trajectories
+% * lin vs nonlin ✔
+% * nr. of realizations for different sets of paramters ✔
+% * single trajectories ✔
 % * divergences for large coupling --> cause bad truncation
 %
 % TODO Add application citations
@@ -514,30 +513,6 @@ It is only for very small times that both sides agree up to a certain extent.
 In contrast the nonlinear version improves steadily with growing sample size and provides a good approximation with only minor fluctuations already at 1000 trajectories. \\
 % TODO Rough picture correct for N=100
 
-% FIXME Two times "To ..."
-To understand this behavior recall that we have introduced the nonlinear equations of motion in order to achieve an average over single contributions of the same order of magnitude.
-As already mentioned in \autoref{sec:nmqsd.nonlin_nmsse} individual trajectories of the linear version violate this requirement in general.
-To get a better assessment of different contributions over time we have to rescale the norm as follows:
-First we calculate the reduced density operator $\rho_t$ by the usual Monte-Carlo average
-\begin{equation}
-  \rho_t = \sum_{n=1}^N \ket{\psi_t(\ZZ_n)} \bra{\psi_t(\ZZ_n)}
-  \label{eq:num.monte_carlo_avg}
-\end{equation}
-over a large number of noise process realizations $\ZZ_n$.
-Afterwards we obtain a genuine, normalized density matrix by rescaling with $(\Tr{} \rho_t)^{-1}$.
-Therefore we can assess the contribution of single trajectory $\psi_t(\ZZ_n)$ to \autoref{eq:num.monte_carlo_avg} by $\lfloor \psi_t(\ZZ_n) \rfloor / N$ with
-\begin{equation}
-  \lfloor \psi_t(\ZZ_n) \rfloor = \sqrt{%
-    \frac{\sp{\psi_t(\ZZ_n)}{\psi_t(\ZZ_n)}}{\Tr{} \rho_t}.
-  }
-  \label{eq:num.contribution}
-\end{equation}
-Since the states in \autoref{eq:num.monte_carlo_avg} are normalized for the nonlinear equation, we have for its realizations $\lfloor\psi_t(\ZZ_n)\rfloor = 1$.
-
-We display the contribution using the linear version in \autoref{eq:num.normcomp}; clearly we do not obtain a constant contribution for both sets of parameters.
-But for the weakly coupled system on the left all trajectories remain roughly the same order of magnitude.
-In contrast the contributions on the right hand side belonging to the strongly coupled system all vanish for large $t$, but also show pronounced peaks for a few trajectories.
-
 \begin{figure}[t]
   \centering
   \includegraphics{img/normcomp.pdf}
@@ -552,23 +527,44 @@ In contrast the contributions on the right hand side belonging to the strongly c
   \label{fig:num.normcomp}
 \end{figure}
 
+% FIXME Two times "To ..."
+To understand this behavior recall that we have introduced the nonlinear equations of motion in order to achieve an average over single contributions of the same order of magnitude.
+As already mentioned in \autoref{sec:nmqsd.nonlin_nmsse} individual trajectories of the linear version violate this requirement in general.
+To get a better assessment of different contributions over time we have to rescale the norm as follows:
+First we calculate the reduced density operator $\rho_t$ by the usual Monte-Carlo average
+\begin{equation}
+  \rho_t = \sum_{n=1}^N \ket{\psi_t(\ZZ_n)} \bra{\psi_t(\ZZ_n)}
+  \label{eq:num.monte_carlo_avg}
+\end{equation}
+over a large number of noise process realizations $\ZZ_n$.
+Afterwards we obtain a genuine, normalized density matrix by rescaling with $(\Tr{} \rho_t)^{-1}$.
+Therefore we can assess the contribution of a single trajectory $\psi_t(\ZZ_n)$ to \autoref{eq:num.monte_carlo_avg} by $\lfloor \psi_t(\ZZ_n) \rfloor / N$ with
+\begin{equation}
+  \lfloor \psi_t(\ZZ_n) \rfloor = \sqrt{%
+    \frac{\sp{\psi_t(\ZZ_n)}{\psi_t(\ZZ_n)}}{\Tr{} \rho_t}.
+  }
+  \label{eq:num.contribution}
+\end{equation}
+Since the states in \autoref{eq:num.monte_carlo_avg} are normalized for the nonlinear equation, we have for its realizations $\lfloor\psi_t(\ZZ_n)\rfloor = 1$.
+
+We display the contribution using the linear version in \autoref{eq:num.normcomp}; clearly we do not obtain a constant contribution for both sets of parameters.
+But for the weakly coupled system on the left all trajectories remain roughly the same order of magnitude.
+In contrast the contributions on the right hand side belonging to the strongly coupled system all vanish for large $t$, but also show pronounced peaks for a few trajectories.
+
 % FIXME Conclusion
 %  * small times ok
 %  * additional expense for nonlinear always worth!
 In conclusion\dots
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{FMO-Complex}
-\label{sec:num.fmo}
-% * model
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Absorption Spectra}
-\label{sub:num.fmo.absorption}
-% * derivation of formula
-% * why NMSSE so cool for it
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hierarchy Depth and Cutoff}
+\label{sub:num.spin_boson.depth}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Transfer Dynamics}
-\label{sub:num.fmo.dynamics}
+Apart from the sample size there is an even more significant factor limiting the applicability of our hierarchical equations of motion:
+As seen from \autoref{fig:num.scaling} the number of auxiliary states required---and with it the computational expense---grows faster then linear with the truncation depth.
+Before investigating the latter more thoroughly we demonstrate the effectiveness of using an appropriate terminator instead of just truncating the hierarchy.
+For that matter the Spin-Boson model is well suited since contrary to the Dissipative two-level system presented in \autoref{sec:nmqsd.two_level} it does not terminate at any finite order.
+
+
+

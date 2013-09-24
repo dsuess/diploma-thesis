@@ -7,5 +7,8 @@ columnwidth = 402.32205
 # Textheight (use \showthe\textheight to display)
 textheight = 555.
 
+# DPI for pixel graphics
+DPI = 200
+
 # file format
 outformat = 'pdf'

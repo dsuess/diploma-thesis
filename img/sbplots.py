@@ -189,5 +189,5 @@ def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
 
 if __name__ == '__main__':
    # TODO Adjust parameters such that times are the same!
-   #lin_vs_nonlin_averaged()
+   lin_vs_nonlin_averaged()
    lin_norm_comparisson(single_realizations=6)

@@ -11,13 +11,14 @@
 % math stuff
 \usepackage{amsfonts, amsmath, amssymb, amsthm}
 
-% additional features
+% pictures n stuff
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf}
 \usepackage{subcaption}
+
 \usepackage{cite}
 \usepackage{enumerate}
-\usepackage{blindtext}
+
 
 \usepackage{pgf}
 \usepackage{tikz}
@@ -43,10 +44,10 @@
 % better looking font setting
 %\usepackage{microtype}
 
-\newcommand{\includetikz}[1]{%
-    \tikzsetnextfilename{#1}%
-    \input{img/#1.tikz}%
-}
+%\newcommand{\includetikz}[1]{%
+%    \tikzsetnextfilename{#1}%
+%    \input{img/#1.tikz}%
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Custom commands
@@ -54,6 +55,8 @@
 % Text commands/symbols
 \newcommand{\idef}[1]{\emph{#1}}    % Inline Definition
 \newcommand{\quotes}[1]{``#1''}
+\newcommand{\nth}[1]{\textsuperscript{#1}\,}
+\renewcommand{\th}{\nth{th}}
 
 % Math Macros
 \newcommand{\cc}[1]{{#1}^*}
@@ -110,6 +113,8 @@
 \newcommand{\kk}{\vec{k}}
 \newcommand{\zz}{\vec{z}}
 \newcommand{\ww}{\vec{w}}
+\newcommand{\qq}{\vec{q}}
+\newcommand{\QQ}{\vec{Q}}
 
 \newcommand{\psit}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
@@ -145,6 +150,9 @@
 \newcommand{\Hsys}{H}
 \newcommand{\Henv}{H_\mathrm{env}}
 \newcommand{\Hint}{H_\mathrm{int}}
+\newcommand{\opH}[1]{H_\mathrm{#1}}
+\newcommand{\opT}[1]{T_\mathrm{#1}}
+\newcommand{\opV}[1]{V_\mathrm{#1}}
 
 % Math Sets
 \newcommand{\Complex}{\mathbb{C}}
@@ -182,7 +190,6 @@
          \def\subsubsectionautorefname{Section}%
          \def\Itemautorefname{Item}%
          \def\tableautorefname{Table}%
-         \def\thmautorefname{Theorem}%
          \orgautoref}
 
 % \Autorefs is plural for the beginning of the sentence
@@ -210,7 +217,6 @@
          \def\subsubsectionautorefname{Sect.}%
          \def\Itemautorefname{item}%
          \def\tableautorefname{Table}%
-         \def\thmautorefname{Theorem}%
          \orgautoref}
 
 % \autorefs is plural for inside a sentence
@@ -229,7 +235,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\includeonly{nmqsd}
-\includeonly{numerics}
+%\includeonly{numerics}
+\includeonly{application}
 
 \begin{document}
 \frontmatter
@@ -239,6 +246,7 @@
 \include{introduction}
 \include{nmqsd}
 \include{numerics}
+\include{application}
 \include{conclusions}
 
 \appendix

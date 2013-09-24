@@ -16,3 +16,5 @@ tikz/
 img/spinboson/
 references.bib.bak
 img/settings.pyc
+img/*.png
+img/fmo/*.pdb
