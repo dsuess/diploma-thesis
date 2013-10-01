@@ -4,42 +4,73 @@
 % * little History
 % * alternatives standard (projection?), pseudomodes
 % * relevant/irre
+%
+% FIXME Citations
 
+The description of open quantum systems in terms of diffusive stochastic differential equations has a long tradition \cite{}.
+At first, seen merely as a tool to unravel a given master equation of Lindblad type, it was realized later that they posses a strong microscopical foundation in terms of continuous measurements or memoryless quantum environments \cite{}.\\
+
+
+
+% ✔ same applies to nmqsd unravelling: \cite{St96_lin_nmqsd}; microscopical theory: ...
+%     => later is described in first section
+% ✔ on its basis we derive a linear NMSSE, completely equivalent to micro. model, but numerical inferior
+% * key point in hierachy later
+
+Its non-Markovian generalization, the non-Markovian quantum state diffusion (NMQSD), took a quite similar path, which we roughly follow in this chapter:
+Although first discovered as an unravelling for the Feynman-Vernon influence functional in terms of stochastic propagators \cite{St96_lin_nmqsd}, the corresponding non-Markovian stochastic Schrödinger equation (NMSSE) was derived based upon the standard open-system-model, which we \cm{recall} in \autoref{sec:nmqsd.model}.
+Following the lines of Diósi, Strunz and Gisin \cite{DiSt97_nmsse,DiGiSt98_nmqsd,StDiGi99_nmq_traj} we derive both a linear and numerically superior non-linear version of the NMSSE in \autoref{sec:nmqsd.lin_nmsse} and~\ref{sec:nmqsd.nonlin_nmsse} respectively.
+
+% * interpreation no so clear as markovian case
+% * finite temperature, since derivation depends on vacuum initial bath state
+%
+% * study exemplary system, propose direct solution for T=0
+
+\Autoref{sec:nmqsd.interpretation} is concerned with the question if our NMSSE has a physical interpretation or is just merely a computational tool.
+%FIXME
+\cm{Anschließend} we drop the requirement of zero initial temperature used in the \cm{vorherig} sections.
+This chapter is \cm{abgeschlossen} by the treatment of an analytically soluble two-level system at zero temperature.\\
+
+%FIXME Reference ok?
+Most of the material covered can be found in reference \cite{St01_habil}, which we follow loosely.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Microscopical Model}
 \label{sec:nmqsd.model}
-% * standard model (why oscillators, why linear coupling?)
-% * reservoir/environment
-% * initial states
+% ✔ standard model (why oscillators, why linear coupling?)
+% ✔ reservoir/environment
+% ✔ initial states
 %
-% TODO Begin more positive!
-% TODO elaborate on why we choose linear coupling
-% TODO Nonlinear models?
-% TODO initial state; correlation function
-% TODO Typical correlation functions for infinite systems; decay rate, etc.
-% TODO Why oscillator bath?! Feynman Hibbs p.354 --> all cold baths are equivalent
-% TODO This correlation function only T=0, general see Weiss (6.11)
-% TODO Correlation function --> fluctuation/dissipation theorem
+% TODO Physical examples for such a model
+% TODO Why harmonic oscillators for bosonic bath
+% TODO Picture
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Although the first and foremost goal of our work is the description of the system's reduced dynamics, we focus on a full system-environment description at first.
-On one hand this serves the purpose to better understand the emergence of the typical phenomena when dealing with open quantum systems and their dependence on the bath.
-But more important, starting with a closed quantum system is the only strategy that enables a derivation from first principles, in our case the Schrödinger equation.
-A last argument in favor of the microscopic approach, PRODUCT STATES, ENTANGLEMENT, etc. ---we will not dwell on the this any further.\\
+It is the foremost goal of this work to obtain a dynamical equation for an open quantum system.
+Nevertheless we introduce a full model of system and its environment first, the bosonic and non-relativistic standard model of an open quantum system extensively studied for example in the book of Weiss \cite{We99_dissipative_systems}.
+There are three reasons for such a microscopical approach:
+On one hand this serves the purpose to better understand the physical origin of macroscopical properties used to characterize the bath later on.
+But more important, starting with a closed quantum system is the only strategy allowing us to derive the NMSSE from first principles, namely the Schrödinger equation.
+%FIXME
+A last argument in favor of the microscopic approach, PRODUCT STATES, ENTANGLEMENT, etc. ---we will not dwell on this any further.\\
 
-As a starting point we consider an environment consisting of a finite number $N$ of uncoupled harmonic oscillators.
-%\footnote{We will use "environment", "reservoir" and "bath" interchangeably, altough the later two suggest a large size compared to the system.}
-This model has been studied extensively for example in the book of Weiss \cite{We99_dissipative_systems}.
-The generalization to an infinite number can be carried out formally along the same lines, replacing sums by infinite series or even integrals; a different approach within our framework is presented later.
-The dynamics of both the system and the environment are then described by a unitary time evolution governed by the Hamiltonian
+
+As a starting point we consider an environment consisting of a finite number $N$ of uncoupled harmonic oscillators\footnote{%
+  We use \quotes{environment}, \quotes{reservoir} and \quotes{bath} interchangeably, altough the later two suggest a large size compared to the system.
+}.
+A Generalization to an infinite number can be carried out formally along the same lines, replacing sums by infinite series or even integrals; a different approach within our framework is presented later.
+The dynamics of both system and environment are then described by a unitary time evolution with the Hamiltonian
 \begin{equation}
   \Htot = \Hsys \otimes \unit  +  \unit \otimes \Henv  +  \Hint,
   \label{eq:nmqsd.Htot}
 \end{equation}
-where $\Hsys$ and $\Henv$ are the free Hamiltonians of the system and the bath respectively.\footnote{For some models like the damped harmonic oscillator \cite{CaLe83_diss_system} an additional renormalization term arises from the interaction. Nevertheless such a contribution is best attributed to $\Hsys$ since it only acts on the system's Hilbert space.}
-The later is a sum over independent harmonic oscillators $\Henv = \sum_\lambda \omega_\lambda \adj{a}_\lambda a_\lambda$ expressed in the ladder operators $a_\lambda$ and $\adj{a}_\lambda$ of the $\lambda$-th mode with frequency $\omega_\lambda$.
+where $\Hsys$ and $\Henv$ are the free Hamiltonians of the system and the bath respectively.\footnote{%
+  For some models like the damped harmonic oscillator \cite{CaLe83_diss_system} an additional renormalization term arises from the interaction.
+  Nevertheless such a contribution is best attributed to $\Hsys$ since it only acts on the system's Hilbert space.
+}
+The latter is a sum over independent harmonic oscillators $\Henv = \sum_\lambda \omega_\lambda \adj{a}_\lambda a_\lambda$ expressed in bosonic ladder operators $a_\lambda$ and $\adj{a}_\lambda$ of the $\lambda$\th mode with frequency $\omega_\lambda$.
 Treating a finite number of independent reservoirs poses no further difficulties and therefore is not elaborated in this section.
 
 For the interaction between environment and system we confine ourselves to the case of linear coupling
@@ -47,29 +78,35 @@ For the interaction between environment and system we confine ourselves to the c
   \Hint = \sum_\lambda \cc{g}_\lambda \, L \otimes \adj{a}_\lambda + g_\lambda \, \adj{L} \otimes a_\lambda.
   \label{eq:nmqsd.Hint}
 \end{equation}
-Here $L$ denotes the coupling operator in the system's Hilbert space and $g_\lambda \in \Complex$ the coupling strength of the $\lambda$-th mode.
-Since in typical examples the coupling of an individual bath mode scales inversely with the environment size \cite{We99_dissipative_systems} the linear coupling in~\ref{eq:nmqsd.Hint} seems reasonable for macroscopic large environments.
-%TODO stop repetition in "environment"
+Here $L$ denotes the coupling operator in the system's Hilbert space and $g_\lambda \in \Complex$ the coupling strength of the $\lambda$\th mode.
+% FIXME More details, taylor expansion?
+Since in typical examples the coupling of an individual bath mode scales inversely with the environment size \cite{We99_dissipative_systems}, the linear coupling in~\ref{eq:nmqsd.Hint} seems reasonable for macroscopic large environments.
+%FIXME stop repetition in "environment"
 But our framework also incorporates small environments---even to the extreme of a single harmonic oscillator---with strong coupling as well.
-For such cases the linearity needs to be seen as a further assumption of the model.
+For such cases the linearity needs to be imposed as another assumption of the model.
 
-Beside the Hamiltonian the choice of initial conditions influences the system's subdynamics as well.
+Beside the Hamiltonian another important influence on the system's subdynamics is the initial state, specifically the initial entanglement between system and bath.
 Throughout this work we only consider product initial conditions, where the bath is in the vacuum state with respect to all $a_\lambda$
 \begin{equation}
   \ket{\Psi_0} = \ket{\psi_0} \bigotimes\limits_\lambda \ket{0_\lambda}.
   \label{eq:nmqsd.initial_conditions}
 \end{equation}
-These allow us to treat thermal bath states as we show in \autoref{sec:nmqsd.temperature}.\\
+Such a choice is not as restrictive as it seems on first glance: In \autoref{sec:nmqsd.temperature} we show how a thermal bath state can be mapped to~\ref{eq:nmqsd.initial_conditions}.
+% FIXME cite Richard
+However whether the NMSSE is applicable to initially entangled states is a question of current research.\\
+
+
 
 To absorb the free dynamics of the environment in time dependent creation and annihilation operators, we switch to the interaction picture with respect to $\Henv$.
-Since the bath operators only obtain an additional phase $\exp[\pm \ii \omega_\lambda t]$, the transformed Hamiltonian from \autoref{eq:nmqsd.Htot} reads\footnote{We refrain from introducing another label to distinguish between time-evolution pictures---in what follows we always work in the interaction picture.}
+Since the bath operators only obtain an additional phase $\exp[\pm \ii \omega_\lambda t]$, the transformed Hamiltonian from \autoref{eq:nmqsd.Htot} reads\footnote{%
+  We refrain from introducing another label to distinguish between time-evolution pictures---in what follows we always work in the interaction picture.
+}
 \begin{equation}
   \Htot(t) = \Hsys \otimes \unit  +  \sum_\lambda \left( \cc{g}_\lambda \exp[\ii \omega_\lambda t] \, L \otimes \adj{a}_\lambda + g_\lambda \exp[-\ii \omega t] \, \adj{L} \otimes a_\lambda \right).
   \label{eq:nmqsd.Htot}
 \end{equation}
-Our choice of unentangled initial conditions with a thermal bath state ensures that the reduced density operator remains unaffected under the change of time-evolution picture.
+Our choice of unentangled initial conditions with a vacuum bath state ensures that the reduced density operator remains unaffected under the change of time-evolution picture.
 
-%TODO This is just copied!
 It is instructive to rewrite the last equation using the operator valued force
 \begin{equation}
   B(t)=\sum_\lambda g_\lambda a_\lambda \exp[-\ii\omega_\lambda t].
@@ -77,119 +114,129 @@ It is instructive to rewrite the last equation using the operator valued force
 \end{equation}
 The total Hamiltonian then reads $\Htot(t) = \Hsys \otimes \unit  +  L \otimes \adj{B(t)}  +  \adj{L} \otimes B(t)$.
 Already from this equation it can be seen, that the complete action of the environment on the system is encoded in the operators $B(t)$.
-%TODO Really?
-In \autoref{sub:nmqsd.interpretation.time_osci} we introduce an explicit representation of these force operators and discuss their relation with the classical driving and friction forces.
-An important---and within our model the only---characteristic of them is the correlation function
-\begin{equation*}
-  \alpha(t-s) = \big\langle  (B(t) + \adj{B(t)})(B(s) + \adj{B(s)}) \big\rangle_\rho,
-\end{equation*}
-where $\langle\cdot\rangle_\rho$ stands for the quantum average over the bath state $\rho$.
+An important---and within our model the only---characteristic of them is the correlation function $\alpha(t-s) = \big\langle  (B(t) + \adj{B(t)})(B(s) + \adj{B(s)}) \big\rangle_\rho$ for an arbitrary bath state $\rho$.
 For a thermal state at temperature $T$, the correlation function can be calculated analytically \cite{FeHi10_path_integrals}
 \begin{equation}
-  \alpha_\beta(t - s) = \sum_\lambda  \vert g_\lambda \vert^2  \left( \operatorname{coth} \frac{\beta\omega_\lambda}{2} \, \cos \omega_\lambda (t-s)  -  \ii \sin \omega_\lambda(t-s) \right).
+  \alpha_T(t - s) = \sum_\lambda  \abs{g_\lambda}^2  \left( \operatorname{coth} \frac{\omega_\lambda}{2T} \, \cos \omega_\lambda (t-s)  -  \ii \sin \omega_\lambda(t-s) \right).
   \label{eq:nmqsd.thermal_correlation_function}
 \end{equation}
-In the limit of zero temperature and under the natural assumption that $\omega_\lambda > 0$, \Autoref{eq:nmqsd.thermal_correlation_function} goes over to
-%TODO Add
+Introducing the spectral density $J(\omega) = \sum_\lambda \abs{g_\lambda}^2 \delta(\omega - \omega_\lambda)$ and taking the limit $T \to 0$, the above equation can be rephrased as
+\begin{equation}
+  \alpha(t - s) = \qmean{B(t)\adj{B(s)}}_0 = \int_0^\infty J(\omega) \exp[-\ii\omega (t-s)] \dd \omega.
+  \label{eq:nmqsd.correlation_function}
+\end{equation}
+In other words, the correlation function is simply given as one-sided Fourier transform of the spectral density.
+% TODO Check this!
+Of course this connection between response function and power spectrum---and its general form for $T\neq0$---is well known as fluctuation-dissipation relation.
+Since a genuine physical spectral density is real, we require admissible correlation function to be hermitian $\alpha(-t) = \cc{\alpha(t)}$.\\
+
+% TODO Types of correlation function, incommensurate frequencies, generalization --> contiuum-approximation, exp. decay, Markov, inclussion of negative frequencies,
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Linear NMSSE}
 \label{sec:nmqsd.lin_nmsse}
-% * Bargman States, hilbert space valued functions
-% * derivation
+% ✔ Bargman States, hilbert space valued functions
+% ✔ derivation
 % * problems, non-locality in noise
-% * reduced density operator
+% ✔ reduced density operator
 % * relative state --> interpretation; but also connection with H_s valued functions
-% * zero temperature, importance for calculations
+% ✔ zero temperature, importance for calculations
 % * quantum trajectory Carmichael
 %
-% TODO define \HHsys
-% TODO Citations for full dynamics
-% TODO Short proof for analyticity
-% TODO Why we write \cc\zz always?
-% TODO Proove of functional chain rule?
-% TODO Citations of Strunz papers
-% TODO stochastic <-> function are the same thing!
 % TODO relation to unravelling
-% TODO Good, since arbitary α --> infinite size system
+% TODO Make clear that interaction picture does not matter for purely system observables
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The first step toward a solution of the full equations of motion~\ref{eq:???} for a realistic system is a reformulation first proposed by Diósi and Strunz\cite{DiSt97_nmsse}:
-Expressing the bath degrees of freedom in the Segal-Bargmann Hilbert space of analytic functions\cite{Ba61_coherent_states,Se???} provides a representation that is well suited for a Monte-Carlo treatment.
-To this end we introduce the unnormalized coherent state $\ket{z_\lambda} = \exp(z_\lambda \adj{a}_\lambda)\ket{0_\lambda}$ for each mode.
-With the shorthand notation $\ket{\zz} = \bigotimes_\lambda \ket{z_\lambda}$, the resolution of the identity for the environment reads
+The linear non-Markovian stochastic Schrödinger equation derived in this section is an equivalent reformulation of the interaction-picture Schrödinger equation
+\begin{equation}
+  \partial_t \ket{\Psi_t} = -\ii \Htot(t) \ket{\Psi_t}, \qquad \ket{\Psi_0} = \ket{\psi_0} \otimes \ket{0},
+  \label{eq:nmqsd.schroedinger_ia}
+\end{equation}
+corresponding to the model of the last section:
+Expressing the bath degrees of freedom in the Bargmann Hilbert space of anti-holomorphic functions\cite{Ba61_coherent_states} provides a representation that is well suited for a Monte-Carlo treatment.
+To this end we introduce the unnormalized coherent state $\ket{z_\lambda} = \exp(z_\lambda \adj{a}_\lambda)\ket{0_\lambda}$ for each mode with resolution of the identity for the environment
 \begin{equation}
   \unit = \int \frac{\exp[-\abs{\zz}^2]}{\pi^N} \, \ket{\zz}\bra{\zz} \dd^{2N}z,
   \label{eq:nmqsd.identity}
 \end{equation}
-where the integration measure is given by $\dd^{2N}z = \prod_\lambda \dd\Re z_\lambda \dd\Im z_\lambda$.
-Throughout this work we often use the shorthand notation $\mudz = \pi^{-N} \exp(-\abs{\vec z}^2) \dd^{2N}z$, which turns out to be meaningful even for an uncountable number of bath oscillators.
+Here we employ the shorthand notation $\ket{\zz} = \bigotimes_\lambda \ket{z_\lambda}$ and the \quotes{volume} integration measure for $N$ complex numbers $\dd^{2N}z = \prod_\lambda \dd\Re z_\lambda \dd\Im z_\lambda$.
+Throughout this work the finite bath is often replaced by a continuum of oscillators; therefore we simply write $\mudz = \pi^{-N} \exp(-\abs{\vec z}^2) \dd^{2N}z$ to drop an explicit reference to $N$.
+% TODO Rigorous existence?
+
 \Autoref{eq:nmqsd.identity} allows us to express the full state in a time-independent environment basis
 \begin{equation*}
   \ket{\Psi_t} = \int \ket{\psi_t(\cc\zz)} \otimes \ket{\zz} \mudz.
 \end{equation*}
-For the following derivation it is important to notice that the Segal-Bargmann transform $\zz \mapsto \psi_t(\cc\zz)$ is an anti-holomorphic, $\HHsys$ valued function.
-It is equivalent to any other representation of the full state $\ket{\Psi_t}$.
-Although the coherent states are not orthogonal, but rather satisfy $\braket{\vec w}{\vec z} = \exp(\sum_\lambda \cc w_\lambda z_\lambda)$, we can write for the reduced density matrix
+For the following derivation it is crucial to notice that the Bargmann transform $\zz \mapsto \psi_t(\cc\zz)$ is an anti-holomorphic function with values in the system's Hilbert space $\HHsys$.
+Naturally it is equivalent to any other representation of the full state $\ket{\Psi_t}$.
+As the coherent states are not orthogonal, but rather satisfy $\braket{\vec w}{\vec z} = \exp(\sum_\lambda \cc w_\lambda z_\lambda)$, the reduced density operator, obtained by tracing over the bath degrees of freedom, reads
 %TODO Does this need a prove?
 \begin{equation}
   \rho(t) = \Tr{env} \ket{\Psi_t}\bra{\Psi_t}
           = \int \ket{\psi_t(\cc\zz)}\bra{\psi_t(\cc\zz)} \mudz.
   \label{eq:nmqsd.reduced_matrix}
 \end{equation}
-After fixing the kinematic structure, the next step is to rewrite the dynamics: the representation of the ladder operators follow from the usual rules $\bra\zz \adj{a}_\lambda = \cc z_\lambda \bra\zz$ and $\bra\zz a_\lambda = \partial_{\cc z_\lambda} \bra\zz$\cite{???}.
-These expressions give us the complete Schrödinger equation~\ref{eq:???} in the transformed space
+
+% Only Schrödinger equation point of view!
+% FIXME Citations of Strunz papers
+After fixing the kinematic structure, the next step is to rewrite the dynamical equation:
+The representation of the ladder operators follow from the usual rules $\bra\zz \adj{a}_\lambda = \cc z_\lambda \bra\zz$ and $\bra\zz a_\lambda = \partial_{\cc z_\lambda} \bra\zz$.
+These expressions applied to \autoref{eq:nmqsd.schroedinger_ia} give us the system-bath Schrödinger equation in the transformed space
 \begin{equation}
   \partial_t \psi_t(\cc\zz) = -\ii\Hsys\psi_t(\cc\zz)  -  \ii L \sum_\lambda \cc g_\lambda \exp[-\ii\omega_\lambda t] \cc z_\lambda \, \psi_t(\cc\zz)  -  \ii \adj{L} \sum_\lambda g_\lambda \exp[\ii\omega_\lambda t] \, \frac{\partial \psi_t}{\partial z_\lambda}(\cc\zz).
   \label{eq:nmqsd.hamiltonian_microsopic}
 \end{equation}
-Introducing an effective driving process similar to \autoref{eq:nmqsd.force_operator}
+Introducing an effective driving process like in \autoref{eq:nmqsd.force_operator}
 \begin{equation}
   \ZZ_t(\cc\zz) = - \ii \sum_\lambda \cc g_\lambda \exp[\ii \omega_\lambda t] \cc z_\lambda
   \label{eq:nmqsd.stochastic_process}
 \end{equation}
-allows us to combine the effect of the first bath-interaction term into a single operator.
-%TODO Proof?
+allows us to combine the effect of the first bath-interaction term into a single multiplication operator---or process for reasons explained in the next paragraph.
+% FIXME Proof of functional chain rule?
 A similar conversion works for the second term as well with the help of the functional chain rule $\frac{\partial}{\partial \cc z_\lambda} = \int \frac{\partial \ZZ_s}{\partial\cc z_\lambda} \frac{\delta}{\delta \ZZ_s} \dd s$.
-our new equation of motion for the Segal-Bargmann transform reads
+Combined our new equation of motion ---the non-Markovian stochastic Schrödinger equation---reads
 \begin{equation}
   \partial_t \psi_t = -\ii\Hsys\psi_t  +  L\ZZ_t\psi_t  -  \adj{L} \int_0^t \alpha(t-s) \frac{\delta \psi_t}{\delta \ZZ_s} \dd s.
   \label{eq:nmqsd.nmsse}
 \end{equation}
-As we shown in \autoref{sub:nmqsd.interpretation.unitary_view}, the integral boundaries arise due to the vacuum initial conditions~\ref{eq:nmqsd.initial_conditions}.
-These render $\psi_0$ independent from the driving process, such that causality can be used to confine the integral domain.\\
+As we shown in \autoref{sub:nmqsd.interpretation.unitary_view}, the integral boundaries arise due to the initial conditions~\ref{eq:nmqsd.initial_conditions}; a less formal argumentation goes as follows:
+By construction of our processes~\ref{eq:nmqsd.stochastic_process} an initial state $\ket{\psi_0}\otimes\ket{0}$ translates to an initial $\psi_0(\ZZ)$ that is completely independent of any noise.
+Then causality implies that $\psi_t$ can only depend on $\ZZ_s$ for $0 \le s \le t$.\\
 
 
-Up to now we have always referred to \autoref{eq:nmqsd.nmsse} as a transformed Schrödinger equation in the full Hilbert space of both system and bath.
-A different attitude is common as well: \Autoref{eq:nmqsd.reduced_matrix} can be rewritten as $\rho_t = \E[\ket{\psi_t}\bra{\psi_t}]$, where $\E\,\dots$ denotes the average over $\mudz = \pi^{-N} \exp(-\abs{\vec z}^2) \dd^{2N}z$.
-Put differently the reduced density matrix $\rho_t$ arises as average over the stochastic pure state projectors $\ket{\psi_t(\zz)}\bra{\psi_t(\zz)}$.
-Hence we regard \autoref{eq:nmqsd.nmsse} as a stochastic differential equation for the realisation $\psi_t(\zz)$.
-We refer to the later either as system state relative to $\ket{\zz}$ or, in the spirit of the stochastic Schrödinger equations emerging from continuous measurements \cite{Ca93_quantum_optics}, as quantum trajectory.
-%TODO Add, why we may write \psi_t(\ZZ)
-%TODO Better word then driving process?
-In this approach the driving process $\ZZ_t$ is implemented as classical stochastic process.
-For now it is defined by its concrete version~\ref{eq:nmqsd.stochastic_process} and the underlying probability measure $\mu$.
-Hence we see that it is a complex gaussian process with
+
+Up to this point we have merely rewritten the original Schrödinger equation~\ref{eq:nmqsd.schroedinger_ia} to an equivalent form:
+The original system-bath product Hilbert space $\HHsys \otimes \HHenv$ is replaced by a Hilbert space of $\HHsys$-valued functions.
+A different attitude is quite fruitful, especially with a numerical solution of the NMSSE in mind:
+\Autoref{eq:nmqsd.reduced_matrix} can be rewritten as $\rho_t = \E[\ket{\psi_t}\bra{\psi_t}]$, where $\E$ denotes the average over $\mudz = \pi^{-N} \exp(-\abs{\vec z}^2) \dd^{2N}z$.
+Put differently the reduced density matrix $\rho_t$ arises by averaging over the stochastic pure state projectors $\ket{\psi_t(\cc\zz)}\bra{\psi_t(\cc\zz)}$ with Gaussian weight $\mudz$.
+Hence we regard \autoref{eq:nmqsd.nmsse} as a stochastic differential equation for individual realisations $\psi_t(\cc\zz)$.
+We refer to the later either as system state relative to $\ket{\zz}$ or, in the spirit of the stochastic Schrödinger equations emerging from continuous measurement theory \cite{Ca93_quantum_optics}, as quantum trajectory.
+
+In this approach the driving force $\ZZ_t$ is implemented as classical stochastic process defined by the concrete version~\ref{eq:nmqsd.stochastic_process} and the underlying probability measure $\mu$.
+It is a complex Gaussian process uniquely characterized by its expectation value and covariances
 \begin{equation}
-  %TODO Z_t compared to \ZZ_s looks strange! The subscript is moved.
+  %FIXME Z_t compared to \ZZ_s looks strange! The subscript is moved.
   \E\,Z_t = 0, \quad \E\,Z_t Z_s =0, \quad\mbox{and}\quad \E\,Z_t \ZZ_s = \alpha(t-s),
   \label{eq:nmqsd.process_properties}
 \end{equation}
-where $\alpha$ is the zero-temperature correlation function~\ref{eq:???}.
-Later on we use these properties to generalize our framework to an environment of infinite size.
+where $\alpha$ is the zero-temperature correlation function~\ref{eq:nmqsd.correlation_function} for $J(\omega) = \sum_\lambda \abs{g_\lambda}^2 \delta(\omega - \omega_\lambda)$.
+By virtue of the initial conditions, $\psi_t$ depends on $\zz$ only through the driving process; thus we can drop the coherent state labels and simply write $\psi_t(\ZZ)$ denoting the trajectory corresponding to a realisation $\ZZ(\cc\zz)$.
+It is this alternative point of view that makes the NMSSE-approach so powerful:
+The entire influence of the environment is encoded in a complex function $\alpha$, which acts both as correlation function for the driving noise $\ZZ$ and as memory kernel for the damping term.
+A generalization to an arbitrary number of bath-oscillators is now straightforward: simply replacing the correlation function allows an unified description of arbitrary harmonic environments.
 
-% TODO This needs some refinement!
-Except in the limit $\alpha(t) \propto \delta(t)$, which is elaborated in the next paragraph, the driving process $\ZZ_t$ shows correlation for different times.
+Except in the limit $\alpha(t) \propto \delta(t)$, elaborated in the next paragraph, the driving process $\ZZ_t$ is correlated for different times.
 This non-Markovian behavior, which makes a complete understanding of the dynamics highly desirable for application but also considerably harder, shows up in the equation of motion~\ref{eq:nmqsd.nmsse} as well.
-The last term contains the functional derivative over the whole timespan and therefore takes the complete history of $\psi_t(\ZZ)$ into account.
+The damping term contains the functional derivative over the whole timespan and therefore takes the complete history of $\psi_t(\ZZ)$ into account.
 In its own right the derivative is just as problematic:
-% TODO Good idea to question SSE-approach; maybe only refer to numerics
-% TODO Quite long sentence!
-% TODO Refer to \cite{GaWi02_real_nmsse}?
-Since its computation requires not only the realisation $\ZZ_t$, but in some sense all adjacent ones too, it even seems questionable to regard the NMSSE~\ref{eq:nmqsd.nmsse} as a genuine stochastic differential equation, not speaking of a numerical implementation.
-
-%Both points of view, regarding $\psi_t(\zz)$ as an equivalent description for the complete state and as individual realisations of a random system state, are discussed further in \autoref{sec:nmqsd.interpretation}.
+% FIXME Quite long sentence!
+Since its computation requires not only the single realisation $\ZZ$, but in some sense all adjacent ones as well, it seems questionable to regard the NMSSE~\ref{eq:nmqsd.nmsse} as a genuine stochastic differential equation \cite{GaWi02_real_nmsse}.
+% FIXME DOOMED???
+Even from the purely pragmatic point of view both kinds of non-local behavior complicate a direct numerical simulation of the NMSSE, if not making it completely impracticable.
+Nevertheless there are two quite distinct solutions as shown in \autoref{sub:nmqsd.lin_nmsse.convolutionless} and \autoref{chap:num}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,49 +246,82 @@ Since its computation requires not only the realisation $\ZZ_t$, but in some sen
 % * problem with negative energy oscillators
 % * relation to lindblad/markovian sse
 % * Ito vs Stratonovich
+%
+% FIXME Polish introduction
+% FIXME Is dropping γ wise?
 
-The application of stochastic differential equations in the field of open quantum systems (and quantum optics in particular) has a long tradition \cite{???}.
-However most of this work is concerned with Markovian systems, which rely on two physical assumptions:
-% TODO Good style?, What does memoryless actually mean?
-% TODO Why weak coupling?
+The best understood open systems are Markovian.
+Based upon two physical assumptions, namely
+% FIXME Good style?, What does memoryless actually mean?
 \begin{description}
   \item[weak coupling] of the system to the reservoir and
-  \item[memoryless environment,] that is the time evolution is completely time-local.
+  \item[memoryless environment,] that is the time evolution is completely time-local,
 \end{description}
-% TODO Too much we.
-Although in the next section we introduce an equivalent convolutionless formulation, which disposes the time-nonlocal functional derivative, the NMSSE does not in general satisfy the latter condition due to the driving process.
+it is possible to derive a general form of a master equation governing the reduced dynamics \cite{Li76_generators_qdsg}.
+Of course, the NMSSE is much more general.
 It is only in the standard Markovian limit $\alpha(t) = \gamma\delta(t)$ we can expect to obtain an equation of motion that describes a reduced time evolution without memory.
 A rescaling of the coupling operator $L$ allows us to set $\gamma = 1$ without loss of generality.
 
-% TODO Really?
-As shown in \autoref{???} the vacuum initial conditions $\frac{\delta \psi_0}{\delta \ZZ_s} = 0$ for all $s \in \Reals$ imply for an arbitrary bath correlation function
+The vacuum initial conditions $\frac{\delta \psi_0}{\delta \ZZ_s} = 0$ with $s \in \Reals$ imply for an arbitrary bath correlation function
 \begin{equation}
-  \frac{\delta \psi_t}{\delta \ZZ_t} = L \psi_t \quad (t > 0).
-  \label{eq:nmqsd.dpsit_dzt}
+  \frac{\delta \psi_t}{\delta \ZZ_t} = \frac{1}{2} \, L \psi_t \qquad (t > 0)
+  \label{eq:nmqsd.deriv_psit}
 \end{equation}
-Since we assumed $\alpha(t-s)$ to be heavily sharply peaked around $s = t$ this is the only contribution of the functional derivative.
-Using the convention $\int_0^t \delta(t-s) \dd s = \frac{1}{2}$ \autoref{eq:nmqsd.nmsse} then reads
+as we show now.
+% FIXME Really? Only due to interaction picture.
+It is clear from its derivation that the NMSSE describes a unitary, time-dependent evolution.
+Therefore it can be solved formally using the Dyson series
+\begin{equation}
+  \psi_t(\ZZ) = \sum_{n=0}^\infty (-\ii)^n \intl{0}{t}{t_1} \intl{0}{t_1}{t_2} \dots \intl{0}{t_{n-1}}{t_n}  \Htot(t_1) \dots \Htot(t_n) \, \psi_0,
+  \label{eq:nmqsd.dyson}
+\end{equation}
+where $\Htot(t)$ is the reformulation of~\ref{eq:nmqsd.Htot} given by
+\begin{equation*}
+  -\ii \Htot(t) = -\ii \Hsys + L \ZZ_t - \adj{L} \intl{-\infty}{\infty}{s} \alpha(t-s) \frac{\delta}{\delta \ZZ_s}.
+\end{equation*}
+Throughout this work we often use the shorthand notation $\adjZZ_t = \int\mathrm{d}s \, \alpha(t-s) \frac{\delta}{\delta \ZZ_s}$ for the last term.
+
+% FIXME More details?, Use Commutator notation instead?
+Applying the functional derivative $\frac{\delta}{\delta \ZZ_s}$ to $\Htot(t)$ gives a single contribution $\ii \delta(t - s) L$, since both $\Hsys$ and $\adjZZ_t$ are independent of the noise.
+% FIXME
+% FIXME Talk about this with W
+% FIXME
+This allows us to calculated $\frac{\delta \psi_t}{\delta \ZZ_t}$ order by order in \autoref{eq:nmqsd.dyson}---the derivative of $\psi_0$ vanishes as imposed by the initial conditions.
+We obtain for the term with a $n$-fold time-integral neglecting a constant phase
+\begin{equation*}
+  \intl{0}{t}{t_1} \dots \intl{0}{t_{n-1}}{t_n} \Big( \delta(t_1 - t) L \Htot(t_2) \dots \Htot(t_n) + \dots + \delta(t_n - t) \Htot(t_1) \dots L \Big).
+\end{equation*}
+We notice that the $i$\th summand contributes only if $t_i = t$:
+For $i = 1$ this is exactly the integral boundary while for $i=2,\dots,n$ the integral boundary reaches $t$ only for $t_1 = t$.
+As the latter condition has vanishing weight under the $t_1$ integral we eventually find \autoref{eq:nmqsd.deriv_psit}.
+
+Let us return to the Markov limit of our NMSSE\@.
+By virtue of the singular correlation function $\alpha = \delta$ the time-nonlocal damping operator reduces to a time-local form $\adjZZ_t = \frac{\delta}{\delta \ZZ_t}$ as it is expected from a memoryless environment.
+Combined with \autoref{eq:nmqsd.deriv_psit} this leads to simple stochastic differential equation
 \begin{equation*}
   \partial_t \psi_t(\ZZ) = -\ii \Hsys \psi_t(\ZZ) + L\ZZ_t\psi_t(\ZZ) - \frac{1}{2}\adj{L}L\psi_t(\ZZ),
 \end{equation*}
-where the driving process is a complex White Noise with $\E{Z_t \ZZ_s} = \delta(t-s)$.
-In a formally exact manner the equation above should be written as
+driven by a complex White Noise $Z_t$ with $\E{Z_t \ZZ_s} = \delta(t-s)$.
+In a formally exact fashion the equation above should be written as
 \begin{equation}
   \dd\psi_t = (-\ii\Hsys\psi_t - \frac{1}{2} \adj{L}L \psi_t) \dd t + L\psi_t \dd \cc\xi_t
   \label{eq:nmqsd.ito}
 \end{equation}
-with a complex Brownian motion $\xi_t$.
-In order to define the solution $\psi_t$ uniquely we need to specify an appropriate interpretation of the stochastic differential equation \cite[p.~36]{Ok03_sde}:
-We imagine the Brownian motion as a limit of stochastic processes $\xi^{(n)}_t \to \xi_t$, which are continuously differentiable with respect to time, then \autoref{eq:nmqsd.ito} transforms into a deterministic differential equation.
+with a standard complex Brownian motion $\xi_t$.
+It is well known that such stochastic differential equations are problematic as $\xi_t$ is not differentiable with respect to time.
+To define the solution $\psi_t$ uniquely we need to specify an appropriate interpretation of the stochastic differential equation \cite[p.~36]{Ok03_sde}:
+We imagine the Brownian motion as a limit of stochastic processes $\xi^{(n)}_t \to \xi_t$, such that $\xi^{(n)}_t$ are continuously differentiable with respect to time.
+Replacing the Brownian motion in \autoref{eq:nmqsd.ito} by $\xi^{(n)}_t$ transforms it into a deterministic differential equation.
 The limit of corresponding solutions $\psi^{(n)}_t$ coincides with $\psi_t$ only if we understand \autoref{eq:nmqsd.ito} it the Stratonovich sense.
-However, in our case the It\=o- and the Stratonovich form agree since $\E Z_t Z_s = 0$ \cite[???]{GaCr85_handbook}.
+However, in our case the It\=o- and Stratonovich form agree since $\E Z_t Z_s = 0$ \cite{GaCr85_handbook}.\\
 
-% TODO Strange!
-The Belavkin or simply stochastic Schrödinger equation~\ref{eq:nmqsd.ito} is a well known result in continuous measurement theory or quantum optics, where it appears as an unravelling of the Linblad master equation \cite{BaGr09_trajectories,???}.
-Nevertheless our main ingredient in its derivation, namely the singular bath correlation function $\alpha(t) = \delta(t)$, shows how unphysical the Markov assumption is:
-As $\alpha$ is given by the Fourier transform of the spectral density $J$,
-% TODO Complete!
-% negative frequencies, no problem here; timescales
+% TODO Uncomment if cool
+%The Belavkin or simply stochastic Schrödinger equation~\ref{eq:nmqsd.ito} is a well known result in continuous measurement theory and quantum optics, where it appears as an unravelling of the Linblad master equation \cite{BaGr09_trajectories,???}.
+%Nevertheless our main ingredient in its derivation, namely the singular bath correlation function $\alpha = \delta$, shows how unphysical the Markov assumption is:
+%As $\alpha$ is given by the Fourier transform of the spectral density $J$, this amounts to a system coupled evenly to Oscillators of arbitrary frequency.
+%Besides
+%% TODO Complete!
+%% negative frequencies, no problem here; timescales
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Convolutionless Formulation}
@@ -250,16 +330,15 @@ As $\alpha$ is given by the Fourier transform of the spectral density $J$,
 % * why it solves problems, true stochastic equation
 % * dynamics
 % * application
-% TODO Functional taylor series?
-% TODO "Proof" for O-Operator substitution?
 
-As a cure for the last point Diósi, Gisin and Strunz \cite{DiGiSt98_nmqsd} proposed the powerful $O$-Operator substitution:
-It is based on the additional assumption, that one can replace the functional derivative by a system operator $O$, which may only depend on the realisation of $\ZZ$ itself
+% FIXME
+As a cure for the non-locality issues, Diósi, Gisin, and Strunz \cite{DiGiSt98_nmqsd} proposed the powerful $O$-Operator substitution:
+It is based on the additional assumption, that one may replace the functional derivative by a system operator $O$, which only depends on the realisation of $\ZZ$ itself
 \begin{equation}
   \frac{\delta \psi_t(\ZZ)}{\delta \ZZ_s} = O(t, s, \ZZ) \psi_t(\ZZ).
   \label{eq:nmqsd.o_substition}
 \end{equation}
-Besides getting rid of the derivative we use this substitution to derive a convolutionless form of \autoref{eq:nmqsd.nmsee} by rewritting it as
+Besides getting rid of the derivative, this substitution enables us to derive a convolutionless form of our NMSSE~\ref{eq:nmqsd.nmsse}
 \begin{equation}
   \partial_t \psi_t = -\ii\Hsys\psi_t(\ZZ)  +  L\ZZ_t\psi_t(\ZZ)  -  \adj{L} \bar O(t, \ZZ) \psi_t(\ZZ)
   \label{eq:nmqsd.nmsse_o}
@@ -269,75 +348,78 @@ with the time-local operator
   \bar O(t, \ZZ) := \int_0^t \alpha(t - s) O(t, s, \ZZ) \dd s.
   \label{eq:nmqsd.o_bar}
 \end{equation}
-Finally \autoref{eq:nmqsd.nmsse_o} is a genuine stochastic differential equation for the trajectory $\psi_t(\ZZ)$, but in the much smaller Hilbert space of the system.
-This makes it exceptionally well suited for dealing with infinite sized environments numerically, provided the $\bar O$ is known.
-%TODO replace good
-Depending on the validity of the $O$-substitution the corresponding NMSSE~\ref{eq:nmqsd.nmsse_o} might be just as good as the original microscopic equation of motion~\ref{eq:???}.
+Conclusively \autoref{eq:nmqsd.nmsse_o} turns into a genuine stochastic differential equation for the trajectory $\psi_t(\ZZ)$, but in the much smaller Hilbert space of the system.
+This makes it exceptionally well suited for dealing with infinite sized environments numerically, provided the $\bar O$-operator is known.
+Depending on the validity of the $O$-substitution the corresponding convolutionless NMSSE~\ref{eq:nmqsd.nmsse_o} might be as accurate as the original microscopic equation of motion~\ref{eq:nmqsd.schroedinger_ia}.
 
-% TODO Really?
-For a few simple models---one is presented in \autoref{sec:nmqsd.twolevel}---an exact analytic expression for $O$ is known.
-In these cases one proocedes as follows \cite{DiGiSt98_nmqsd}:
+For a few simple models---for example the dissipative two level system presented in \autoref{sec:nmqsd.twolevel} or its higher dimensional generalizations \cite{JiZhYo12_exact_nmqsd}---an exact analytic expression for $O$ is known.
+In these rare cases one proceeds as follows \cite{DiGiSt98_nmqsd}:
 From the consistency condition
 \begin{equation}
   \partial_t \frac{\delta \psi_t(\ZZ)}{\delta \ZZ_s} = \frac{\delta}{\delta \ZZ_s} \partial_t \psi_t(\ZZ)
   \label{eq:nmqsd.consistency_condition}
 \end{equation}
-and the initial condition familiar from \autoref{sec:nmqsd.markov}
+and the initial condition familiar from \autoref{sub:nmqsd.markov}
+% FIXME This does not aggree with Markov!!!
 \begin{equation}
   O(s, s, \ZZ) = L
   \label{eq:nmqsd.o_initial}
 \end{equation}
-we can derive an equation of motion for $O(t, s, \ZZ)$.
-It still contains the functional derivative, but with an appropriate ansatz for the $\ZZ$-dependence of $O$, this is transformed into a system of coupled equations independent of the noise.
-Nevertheless most treatments rely on approximation schemes, for example perturbation expansion for a small coupling parameter or nearly-Markovian environments \cite{YuDiGiSt99_pertubation}.
+we derive an equation of motion for $O(t, s, \ZZ)$.
+It still contains the functional derivative, but is converted to a system of coupled, deterministic equations using a power series ansatz
+\begin{equation}
+  O(t, s, \ZZ) = \sum_{n=0}^\infty \int_0^t \dots \int_0^t O_n(t, s, \nu_1, \dots, \nu_n) \dd \nu_1 \dots \nu_n.
+  \autoref{eq:nmqsd.o_series}
+\end{equation}
+Nevertheless most treatments rely on approximation schemes, for example a perturbation expansion for small coupling parameter or almost-Markovian environments \cite{YuDiGiSt99_pertubation}.
+% FIXME Citation
+Also a closely related hierarchy of $O$-operators provides an efficient numerical algorithm similar in concept to the main result of this work \cite{}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Master Equation}
+\subsection{Equivalent Master Equations}
 \label{sub:nmqsd.lin_nmsse.master}
 %TODO Change title
 %TODO More references to prior work?
 % * existence of master equation
 % * relation to lindblad
 
-In the last section we introduced the convolutionless formulation primarily to simplify the treatment of the non-Markovian stochastic Schrödinger equation~\ref{eq:nmqsd.nmsse}.
-Now we use it to show the connection of our approach to the master equations commonly used in the theory of open quantum systems.
-% TODO WHY?
-The latter is formulated in terms of the reduced density operator, which is recovered from the trajectories $\psi_t(\ZZ)$ by averaging over the pure states projectors $P_t = \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)}$.
-In certain cases this can be done analytically in order to derive a master equation.
+In the previous section we have introduced a convolutionless formulation primarily to simplify the treatment of the NMSSE\@.
+But the $O$-operator substitution is also essential clarify the connection to the master equations commonly used in the theory of open quantum systems.
+The latter are formulated in terms of reduced density operators, which we recover from the trajectories by averaging over the pure states projectors $P_t = \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)}$.
+For certain systems this can be done analytically in order to derive a equivalent master equation.
 
-As a simple example we focus on models which yield a $\ZZ$ independent $\bar O$-operator, such as the Jaynes-Cummings model presented in \autoref{sec:nmqsd.twolevel}.
-We follow the lines of Yu et al.~\cite{YuDiGiSt99_pertubation,YuDiGi00_master}, who also treat the general case by a systematic expansion of $O$ in the noise.
-The equation of motion for $P_t$
+As a simple example we focus on models with a $\ZZ$ independent $\bar O$-operator such as the two-level system presented in \autoref{sec:nmqsd.twolevel}.
+We follow the lines of Yu et al.~\cite{YuDiGiSt99_pertubation,YuDiGi00_master}, who also treat the general case using the functional expansion~\ref{eq:nmqsd.o_series}.
+The pure states projectors' equations of motion,
 \begin{equation}
-  \partial_t P_t = -\ii [\Hsys, P_t] + \ZZ_t L P_t - \adj{L}\bar O(t)P_t + Z_t P_t \adj{L} - P_t \adj{\bar O(t)} L
+  \partial_t P_t = -\ii [\Hsys, P_t] + \ZZ_t L P_t - \adj{L}\bar O(t)P_t + Z_t P_t \adj{L} - P_t \adj{\bar O(t)} L,
   \label{eq:nmqsd.pt_eom}
 \end{equation}
-yields a closed evolution equation for $rho_t$ after averaging over the bath degrees of freedom only if we can restate the terms containing $\ZZ_t$ in noise-independent manner.
-% TODO Why is it not possible to factorize? --> See habil
+yield a closed evolution equation for $\rho_t$ after averaging over the bath degrees of freedom only if we can restate the terms containing $\ZZ_t$ in a noise-independent manner.
 This can be done with the help of Novikov's formula \cite{No65_functionals}
-\begin{equation*}
+\begin{equation}
   \E[Z_t P_t] = \E[\intdd s \alpha(t - s) \frac{\delta}{\delta \ZZ_s} P_t].
-\end{equation*}
-% TODO Where?
-A formal proof is provided in \autoref{sec:???} but the main idea is simple:
+  \label{eq:nmqsd.novikov}
+\end{equation}
+% \FIXME
+A formal proof is provided in \autoref{sec:???}, but the main idea is simple:
 Under a Gaussian integral $\intdd^2 z \, \exp(-\abs{z}^2) \dots$ the multiplication by $z$ can be rewritten as a derivation $\partial_{\cc z}$.
-By partial integration a similar result to the equation above is obtained.
+Partial integration yields a result similar to \autoref{eq:nmqsd.novikov}.
 
-The right hand side of Novikov's formula can be simplified further.
-Since $\psi_t$ is holomorphic in $\ZZ$ we have
+The right hand side of Novikov's formula is simplified further using the $O$-operator substitution.
+Since $\ket{\psi_t}$ is analytical in $\ZZ$ and accordingly $\bra{\psi_t}$ analytical in $Z_t$, the derivative is further simplified to
 \begin{equation*}
-  \frac{\delta}{\delta \ZZ_s} \bigg( \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)} \bigg) = \left( \frac{\delta}{\delta \ZZ_s} \ket{\psi_t(\ZZ)} \right)\bra{\psi_t(\zz)} = O(t, s) \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)}
+  \frac{\delta}{\delta \ZZ_s} \bigg( \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)} \bigg) = \left( \frac{\delta}{\delta \ZZ_s} \ket{\psi_t(\ZZ)} \right)\bra{\psi_t(\zz)} = O(t, s) \ket{\psi_t(\ZZ)}\bra{\psi_t(\ZZ)}.
 \end{equation*}
-with the $O$-operator substitution~\ref{eq:nmqsd.o_substition}.
-Averaging over the equation of motion for the pure state projector~\ref{eq:nmqsd.pt_eom} finally gives the master equation for the reduced density matrix $\rho_t$
+Averaging over the equations of motion for the pure state projectors~\ref{eq:nmqsd.pt_eom} finally gives the master equation for the reduced density matrix $\rho_t$
 \begin{equation}
   \partial_t \rho_t = -\ii [\Hsys, \rho_t]  +  [L, \rho_t \adj{\bar O(t)}]  +  [\bar O(t) \rho_t, \adj{L}].
   \label{eq:nmqsd.master}
 \end{equation}
-This expression already resembles the well known Lindblad master equation~\ref{eq:???} for Markovian open quantum systems.
-Indeed, in the Markovian limit $\alpha(t) = \frac{\gamma}{2}\delta(t)$ the $\bar O$-operator is given by $\bar O(t) = \frac{\gamma}{2} L$ as shown in \autoref{sec:nmqsd.markov}.
-For some models the same holds true even for genuine non-Markovian environments except the coefficients may become time-dependent.
-
+%FIXME Reference
+This expression closely resembles the well known Lindblad master equation~\ref{eq:intro.} for Markovian open quantum systems, but involves time-dependent Linbladians.
+%FIXME Correct form of O(s,s,Z)
+As elaborated in \autoref{sub:nmqsd.markov} the $\bar O$-operator reduces to $\bar O(t) = \frac{\gamma}{2} L$ in the Markovian limit---thus our NMSSE reproduces the correct limit.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
