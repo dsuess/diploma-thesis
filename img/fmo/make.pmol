@@ -1,4 +1,5 @@
 load monomer_reduced.pdb
+#load 3ENI.pdb
 
 # define the bcls
 select bcl1, (chain A and resi 371)
@@ -13,12 +14,12 @@ select bcl8, (chain A and resi 378)
 # set the viewpos
 # viewpos for plotting transfer
 set_view (\
-    -0.708368361,   -0.228798211,    0.667739987,\
-    -0.314554185,    0.949209511,   -0.008441104,\
-    -0.631886423,   -0.216020331,   -0.744351387,\
-     0.000038780,   -0.000076610, -149.600830078,\
-    10.535236359,   -8.700254440,   -3.233623743,\
-  -1084.116088867, 1383.295043945,  -20.000000000 )
+    -0.480811268,    0.603387773,    0.636203885,\
+     0.675508440,    0.717507422,   -0.169974893,\
+    -0.559037924,    0.348030269,   -0.752567112,\
+    -0.000127681,    0.000030167, -122.974456787,\
+    13.921709061,   -7.469791889,   -4.264435768,\
+  -1086.176879883, 1332.132446289,  -20.000000000 )
 
 # and the monomer with 7 bcls which is of interest
 select monomer, bcl1 bcl2 bcl3 bcl4 bcl5 bcl6 bcl7
@@ -38,13 +39,13 @@ set antialias, 2
 set bg_rgb, [1, 1, 1]
 
 # set the appropriate colors
-color black, bcl1
+color red, bcl1
 color green, bcl2
 color blue, bcl3
 color magenta, bcl4
 color cyan, bcl5
 color orange, bcl6
-color red, bcl7
+color grey, bcl7
 color yellow, bcl8
 
 # add some labels
@@ -75,13 +76,13 @@ label lab7, "7"
 select lab8, id 5977
 label lab8, "8"
 
-set label_color, black, lab1
+set label_color, red, lab1
 set label_color, green, lab2
 set label_color, blue, lab3
 set label_color, magenta, lab4
 set label_color, cyan, lab5
 set label_color, orange, lab6
-set label_color, red, lab7
+set label_color, grey, lab7
 set label_color, yellow, lab8
 set label_size, 50
 

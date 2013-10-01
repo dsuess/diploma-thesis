@@ -8,7 +8,7 @@ columnwidth = 402.32205
 textheight = 555.
 
 # DPI for pixel graphics
-DPI = 200
+DPI = 300
 
 # file format
 outformat = 'pdf'

@@ -35,7 +35,7 @@ def p_to_alpha_abs(val):
 p_to_alpha = p_to_alpha_rel
 
 # where tosda find the data
-fname = '/home/dsuess/Documents/Diplomarbeit/archive/fmo/fmo77-start6-2term-2.pkl'
+fname = '/home/dsuess/Documents/Diplomarbeit/archive/fmo/fmo300-start6-2term-2.pkl'
 A = AggregatTransferFromFile(fname)
 
 cmd.set_view ([

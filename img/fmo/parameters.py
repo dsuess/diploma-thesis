@@ -11,10 +11,13 @@ from settings import PtPerIn, columnwidth, DPI
 
 
 ###############################################################################
-ratio = 1 / (1.6180339887)
+ratio = 1 / 1
 width = columnwidth / PtPerIn * DPI
 height = ratio * width
 filename = 'fmo_molecule.png'
 
 print('width={}'.format(width))
 print('height={}'.format(height))
+
+print('type "ray width, height"')
+print('then save to file using "png ../fmo_monomer.png, dpi={}, "'.format(DPI))

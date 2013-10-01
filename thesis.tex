@@ -24,6 +24,7 @@
 \usepackage{tikz}
 \usetikzlibrary{matrix}
 \usetikzlibrary{calc}
+\usetikzlibrary{arrows}
 \usetikzlibrary{external}
 \tikzexternalize[prefix=tikz/]
 
@@ -53,10 +54,11 @@
 % Custom commands
 
 % Text commands/symbols
-\newcommand{\idef}[1]{\emph{#1}}    % Inline Definition
+\newcommand{\idef}[1]{\emph{#1}}       % (i)nline (def)inition
 \newcommand{\quotes}[1]{``#1''}
 \newcommand{\nth}[1]{\textsuperscript{#1}\,}
 \renewcommand{\th}{\nth{th}}
+\newcommand{\cm}[1]{{\color{red}#1}}   % (c)orrection (m)ark
 
 % Math Macros
 \newcommand{\cc}[1]{{#1}^*}
@@ -236,7 +238,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\includeonly{nmqsd}
 %\includeonly{numerics}
-\includeonly{application}
+%\includeonly{application}
 
 \begin{document}
 \frontmatter

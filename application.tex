@@ -2,15 +2,6 @@
 \label{chap:app}
 % * why?
 % * current results/techniques
-% transfer of electronic excitation
-% preparation: external lase pulse resonant to S_0 -> S_1 transition
-% transfer by Coulomb interaction
-% state made up by excited electron and a hole (unoccupied electron state in the highest occupied molecule orbital)
-% when both are localized at the same molecule: Frenkel exciton
-% Examples: molecular crystals of armoatic compounds and rare gases in the solid phase, dye aggregats
-% HERE: energy transfer in light harvesting photosyntetic antenna systems
-% coherent and incoherent (FÖRSTER) transfer posible
-% Time scales (p. 365) ?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % * Growing interest, application, ...
@@ -18,6 +9,9 @@
 % * DEF. Molecular aggregat: assemblies of monomers (molecules, atoms, ...), where monomers largely keep individual properties
 %     * interaction leads to collevcitve phenomena
 %     * for sake of clarity: monomer = molecule in our notation
+% * Non-markovian effects
+% * demonstrate applicability to systems of recent interest
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Basic Model}
@@ -27,8 +21,8 @@
 %
 % FIXME Too many subsections?
 % TODO Experimental setup, necessary for app.model.exciton
+% TODO product initial state ok, vertical Frank-Condon transition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Aggregat Hamiltonian}
@@ -36,10 +30,10 @@
 
 % GENERAL MOLECULE
 % ---------------
-% * molecular Hamiltonian, Born Oppenheimer approx (large difference in mass)
+% ✔ molecular Hamiltonian, Born Oppenheimer approx (large difference in mass)
 %     => seperation of time scales,
-% * split into electronic and vibrational degrees of freedom
-% * in aggregat further vibrational degrees of freedom: inter- and intramolecular as well as solvent
+% ✔ split into electronic and vibrational degrees of freedom
+% ✔ in aggregat further vibrational degrees of freedom: inter- and intramolecular as well as solvent
 %
 % FIXME Rename V_mn since we use it below for matrix elements
 
@@ -82,9 +76,9 @@ These appear for example when studying molecular compounds immersed in a liquid 
 % ELECTRONIC PART
 % ---------------
 % * Holstein model
-% * no exchange interaction due to seperation of molecules, no overlap (tight binding)
-%     => anti-symmetrization in Hartree anatz non necessary; product basis
-%        =>   H_el = Σ_ma ε_ma |φ_ma><φ_ma|  +  ½ Σ ...
+% ✔ no exchange interaction due to seperation of molecules, no overlap (tight binding)
+% ✔   => anti-symmetrization in Hartree anatz non necessary; product basis
+% ✔      =>   H_el = Σ_ma ε_ma |φ_ma><φ_ma|  +  ½ Σ ...
 
 The Born-Oppenheimer approximation allows us to analyse the electronic separately from the vibrational part of \autoref{eq:app.agg_hamil} for a fixed coordinate vector $\QQ$.
 We split up the former into contributions for each individual electron
@@ -127,13 +121,13 @@ For example the matrix elements $U_{mn}(aa'; bb')$ is influenced by the distance
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Exciton Model}
 \label{sub:app.model.exciton}
-% * beside electronic ground state only first excited singlet state φ_m^g, φ_m^e for each molecule
-%     => effective 2 level system
+% ✔ beside electronic ground state only first excited singlet state φ_m^g, φ_m^e for each molecule
+% ✔   => effective 2 level system
 %     * ok if only one S_1 state is initially excited and all first-level energies are same order of magnitude
-% * different contributions to interaction term; Heitler-London approximation (p.370)
-%     => Interaction term gives only "hopping" contributions (resonant excitation energy transfer)
+% ✔ different contributions to interaction term; Heitler-London approximation (p.370)
+% ✔   => Interaction term gives only "hopping" contributions (resonant excitation energy transfer)
 %     => if we start with single excitation, we remain in the single-excitation Hilbert space
-%     => basis vectors |π_n> = |φ_n^e> Π_i≠n |φ_i^g> => single exciton state
+% ✔   => basis vectors |π_n> = |φ_n^e> Π_i≠n |φ_i^g> => single exciton state
 %     * need ground state |0> = Π_i |φ_i^g> as well due to dissipation
 %     * multi-exciton states for nonlinear stuff
 %     * interaction matrix elements can be calculated from center-of-mass coordinate of molecule and Coulomb interaction
@@ -178,7 +172,7 @@ For the rest of this section we assume the $V_{mn}$ to be independent of vibrati
 
 % VIBRATIONAL PART
 % ----------------
-% * include dynamica
+% ✔ include dynamica
 
 % FIXME Too much "degrees of freedom"
 Up to this point we have neglected the dynamical evolution of the vibrational environment, which is essential in a complete description of a molecular aggregat.
@@ -193,7 +187,7 @@ We can thusly assume that all $Q_\lambda$ experience only a small displacement f
 % TODO More?
 As a consequence both $\opV{vib-vib}(\QQ)$ and $\epsilon_m(\QQ)$ can be expanded in a Taylor series neglecting all but the first non-trivial term.
 To alleviate notation we further assume that each vibrational degree of freedom only couples to one specific exciton.
-This leads to exactly the original model we use to derive the NMSSE: a bath of harmonic oscillators linearly coupled to the electronic system
+This leads to exactly the microscopical model presented in \autoref{sec:nmqsd.model}: a bath of harmonic oscillators linearly coupled to the electronic system
 \begin{align*}
   \opH{agg} =
   \sum_m \epsilon_m(0) \ket{m}\bra{m} + \sum_{m,n} V_{mn} \ket{m}\bra{n} + \sum_{m, \lambda} \omega_{m, \lambda} \adj{A}_{m, \lambda} A_{m, \lambda} \\
@@ -201,44 +195,131 @@ This leads to exactly the original model we use to derive the NMSSE: a bath of h
 \end{align*}
 where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding to the $\lambda$\th vibrational mode coupling to the $m$\th exciton.
 
+% TODO ε_m(0) = ε_m ... site energy; optical transition energy at the equilibrium configuration of env. phonons associated with S_0 state
+% V_mn electronic coupling strength
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Transfer Dynamics}
+\section{Transfer Dynamics }
 \label{sec:app.fmo}
 % * FMO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%  * why interesting --> first observed quantum coherence in light harvesting systems
-%     => function: connecting large light harvesting antenna;
-%        transmit excitation energy to reaction centers
-%     * role: avoid local energetic traps; aid efficient trapping of electronic energy by the pigments facing the reaction center \cite{IsFl09_fmo}
-%  * important: long-lived electronic quantum coherence
-%     => exciton superposition states (formed during fast excitation event) allow the excitation to "reversibly sample all posible paths"
-%     => efficient directing the energy transfer to find the most effective sink for the excitation energy \cite{EnCaRe07_photosyn}
-%     => efficiency beyond classical sampling-by-hopping
-%  * FMO: green sulfur bacteria
-%
-% * before that: semiclass. hopping (Förster theory)
-%
+% ✔ why FMO?
+% ✔   * small size: typical model system photosyntetic exciton energy transfer
+% ✔   => function: transfer electronic excitation energy from the chlorosome (light harvesting antenna) to the photosyntetic reaction center in green sulfur bacteria
+% ✔   * 90s: electronic quantum coherence observed; only recently realized: key feature in nearly unit yield transport
+%     * role of coherence: avoid local energetic traps; aid efficient trapping of electronic energy by the pigments facing the reaction center \cite{IsFl09_fmo}
+%        => exciton superposition states (formed during fast excitation event) allow the excitation to "reversibly sample all posible paths"
+%        => efficient directing the energy transfer to find the most effective sink for the excitation energy \cite{EnCaRe07_photosyn}
+% ✔      => efficiency beyond classical sampling-by-hopping
+% ✔   * before that: semiclass. hopping (Förster theory)
+
+As a first exemplary application of our hierarchical equations of motion we study energy transfer in the Fenna-Matthews-Olson (FMO) complex found in low-light adapted green sulfur bacteria.
+This protein complex plays a crucial role in connecting the light harvesting antenna (chlorosome) to the photosyntetic reaction center, where the absorbed solar energy is converted to a charge gradient.
+% FIXME Quantumness???
+The vast amount of literature on the subject is not only by virtue of its relatively small size---making it an ideal model system for numerical investigation---but particularly caused by its genuine \quotes{quantumness}.
+Only lately Engel et al.\ as well as Ishizaki-Fleming demonstrated that the FMO complex achieves its remarkable almost-unit efficiency by coherent exciton motion instead of classical hopping described by Förster theory \cite{EnCaRe07_fmo,IsFl09_fmo}. \\
+
+
+% ✔ structure: 3 identical subunits, called monomers
+% ✔ these consist of eight BChl molecules
+% ✔   * here we focus on one monomer (as shown in \cite{RiRoSt11_fmo_trimer} reasonable approximation due to small coupling between monomers
+%     * energy transfer between monomers via resonacne Coulomb interaction (weak!)
+% * site energies and electronic coupling depend on protein environment, different values in literature;
+%     * here: Chlorobaculum tepidum, from \cite{AdRe06_fmo}A
+%     * data was obtained how???
+%     * funnel due to decrease in site energies (picture?)
+% * no detailed info about specral density for FMO complex
+%     * assume independent, but equivalent for each BChl, data from \cite{IsFl09_fmo}
+%     * determinded by fitting reoraganization energy and relaxation time determinded by 2D spectroscopy
+%     * detailed study in \cite{RiRoSt11_fmo}
+
+The FMO protein complex is subdivided into three identical monomers, each comprising eight bacteriochlorophyll pigments (BChls).
+% FIXME +3
+In contrast to the first seven BChls the eighth was only discovered in recent years due to its rather weak coupling to the remaining BChls and instability during the isolation procedure in experiments \cite{TrCaBl09_fmo_structure,ScMuEl10_eighth}.
+As the main goal here is to show the applicability and reliability of our hierarchical equations of motion we ignore BChl number eight in what follows---this model has been treated thoroughly with a vast array of methods.
+For the same reason we also restrict our attention to an individual monomer: as shown by Ritschel et al.\ such a limitation is reasonable for the short time scales under consideration as the intermonomeric interaction strength is rather weak.
+
+In \autoref{fig:app.monomer_full} we display the spatial structure and numbering of a monomer.
+The BChls 1 and 6 are situated in the vicinity of the baseplate and receive excitation energy captured by the chlorosomes, while BChl 3 acts as energy sink.
+
+
+
+
+
+
 
 \begin{figure}[t]
   \centering
-  \includegraphics[scale=.6]{img/monomer_full600.png}
-  % FIXME Better caption
-  % FIXME Higher dpi
+  \begin{subfigure}[t]{.6\textwidth}
+    \centering
+    \includegraphics[width=.8\textwidth]{img/fmo_monomer.png}
+    % FIXME Better caption
+    % FIXME Higher dpi
+    % FIXME Remove 8th BChl?
+    \caption{%
+      Spatial arrangement
+    }
+    \label{fig:app.monomer_full}
+  \end{subfigure}
+  \begin{subfigure}[t]{.3\textwidth}
+    % FIXME Colors
+    \centering
+    \definecolor{qqttcc}{rgb}{0,0.2,0.8}
+    \definecolor{ffqqzz}{rgb}{1,0,0.6}
+    \definecolor{ffqqqq}{rgb}{1,0,0}
+    \definecolor{qqcccc}{rgb}{0,0.8,0.8}
+    \definecolor{ffzzqq}{rgb}{1,0.6,0}
+    \definecolor{qqffqq}{rgb}{0,1,0}
+    \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45, xscale=.5, yscale=.014]
+      \draw[->,color=black] (0,-55.09) -- (0,409.79);
+      \foreach \y in {0, 100, 200, 300}
+      \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+      \draw[color=black] (-2.30, 180) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
+      \clip(-0.38,-55.09) rectangle (5.9,409.79);
+      \draw [line width=2pt] (0.17,180)-- (1.17,180);
+      \draw [line width=2pt,color=qqffqq] (1.39,300)-- (2.39,300);
+      \draw [line width=2pt,color=ffzzqq] (3.63,400)-- (4.63,400);
+      \draw [line width=2pt,color=qqcccc] (2.89,250)-- (3.89,250);
+      \draw [line width=2pt,color=ffqqqq] (3.85,210)-- (4.85,210);
+      \draw [line width=2pt,color=ffqqzz] (2.57,80)-- (3.57,80);
+      \draw [line width=2pt,color=qqttcc] (1.81,0)-- (2.81,0);
+      \draw [line width=1pt] (0.74,189.05) -- (1.8,284.18);
+      \draw [line width=1pt] (4.13,384.05) -- (3.43,259.34);
+      \draw [line width=1pt] (4.13,384.05) -- (4.32,221.85);
+      \draw [line width=1pt] (3.4,233.65) -- (3.04,87.89);
+      \draw [line width=1pt] (3.03,66.68) -- (2.39,9.1);
+      \draw [line width=1pt] (4.32,193.38) -- (3.21,87.14);
+      \draw [line width=1pt] (1.95,283.23) -- (2.25,9.1);
+      \begin{scriptsize}
+        \draw[color=black] (0.68,168) node {180};
+        \draw[color=qqffqq] (1.90,288.0) node {300};
+        \draw[color=ffzzqq] (4.15,388.0) node {400};
+        \draw[color=qqcccc] (3.4,238.0) node {250};
+        \draw[color=ffqqqq] (4.4,198.0) node {210};
+        \draw[color=ffqqzz] (3.05,68.0) node {80};
+        \draw[color=qqttcc] (2.3,-12.0) node {0};
+      \end{scriptsize}
+    \end{tikzpicture}
+  % FIXME LABEL AND CAPTION
+    \caption{%
+      Site energies
+    }
+  \end{subfigure}
   \caption{%
-    Spatial arrangement of the FMO monomer and numbering of the BChls.
-    Here all eight BChls.
-    Created using PyMol, based on PDB entry 3ENI \cite{pymol,TrCaBl09_fmo_structure}
+      Here all eight BChls.
+      Created using PyMol, based on PDB entry 3ENI \cite{pymol,TrCaBl09_fmo_structure}
   }
-  \label{fig:app.monomer_full}
 \end{figure}
+
 
 \begin{figure}[p]
   \centering
   \includegraphics{img/fmo_transfer.pdf}
   % FIXME Caption
   % FIXME Change plot to 2Term fit
+  % FIXME MAKE THIS 300K
   \caption{%
     Exciton transfer of the simplified FMO-monomer with seven BChls using our hierarchical equation of motion up to first~(doted line) and second order~(dashed line).
     We place the initial excitation on both receiving BChls, that is the first~(left) and the sixth molecule~(right).
