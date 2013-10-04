@@ -177,108 +177,110 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Analytic Solution of Dissipative Two-level System}
+\chapter{Analytic Solution of the Jaynes-Cummings Model}
 \label{ch:tla}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{General Solution}
+\section{General Approach}
 \label{sec:tla.general}
-%
-% TODO Better title
 
-Here we present in full detail the analytic solution of the dissipative two-level system introduced in \autoref{sec:nmqsd.two_level}.
-The relevant NMSSE can always be written in terms of a single process
+Here we present in full detail the analytic solution of the Jaynes-Cummings model introduced in \autoref{sec:nmqsd.two_level}.
+For zero-temperature the relevant NMSSE can always be expressed in terms of a single process
 \begin{equation}
-  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + c \sigma_- \ZZ_t \psi_t - c\sigma_+ \int \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s.
+  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + g \sigma_- \ZZ_t \psi_t - g\sigma_+ \int \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s.
   \label{eq:tla.nmsse_twolevel}
 \end{equation}
-As already mentioned we employ an ansatz for the quantum trajectory at most linear in $\ZZ_s$
+We make an ansatz for the quantum trajectory at most linear in $\ZZ_s$
 \begin{equation}
   \psitZ = \psi(t) + \int_0^t \psi_s(t) \ZZ_s \dd s.
   \label{eq:tla.ansatz}
 \end{equation}
-% TODO Better footnote
-Here we already incorporate that $\psitZ$ needs to be independent of $\ZZ_s$ for $s < 0$ and $s>t$ by using a bounded integral domain.\footnote{A consistent treatment of these independence-conditions is more tricky than it seems at first glance, since we are mixing a distributional object $\ZZ_s$ with a discontinuous function $s \mapsto \psi_s(t)$.
-  As $\delta \psi_t(\ZZ) / \delta \ZZ_s = 0$ translates to $\psi_s(t) = 0$ the correct integral boundary reads $\int_{0-\varepsilon}^{t+\varepsilon}$ with $\varepsilon > 0$ but arbitrary otherwise.
+% FIXME Is footnote clear?
+Here we already incorporate the $\ZZ_s$-independence of $\psitZ$ for $s < 0$ and $s>t$ using a bounded integral domain.\footnote{%
+  A consistent treatment of these independence-conditions is more tricky than it seems at first glance, since we are mixing a distributional object $\ZZ_s$ with a discontinuous function $s \mapsto \psi_s(t)$.
+  As $\delta \psi_t(\ZZ) / \delta \ZZ_s = 0$ translates to $\psi_s(t) = 0$, the correct integral boundary reads $\int_{0-\varepsilon}^{t+\varepsilon}$ with $\varepsilon > 0$ but arbitrary otherwise.
   \label{fn:tla.boundaries}
 }
-We use a basis for $\psi_t(\ZZ)$ which renders $\sigma_z$ diagonal and denote the corresponding components by \quotes{+} and \quotes{-}.
+% FIXME Is this really necessary?
+%In where $\sigma_z$ is diagonal we denote corresponding components of $\psi_t$ by \quotes{+} and \quotes{-}.
 The \quotes{+}-component of our NMSSE with the ansatz~\ref{eq:tla.ansatz} reads
 \begin{align}
   \dot\psi^+(t) + \psi^+_t(t)\ZZ_t &+ \int_0^t \dot\psi^+_s\ZZ_s \dd s \nonumber\\
-  &= -\ii \frac{\omega}{2} \left( \psi^+(t) + \int_0^t \psi^+_s(t)\ZZ_s \dd s \right) - c \int_0^t \alpha(t-s) \psi^-_s(t) \dd s.
+  &= -\ii \frac{\omega}{2} \left( \psi^+(t) + \int_0^t \psi^+_s(t)\ZZ_s \dd s \right) - g \int_0^t \alpha(t-s) \psi^-_s(t) \dd s.
   \label{eq:tla.psi_plus}
 \end{align}
-In order to separate contributions of different order in $\ZZ_s$, we apply the functional derivative $\delta/\delta\ZZ_s$ with arbitrary $s$ to the last equation
+In order to separate contributions of different order in $\ZZ_s$, we apply the functional derivative $\delta/\delta\ZZ_s$ to the last equation
 \begin{equation}
   \psi^+_t(t) \delta(t - s) + \int_0^t \dot\psi^+_{s'}(t) \delta(s - s') \dd s' = -\ii \frac{\omega}{2} \int_0^t \psi^+_{s'}(t) \delta(s - s') \dd s'.
   \label{eq:tla.psi_plus_deriv}
 \end{equation}
-Choosing $s \in (0, t)$ leaves us with a simple ordinary differential equation with solution $\psi^+_s(t) = C_s \exp[- \ii \omega t / 2]$.
-By further investigating the singular term in \autoref{eq:tla.psi_plus_deriv} we find that $\psi^+_s(s)$ and therefore the constant $C_s$ must vanish.
+Choosing $s \in (0, t)$ leaves us with a simple ordinary differential equation with solution $\psi^+_s(t) = C_s \exp(- \ii \omega t / 2)$.
+Since there is only one singular term in \autoref{eq:tla.psi_plus_deriv}, $\psi^+_s(s)$ and thus the constant $C_s$ must vanish.
 This amounts formally to integrating~\ref{eq:tla.psi_plus_deriv} over a small interval $(t-\varepsilon, t+\varepsilon)$ with respect to $s$.
 In the limit $\varepsilon \to 0$ all terms except the first go to zero.
-On the other hand we can isolate all terms independent of $\ZZ_s$ in \autoref{eq:tla.psi_plus} simply by taking the expectation value.
-The resulting equation
+
+On the other hand we can isolate all terms independent of $\ZZ_s$ in \autoref{eq:tla.psi_plus} simply by taking the expectation value, yielding
 \begin{equation}
-  \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t)  - c \int_0^t \alpha(t - s) \psi^-_s(t) \dd s
+  \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t)  - g \int_0^t \alpha(t - s) \psi^-_s(t) \dd s.
   \label{eq:psi_plus_expect}
 \end{equation}
-is treated later, once we have an explicit expression for $\psi^-_s(t)$.
+We postpone its solution to the end of this section.\\
 
-The \quotes{-} component of \autoref{eq:tla.nmsse_twolevel} is quite similar to~\ref{eq:tla.psi_plus}
+
+
+The \quotes{-} component of \autoref{eq:tla.nmsse_twolevel} is quite similar to~\ref{eq:tla.psi_plus}:
 \begin{align}
   \dot\psi^-(t) + \psi^-_t(t)\ZZ_t &+ \int_0^t \dot\psi^-_s(t)\ZZ_s \dd s \nonumber \\
-  &= \ii \frac{\omega}{2} \left( \psi^-(t) + \int_0^t \psi^-_s(t)\ZZ_s \right) + c \psi^+(t)\ZZ_t,
+  &= \ii \frac{\omega}{2} \left( \psi^-(t) + \int_0^t \psi^-_s(t)\ZZ_s \right) + g \psi^+(t)\ZZ_t,
   \label{eq:tla.psi_minus}
 \end{align}
 where we already used that $\psi^+_s(t) = 0$.
-The solution
+All terms independent of $\ZZ$ require
 \begin{equation}
-  \psi^-(t) = \psi^-(0) \, \exp[\ii \frac{\omega}{2} t]
+  \psi^-(t) = \psi^-(0) \, \exp[\ii \frac{\omega}{2} t].
 \end{equation}
-can be read off \autoref{eq:tla.psi_minus} directly by comparing all terms independent of $\ZZ_t$.
-In the same manner as we derived \autoref{eq:tla.psi_plus_deriv} we can treat all terms proportional to $\ZZ_t$.
-Again we find a solution of the form $\psi^-_s(t) = C_s \exp[\ii\omega t / 2]$; the only difference is an additional singular term due to the driving process in \autoref{eq:tla.nmsse_twolevel}.
-It gives rise to the boundary condition $\psi^-_t(t) = c \psi^+(t)$.
+In the same manner as we derived \autoref{eq:tla.psi_plus_deriv}, we can treat all terms proportional to $\ZZ_t$;
+again we find a solution of the form $\psi^-_s(t) = C_s \exp(\ii\omega t / 2)$; the only difference is an additional singular term due to the driving process in \autoref{eq:tla.nmsse_twolevel}.
+It gives rise to the boundary condition $\psi^-_t(t) = g \psi^+(t)$; therefore
 Together with~\ref{eq:tla.psi_plus_expect} we obtain a closed equation for $\psi^+(t)$
 \begin{equation}
   \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t) - c^2 \int_0^t \alpha(t - s) \exp[\ii \frac{\omega}{2} (t - s)] \psi^+(s) \dd s.
   \label{eq:tla.psi_plus_eq}
 \end{equation}
-Hence we may replace the original NMSSE~\ref{eq:tla.nmsse_twolevel} by a $\Complex$-valued equation similar in structure.
+Hence we may replace the original NMSSE~\ref{eq:tla.nmsse_twolevel} by a $\Complex$-valued integro-differential equation.
+The full solution to \autoref{eq:tla.nmsse_twolevel} in terms of $\psi^+(t)$ is written out in \autoref{eq:nmqsd.solution}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Exponential Correlation Function}
 \label{sec:tla.exp}
 
-As \autoref{eq:tla.psi_plus_eq} still contains a memory integral there is no analytic solution in general.
-The situation is noticeably simpler for a bath correlation of the form
+\Autoref{eq:tla.psi_plus_eq} still contains a memory integral, which appears to be impossible to solve analytically for an arbitrary bath correlation function.
+The situation is noticeably simpler for
 \begin{equation}
   \alpha(t - s) = \sum_{j=1}^N g_j \, \exp[-\gamma_j \abs{t - s} - \ii \Omega_j (t - s)].
   \label{eq:tla.exp_alpha}
 \end{equation}
 Since $\psi^+$ only depends on values of $\alpha(t)$ for $t \ge 0$ we can assume $\gamma = 0$ without loss of generality.
-Similar to our hierarchical equations of motion elaborated in \autoref{sec:num.sheom} we absorb the problematic terms into auxiliary functions
+Similar to our hierarchical equations of motion we absorb the problematic terms into auxiliary functions
 \begin{equation}
-  \phi_j(t) := \int_0^t \alpha_j(t-s) \exp[\ii \frac{\omega}{2}(t-s)] \psi^+(s) \dd s.
+  \phi_j(t) := \int_0^t \alpha_j(t-s) \exp[\ii \frac{\omega}{2}(t-s)] \psi^+(s) \dd s,
   \label{eq:tla.auxiliary}
 \end{equation}
-This allows us to rewrite \autoref{eq:tla.psi_plus_eq} as a system of $(N+1)$ ordinary differential equations with constant coefficients
+this allows us to rewrite \autoref{eq:tla.psi_plus_eq} as a system of $(N+1)$ ordinary differential equations
 \begin{align*}
-  \dot\psi^+(t) &= -\ii \frac{\omega}{2} \psi^+(t) - c^2 \sum_{j=1}^N \phi_j(t) \\
+  \dot\psi^+(t) &= -\ii \frac{\omega}{2} \psi^+(t) - g^2 \sum_{j=1}^N \phi_j(t) \\
   \dot\phi_j(t) &= g_j \psi^+(t) + \ii \left( \frac{\omega}{2} - \Omega \right) \phi_j(t).
 \end{align*}
-and initial conditions $\phi_j(0) = 0$.
-In the special case $N = 1$ the diagonalization can be carried out analytically.
-With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4c^2 g}$ the solution to \autoref{eq:tla.psi_plus_eq} reads
+with constant coefficients and initial conditions $\psi^+(0)$ as well as $\phi_j(0) = 0$.
+In the special case $N = 1$ the diagonalization of the coefficient matrix can be carried out analytically; for $N=2$ it is---at least in principle---possible, too.
+With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ and $g_1$ absorbed into the coupling strength $g$, the solution to \autoref{eq:tla.psi_plus_eq} reads
+% FIXME INSERT γ
 \begin{equation}
   \psi^+(t) = \frac{\psi^+(0)}{2\tilde\Omega} \left( (\omega - \Omega + \tilde\Omega) \, \exp[-\ii \frac{\Omega + \tilde\Omega}{2} t ]  -  (\omega - \Omega - \tilde\Omega) \, \exp[-\ii \frac{\Omega - \tilde\Omega}{2} t ] \right).
   \label{eq:tla.solution}
 \end{equation}
 
-%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
