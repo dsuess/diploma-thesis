@@ -33,6 +33,41 @@ def plot_single_realization_norm(SB, ax, single_realizations):
 
 # Main plotting routines ######################################################
 
+def depth_plot(outfilename='depth', width=columnwidth, ratio=.4):# {{{1
+   """
+      Plots to compare different depths for strongly coupled system
+   """
+   print('Creating depth plot...')
+   figsize = (width / PtPerIn, width * ratio / PtPerIn)
+   figure(figsize=figsize)
+   subplots_adjust(left=.18, bottom=.09, right=.82, top=.94, wspace=0.,
+         hspace=.05)
+   dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson-cutoff/'
+
+   ax = subplot(111)
+
+   # Plotting the data
+   for D in [0, 1, 2, 4, 8, 16]:
+      A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(0))
+      t, avgs = A.get_sigma_avg()
+      ax.plot(t, avgs[2], label=D)
+
+   # Setup the subplot
+   ## Only left ones
+   ax.set_xlabel(r'$t \cdot \Delta$')
+   ax.set_ylabel(r'$\langle\sigma_z\rangle$')
+
+   ax.xaxis.set_major_locator(MaxNLocator(5))
+   ax.yaxis.set_major_locator(MaxNLocator(3))
+   ax.yaxis.set_minor_locator(MaxNLocator(5))
+
+   ax.axis([0, 10, 0, 1])
+   ax.legend(loc='upper right', ncol=2)
+   savefig('.'.join([outfilename, outformat]))
+
+   close()
+   print('Success.')
+
 def lin_norm_comparisson(outfilename='normcomp', # {{{1
       single_realizations=5, width=columnwidth, ratio=.3):
    """
@@ -189,5 +224,6 @@ def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
 
 if __name__ == '__main__':
    # TODO Adjust parameters such that times are the same!
-   lin_vs_nonlin_averaged()
-   lin_norm_comparisson(single_realizations=6)
+   #lin_vs_nonlin_averaged()
+   #lin_norm_comparisson(single_realizations=6)
+   depth_plot()

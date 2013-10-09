@@ -25,13 +25,16 @@
 \usetikzlibrary{matrix}
 \usetikzlibrary{calc}
 \usetikzlibrary{arrows}
-\usetikzlibrary{external}
-\tikzexternalize[prefix=tikz/]
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
 
 \usepackage{standalone}
 
 % package to provide if-statements in new commands
 \usepackage{ifthen}
+
+% Correct spacing of abbreviations
+\usepackage{xspace}
 
 % enables referencing and generation of hyperlinks
 \usepackage{hyperref}
@@ -59,10 +62,12 @@
 \newcommand{\nth}[1]{\textsuperscript{#1}\,}
 \renewcommand{\th}{\nth{th}}
 \newcommand{\cm}[1]{{\color{red}#1}}   % (c)orrection (m)ark
+\newcommand{\NMSSE}{\textsc{NMSSE}\xspace}
+\newcommand{\HEOM}{\textsc{HEOM}\xspace}
 
 % Math Macros
 \newcommand{\cc}[1]{{#1}^*}
-\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\abs}[1]{\vert #1 \vert}
 \newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
 \newcommand{\op}[1]{#1}
 \newcommand{\adj}[1]{\op{#1}^\dagger}
@@ -100,11 +105,18 @@
 \renewcommand{\sp}[2]{\left\langle #1 , #2 \right\rangle}
 \newcommand{\dualp}[2]{\left( #1 , #2 \right)}
 
+\newcommand{\twovec}[2]{%
+  \begin{pmatrix}
+    #1 \\ #2
+  \end{pmatrix}
+}
+
 % Math Symbols
 \newcommand{\ii}{\mathrm{i}}
 \newcommand{\dd}{\, \mathrm{d}}
 \newcommand{\intdd}{\int\mathrm{d}}
-\newcommand{\Tr}[1]{\operatorname{Tr}_\mathrm{#1}}
+%\newcommand{\Tr}[1]{\operatorname{Tr}_\mathrm{#1}}
+\newcommand{\Tr}{\operatorname{Tr}}
 \newcommand{\Res}{\operatorname{Res}}
 \newcommand{\mudz}{\, \mu(\mathrm{d} z)}
 
@@ -125,8 +137,8 @@
 }
 \newcommand{\psitz}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
-    {\psi_t(\zz)}
-    {\psi_t^{(#1)(\zz)}}
+    {\psi_t(\cc\zz)}
+    {\psi_t^{(#1)(\cc\zz)}}
 }
 \newcommand{\psitZ}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
@@ -245,6 +257,7 @@
 \include{title}
 \mainmatter
 \newpage
+
 \include{introduction}
 \include{nmqsd}
 \include{numerics}

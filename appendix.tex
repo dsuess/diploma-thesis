@@ -178,7 +178,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Analytic Solution of the Jaynes-Cummings Model}
-\label{ch:tla}
+\label{cha:tla}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{General Approach}
@@ -281,28 +281,77 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ a
   \label{eq:tla.solution}
 \end{equation}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Some Remarks concerning the Hierachy}
+\label{cha:hierarchy}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Memory-Integral Term}
+\label{sec:hierarchy.memory_integral}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO FIX
+As the singular terms in the time derivative of $\alpha$ cancel we obtain
+\begin{equation*}
+  \dot\alpha(t) = g \exp[-\ii \Omega t] \left( (-\gamma - \ii\Omega) \Theta(t) \exp[-\gamma t] + (\gamma - \ii\Omega)\Theta(-t)\exp[\gamma t] \right).
+\end{equation*}
+Therefore we cannot exploit $\dot\adjZZ_t \propto \adjZZ_t$ on the level of operators in general.
+Even the vanishing of the functional derivative $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s > t$ with some arbitrary stochastic state $\phi_t(\ZZ)$ does not imply $\dot\adjZZ_t \phi_t(\ZZ) \propto \adjZZ_t\phi_t(\ZZ)$ as the following example shows:
+Take a noise expansion of the form $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$, where $\varphi$ is some $\ZZ$ independent system state and $0 < t' < t$.
+It clearly satisfies the required boundary conditions, but
+\begin{equation*}
+  \dot\adjZZ_t \phi_t(\ZZ) = (\dot\alpha(0) + \dot\alpha(t-t')) \varphi = \left( -2\ii\Omega - (\gamma + \ii\Omega) \exp[-(\gamma + \ii\Omega) (t-t')] \right) \varphi
+\end{equation*}
+which is not proportional to
+\begin{equation*}
+  \adjZZ_t \phi_t(\ZZ) = (\alpha(0) + \alpha(t - t')) \varphi = g (1 + \exp(-\gamma + \ii \Omega)(t-t')) \varphi.
+\end{equation*}
+We clearly see that the problematic first summand arises due to singular behavior of $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s = t$.
+
+Such problems do not occur once we restrict $\dot\adjZZ_t$ to solutions of our NMSSE~\ref{eq:num.nmsse} with vacuum initial conditions.
+Indeed we see from \autoref{eq:nmqsd.deriv_psit} that the functional derivative of $\psitZ$ at the upper boundary is regular and therefore has vanishing weight under the integral.
+Hence we obtain for the time derivative of our integrated derivation operator
+\begin{equation}
+  % TODO Watch for change in \psitZ
+  \dot\adjZZ_t \psitZ = - (\gamma + \ii \Omega) \adjZZ_t\psitZ
+  \label{eq:num.dot_adjZZt}
+\end{equation}
+
+% section memory_integral (end)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Terminating the Hierarchy}
+\label{sec:hierarchy.terminator}
+
+% TODO Some detailed discussion
+
+% too generic cases γ=0 and Ω=0; different approaches, ...
+% when is k large enough
+% truncation criterion: \sqrt(g) << k * |w|
+
+
+% section hierarchy.terminator (end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Expansions of Hyperbolic Cotangens}
+\chapter{Matsubara Expansions of Hyperbolic Cotangens}
 \label{cha:coth}
 %
 % * punktierte Umgebung = punctured
 % * picture of coth-singularities
 
-Before presenting the two expansion schemes for the hyperbolic cotangens function mentioned in \autoref{sec:num.expansion} we need to introduce a few ideas from complex analysis.
-For more details and proofs we refer to the book of Rudin \cite{Ru87_analysis}.
+%Before presenting the two expansion schemes for the hyperbolic cotangens function mentioned in \autoref{sec:num.expansion} we need to introduce a few ideas from complex analysis.
+%For more details and proofs we refer to the book of Rudin \cite{Ru87_analysis}.
 
-% TODO Is this already enough citation?
-First recall that a function $f$ with an isolated singularity $a\in\Complex$ can always be expanded in a Laurent series around $a$
-\begin{equation}
-  f(z) = \sum_{j=0}^\infty a_j (z - a)^j + \sum_{j=1}^\infty \frac{a_{-j}}{(z-a)^j} \qquad (0 < \abs{z-a} < \varepsilon).
-  \label{eq:coth.laurent}
-\end{equation}
-% TODO Mention punctured environment
-The first sum is called \idef{analytical part} while the second one is called \idef{principal part}.
-Clearly if $a$ is a removable singularity, that is the principal part vanishes, we can continue $f$ to a function analytical for all $z$ with $\abs{z-a} < \varepsilon$.
-A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\subset\Complex$ if it is analytical on $\Omega$ except a set $A \subset\Omega$ of isolated points, which are poles for $f$.
+%% TODO Is this already enough citation?
+%First recall that a function $f$ with an isolated singularity $a\in\Complex$ can always be expanded in a Laurent series around $a$
+%\begin{equation}
+  %f(z) = \sum_{j=0}^\infty a_j (z - a)^j + \sum_{j=1}^\infty \frac{a_{-j}}{(z-a)^j} \qquad (0 < \abs{z-a} < \varepsilon).
+  %\label{eq:coth.laurent}
+%\end{equation}
+%% TODO Mention punctured environment
+%The first sum is called \idef{analytical part} while the second one is called \idef{principal part}.
+%Clearly if $a$ is a removable singularity, that is the principal part vanishes, we can continue $f$ to a function analytical for all $z$ with $\abs{z-a} < \varepsilon$.
+%A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\subset\Complex$ if it is analytical on $\Omega$ except a set $A \subset\Omega$ of isolated points, which are poles for $f$.
 %Roughly speaking meromorphic functions are analytical leaving out some isolated poles; this reading is further substantiated by the following theorem.
 %\begin{thm}[Mittag-Leffler, {{\cite[13.10]{Ru87_analysis}}}]
 %  Suppose $\Omega$ is an open set in the complex plane, $A \subset \Omega$ has no limit points in $\Omega$, and to each $a \in A$ there is a polynomial of finite order $P_a(z)$ in $1/(z-a)$, that is
@@ -320,51 +369,67 @@ A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\s
 \section{Matsubara Spectrum Decomposition}
 \label{sec:coth.matsubara}
 
-In \autoref{sec:num.expansion} we use the expansion of the hyperbolic cotangens in terms of Matsubara frequencies \cite{Ma00_many_particle}
-\begin{equation}
-  \omega_n = \frac{2\pi n}{\beta} \qquad (n \in \Integers).
-  \label{eq:coth.matsubara_freq}
-\end{equation}
-It provides a sum over poles representation, namely
-\begin{equation}
-  % TODO Check
-  \coth\left(\frac{\beta z}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\omega_n - z},
-  \label{eq:coth.matsubara_expansion}
-\end{equation}
-with singularities evenly distributed along the imaginary axis.
+%In \autoref{sec:num.expansion} we use the expansion of the hyperbolic cotangens in terms of Matsubara frequencies \cite{Ma00_many_particle}
+%\begin{equation}
+  %\xi_n = \frac{2\pi n}{\beta} \qquad (n \in \Integers).
+  %\label{eq:coth.matsubara_freq}
+%\end{equation}
+%It provides a sum over poles representation, namely
+%\begin{equation}
+  %% TODO Check
+  %\coth\left(\frac{\beta z}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\xi_n - z},
+  %\label{eq:coth.matsubara_expansion}
+%\end{equation}
+%with singularities evenly distributed along the imaginary axis.
 
-In order to proof \autoref{eq:coth.matsubara_expansion} notice that $\ii\omega_n$ are exactly the isolated singularities of $z \mapsto \coth(\beta z / 2)$.
-Indeed, using the representation
-\begin{equation}
-  f(z) := \coth\left(\frac{\beta z}{2}\right) = \frac{1 + \exp[-\beta z]}{1 - \exp[-\beta z]}
-  \label{eq:coth.representation}
-\end{equation}
-we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \omega_n$.
-% TODO Elaborate?
-A short calculation reveals that these $z$ are simple poles with $\Res f(\ii\omega_n) = 2/\beta$.
+%In order to proof \autoref{eq:coth.matsubara_expansion} notice that $\ii\omega_n$ are exactly the isolated singularities of $z \mapsto \coth(\beta z / 2)$.
+%Indeed, using the representation
+%\begin{equation}
+  %f(z) := \coth\left(\frac{\beta z}{2}\right) = \frac{1 + \exp[-\beta z]}{1 - \exp[-\beta z]}
+  %\label{eq:coth.representation}
+%\end{equation}
+%we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \omega_n$.
+%% TODO Elaborate?
+%A short calculation reveals that these $z$ are simple poles with $\Res f(\ii\omega_n) = 2/\beta$.
 
-Let us now define $g$ by the right hand side of \autoref{eq:coth.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
-\begin{equation}
-  g(z) = \frac{2}{\beta} \, \lim_{N\to\infty} \sum_{n=-N}^{N} \frac{1}{\ii\omega_n - z} = - \frac{2}{\beta} \, \left( \sum_{n=0}^\infty \frac{2z}{\omega_n^2 + z^2} + \frac{1}{z} \right)
-  \label{eq:coth.series}
-\end{equation}
-where we used $\omega_{-n} = -\omega_n$ in the second step.
-Since $\omega\propto n$ the infinite series for $g$ in \autoref{eq:coth.series} converges absolutely unless $z = \ii\omega_n$ and defines a meromorphic function with the same poles and principal parts as $f$.
-This leads to the conclusion that $h := f - g$ can be continued to an analytical function on the entire complex plane.
-We now show that $h$ is bounded on $\Complex$ and therefore a constant function by Liouville's Theorem.
-% TODO Fill in!
-Expanding both $f$ and $g$ in a Laurent series about 0 allows us to calculate $f() = g() = $ as % lies within the convergence disk of both series.
-In conclusion we find $h = 0$, or put differently $f = g$---the Matsubara expansion~\ref{eq:coth.matsubara_expansion} is valid on the entire complex plane.
+%Let us now define $g$ by the right hand side of \autoref{eq:coth.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
+%\begin{equation}
+  %g(z) = \frac{2}{\beta} \, \lim_{N\to\infty} \sum_{n=-N}^{N} \frac{1}{\ii\omega_n - z} = - \frac{2}{\beta} \, \left( \sum_{n=0}^\infty \frac{2z}{\omega_n^2 + z^2} + \frac{1}{z} \right)
+  %\label{eq:coth.series}
+%\end{equation}
+%where we used $\omega_{-n} = -\omega_n$ in the second step.
+%Since $\omega\propto n$ the infinite series for $g$ in \autoref{eq:coth.series} converges absolutely unless $z = \ii\omega_n$ and defines a meromorphic function with the same poles and principal parts as $f$.
+%This leads to the conclusion that $h := f - g$ can be continued to an analytical function on the entire complex plane.
+%We now show that $h$ is bounded on $\Complex$ and therefore a constant function by Liouville's Theorem.
+%% TODO Fill in!
+%Expanding both $f$ and $g$ in a Laurent series about 0 allows us to calculate $f() = g() = $ as % lies within the convergence disk of both series.
+%In conclusion we find $h = 0$, or put differently $f = g$---the Matsubara expansion~\ref{eq:coth.matsubara_expansion} is valid on the entire complex plane.
 
 % TODO Boundness of h!!
 %
 % Idea: Show f and g are bounded for Re z --> infinty; enough since periodic
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Padé Spectrum Decomposition}
-\label{sec:coth.pade}
-%
-% * idea; rational functions, numerical superiority, defintion...
-% * Basic idea: polynomials bad for functions since no singularities allowed
-% * simplest functions with singularities: rational functoins; their poles shall cover the poles of f
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to FMO}
+\label{sec:coth.fmo}
+
+% TODO Calculations to get results of FMO plot
+% Markov approximation; here nu >> 1
+% Correction to get proper bcf (alpha(0) ≠ 0)
+
+% section coth.fmo (end)
+
+
+%% Bath Correlation Function & Spectral density plot %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %\begin{figure}
+  %  \centering
+  %  \includegraphics[width=\columnwidth]{img/fmo_bcf}
+  %  \caption{%
+  %    \textbf{(A)} Drude spectral density~\ref{eq:app.drude} with $\gamma^{-1} = 50\,\mathrm{fs}$ and $\lambda=35\,\mathrm{cm^{-1}}$.
+  %    \textbf{(B)} Real and imaginary part of the corresponding bath correlation function at 77\,K with one Matsubara term and Markov
+  %  }
+  %  \label{fig:}
+  %\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

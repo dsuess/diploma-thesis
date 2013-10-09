@@ -63,7 +63,7 @@ def Lorentzians(outfilename='lorentzian', width=columnwidth, ratio=.35):  # {{{1
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
    ax = subplot(111, autoscale_on=False)
-   subplots_adjust(left=.11, bottom=.15, right=.89, top=.99)
+   subplots_adjust(left=.13, bottom=.22, right=.87, top=.99)
 
    lorentzian = lambda w, g, W: g / np.pi / ((w - W)**2 + g**2)
 
@@ -79,8 +79,8 @@ def Lorentzians(outfilename='lorentzian', width=columnwidth, ratio=.35):  # {{{1
    # Plot the ω=0 axis
    axvline(0, ls='--', color='k')
 
-   plot(w, lorentzian(w, 1., 5.), label=r'$\gamma=1, \Omega=5')
-   plot(w, lorentzian(w, 3., 5.), label=r'$\gamma=3, \Omega=5')
+   plot(w, lorentzian(w, 1, 7.), label=r'$\gamma=1, \Omega=7')
+   plot(w, lorentzian(w, 5., 2.), label=r'$\gamma=5, \Omega=2')
 
    axis([w_min, w_max, 0, .35])
    legend(loc='upper left')
@@ -231,6 +231,6 @@ def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{1
 # 1}}}
 
 if __name__ == '__main__':
-   ScaleBehavior(width=.9*columnwidth)
-   Lorentzians(width=.8*columnwidth)
-   Expansions(quality='low')
+   #ScaleBehavior(width=.9*columnwidth)
+   Lorentzians(width=.7*columnwidth)
+   #Expansions(quality='low')

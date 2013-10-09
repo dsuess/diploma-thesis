@@ -202,7 +202,72 @@ where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Transfer Dynamics }
 \label{sec:app.fmo}
-% * FMO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% FMO Structure plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[t]{.6\textwidth}
+    \centering
+    \includegraphics[width=.8\textwidth]{img/fmo_monomer.png}
+    % FIXME Better caption
+    % FIXME Higher dpi
+    \caption{%
+      Spatial arrangement
+    }
+    \label{fig:app.monomer_full}
+  \end{subfigure}
+  \begin{subfigure}[t]{.3\textwidth}
+    % FIXME Colors
+    \centering
+    \definecolor{qqttcc}{rgb}{0,0.2,0.8}
+    \definecolor{ffqqzz}{rgb}{1,0,0.6}
+    \definecolor{ffqqqq}{rgb}{1,0,0}
+    \definecolor{qqcccc}{rgb}{0,0.8,0.8}
+    \definecolor{ffzzqq}{rgb}{0.6,0.6,0.6}
+    \definecolor{qqffqq}{rgb}{0,1,0}
+    \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45, xscale=.5, yscale=.014]
+      \draw[->,color=black] (0,-55.09) -- (0,409.79);
+      \foreach \y in {0, 100, 200, 300}
+      \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
+      \draw[color=black] (-2.30, 180) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
+      \clip(-0.38,-55.09) rectangle (5.9,409.79);
+      \draw [line width=2pt, color=red] (0.17,180)-- (1.17,180);
+      \draw [line width=2pt,color=qqffqq] (1.39,300)-- (2.39,300);
+      \draw [line width=2pt,color=ffzzqq] (3.63,400)-- (4.63,400);
+      \draw [line width=2pt,color=qqcccc] (2.89,250)-- (3.89,250);
+      \draw [line width=2pt,color=orange] (3.85,210)-- (4.85,210);
+      \draw [line width=2pt,color=ffqqzz] (2.57,80)-- (3.57,80);
+      \draw [line width=2pt,color=qqttcc] (1.81,0)-- (2.81,0);
+      \draw [line width=1pt] (0.74,189.05) -- (1.8,284.18);
+      \draw [line width=1pt] (4.13,384.05) -- (3.43,259.34);
+      \draw [line width=1pt] (4.13,384.05) -- (4.32,221.85);
+      \draw [line width=1pt] (3.4,233.65) -- (3.04,87.89);
+      \draw [line width=1pt] (3.03,66.68) -- (2.39,9.1);
+      \draw [line width=1pt] (4.32,193.38) -- (3.21,87.14);
+      \draw [line width=1pt] (1.95,283.23) -- (2.25,9.1);
+      \begin{scriptsize}
+        \draw[color=red] (0.68,168) node {180};
+        \draw[color=qqffqq] (1.90,288.0) node {300};
+        \draw[color=ffzzqq] (4.15,388.0) node {400};
+        \draw[color=qqcccc] (3.4,238.0) node {250};
+        \draw[color=orange] (4.4,198.0) node {210};
+        \draw[color=ffqqzz] (3.05,68.0) node {80};
+        \draw[color=qqttcc] (2.3,-12.0) node {0};
+      \end{scriptsize}
+    \end{tikzpicture}
+  % FIXME LABEL AND CAPTION
+    \caption{%
+      Site energies
+    }
+    \label{fig:app.site_energies}
+  \end{subfigure}
+  \caption{%
+    Spatial and energetic structure of the simplified FMO-monomer with seven BChls; the coloring and numbering is used throughout this section.
+    \textbf{(a)} Was created using the molecular visualization system \textsc{PyMOL} based on the \textsc{PDB} entry \textsc{3eni} \cite{pymol,TrCaBl09_fmo_structure}.
+    \textbf{(b)} Shows the site energies of \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}; lines indicate dominant couplings leading to the two distinct transport channels.
+  }
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % ✔ why FMO?
@@ -218,157 +283,209 @@ where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding t
 As a first exemplary application of our hierarchical equations of motion we study energy transfer in the Fenna-Matthews-Olson (FMO) complex found in low-light adapted green sulfur bacteria.
 This protein complex plays a crucial role in connecting the light harvesting antenna (chlorosome) to the photosyntetic reaction center, where the absorbed solar energy is converted to a charge gradient.
 % FIXME Quantumness???
-The vast amount of literature on the subject is not only by virtue of its relatively small size---making it an ideal model system for numerical investigation---but particularly caused by its genuine \quotes{quantumness}.
+The vast amount of literature on the subject is not only by virtue of its relatively small size---making it an ideal model for numerical investigation---but particularly due to the strong influence of quantum mechanical effects on the transfer, even at physiological temperature.
 Only lately Engel et al.\ as well as Ishizaki-Fleming demonstrated that the FMO complex achieves its remarkable almost-unit efficiency by coherent exciton motion instead of classical hopping described by Förster theory \cite{EnCaRe07_fmo,IsFl09_fmo}. \\
+
 
 
 % ✔ structure: 3 identical subunits, called monomers
 % ✔ these consist of eight BChl molecules
 % ✔   * here we focus on one monomer (as shown in \cite{RiRoSt11_fmo_trimer} reasonable approximation due to small coupling between monomers
 %     * energy transfer between monomers via resonacne Coulomb interaction (weak!)
-% * site energies and electronic coupling depend on protein environment, different values in literature;
-%     * here: Chlorobaculum tepidum, from \cite{AdRe06_fmo}A
-%     * data was obtained how???
-%     * funnel due to decrease in site energies (picture?)
-% * no detailed info about specral density for FMO complex
-%     * assume independent, but equivalent for each BChl, data from \cite{IsFl09_fmo}
-%     * determinded by fitting reoraganization energy and relaxation time determinded by 2D spectroscopy
+% ✔ site energies and electronic coupling depend on protein environment, different values in literature;
+%     ✔ here: Chlorobaculum tepidum, from \cite{AdRe06_fmo}A
+%     ✔ data was obtained how???
+% ✔ no detailed info about specral density for FMO complex
+%     ✔ assume independent, but equivalent for each BChl, data from \cite{IsFl09_fmo}
 %     * detailed study in \cite{RiRoSt11_fmo}
 
 The FMO protein complex is subdivided into three identical monomers, each comprising eight bacteriochlorophyll pigments (BChls).
 % FIXME +3
-In contrast to the first seven BChls the eighth was only discovered in recent years due to its rather weak coupling to the remaining BChls and instability during the isolation procedure in experiments \cite{TrCaBl09_fmo_structure,ScMuEl10_eighth}.
-As the main goal here is to show the applicability and reliability of our hierarchical equations of motion we ignore BChl number eight in what follows---this model has been treated thoroughly with a vast array of methods.
-For the same reason we also restrict our attention to an individual monomer: as shown by Ritschel et al.\ such a limitation is reasonable for the short time scales under consideration as the intermonomeric interaction strength is rather weak.
+In contrast to the first seven BChls, the eighth was only discovered in recent years due to its rather weak coupling to the remaining BChls and instability during the isolation procedure in experiments \cite{TrCaBl09_fmo_structure,ScMuEl10_eighth}.
+As the main goal here is to show the applicability and reliability of our hierarchical equations of motion we ignore BChl number eight in what follows---this simplified model has been investigated thoroughly with a vast array of methods.
+For the same reason, we also restrict our attention to an individual monomer: as shown by Ritschel et al.\ such a limitation is reasonable for the short time scales under consideration as the intermonomeric interaction strength is rather weak.
 
-In \autoref{fig:app.monomer_full} we display the spatial structure and numbering of a monomer.
-The BChls 1 and 6 are situated in the vicinity of the baseplate and receive excitation energy captured by the chlorosomes, while BChl 3 acts as energy sink.
-
-
-
-
-
-
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}[t]{.6\textwidth}
-    \centering
-    \includegraphics[width=.8\textwidth]{img/fmo_monomer.png}
-    % FIXME Better caption
-    % FIXME Higher dpi
-    % FIXME Remove 8th BChl?
-    \caption{%
-      Spatial arrangement
-    }
-    \label{fig:app.monomer_full}
-  \end{subfigure}
-  \begin{subfigure}[t]{.3\textwidth}
-    % FIXME Colors
-    \centering
-    \definecolor{qqttcc}{rgb}{0,0.2,0.8}
-    \definecolor{ffqqzz}{rgb}{1,0,0.6}
-    \definecolor{ffqqqq}{rgb}{1,0,0}
-    \definecolor{qqcccc}{rgb}{0,0.8,0.8}
-    \definecolor{ffzzqq}{rgb}{1,0.6,0}
-    \definecolor{qqffqq}{rgb}{0,1,0}
-    \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45, xscale=.5, yscale=.014]
-      \draw[->,color=black] (0,-55.09) -- (0,409.79);
-      \foreach \y in {0, 100, 200, 300}
-      \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
-      \draw[color=black] (-2.30, 180) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
-      \clip(-0.38,-55.09) rectangle (5.9,409.79);
-      \draw [line width=2pt] (0.17,180)-- (1.17,180);
-      \draw [line width=2pt,color=qqffqq] (1.39,300)-- (2.39,300);
-      \draw [line width=2pt,color=ffzzqq] (3.63,400)-- (4.63,400);
-      \draw [line width=2pt,color=qqcccc] (2.89,250)-- (3.89,250);
-      \draw [line width=2pt,color=ffqqqq] (3.85,210)-- (4.85,210);
-      \draw [line width=2pt,color=ffqqzz] (2.57,80)-- (3.57,80);
-      \draw [line width=2pt,color=qqttcc] (1.81,0)-- (2.81,0);
-      \draw [line width=1pt] (0.74,189.05) -- (1.8,284.18);
-      \draw [line width=1pt] (4.13,384.05) -- (3.43,259.34);
-      \draw [line width=1pt] (4.13,384.05) -- (4.32,221.85);
-      \draw [line width=1pt] (3.4,233.65) -- (3.04,87.89);
-      \draw [line width=1pt] (3.03,66.68) -- (2.39,9.1);
-      \draw [line width=1pt] (4.32,193.38) -- (3.21,87.14);
-      \draw [line width=1pt] (1.95,283.23) -- (2.25,9.1);
-      \begin{scriptsize}
-        \draw[color=black] (0.68,168) node {180};
-        \draw[color=qqffqq] (1.90,288.0) node {300};
-        \draw[color=ffzzqq] (4.15,388.0) node {400};
-        \draw[color=qqcccc] (3.4,238.0) node {250};
-        \draw[color=ffqqqq] (4.4,198.0) node {210};
-        \draw[color=ffqqzz] (3.05,68.0) node {80};
-        \draw[color=qqttcc] (2.3,-12.0) node {0};
-      \end{scriptsize}
-    \end{tikzpicture}
-  % FIXME LABEL AND CAPTION
-    \caption{%
-      Site energies
-    }
-  \end{subfigure}
-  \caption{%
-      Here all eight BChls.
-      Created using PyMol, based on PDB entry 3ENI \cite{pymol,TrCaBl09_fmo_structure}
-  }
-\end{figure}
+In \autoref{fig:app.monomer_full} we display the spatial structure and numbering of the BChls in single a monomer.
+The BChls 1 and 6 are situated in the vicinity of the light harvesting antenna and receive excitation energy captured, while BChl 3 acts as energy sink.
+As both site energies $\epsilon_n$ and electronic coupling strengths $V_{mn}$ depend on the protein environment, different values for different species can be found in the literature.
+%> FIXME Where to put electronic coupling
+Here we use the data obtained from optical spectroscopy in \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}, see \autorefs{fig:app.site_energies} and~\ref{fig:app.fmo_ishfl}.
+Although the spectral density may be important for the details of the excitation transfer, no comprehensive information on this matter is available at present.
+Good agreement with experiments on \emph{Prosthecochloris aesturaii} was achieved \cite{ReScEn08_fmo_spectral_density} under the semi-empirical assumption that each exciton couples to an independent environment with a Drude spectral density
+\begin{equation}
+  J(\omega) = \frac{2 \lambda}{\pi} \frac{\gamma\omega}{\omega^2 + \gamma^2},
+  \label{eq:app.drude}
+\end{equation}
+with reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$ and relaxation time $\gamma^{-1} = 50\,\mathrm{fs}$.\\
 
 
+
+%% Single Page with Transfer @77K %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
   \centering
-  \includegraphics{img/fmo_transfer.pdf}
-  % FIXME Caption
-  % FIXME Change plot to 2Term fit
-  % FIXME MAKE THIS 300K
+  \includegraphics{img/fmo_ishfl}
+  % FIXME Reference to color encoding?
   \caption{%
-    Exciton transfer of the simplified FMO-monomer with seven BChls using our hierarchical equation of motion up to first~(doted line) and second order~(dashed line).
-    We place the initial excitation on both receiving BChls, that is the first~(left) and the sixth molecule~(right).
-    For comparison the solid line shows the results of Ishizaki and Fleming~\cite{IsFl09_fmo}, which were obtained in the density-matrix HEOM approach.
+    \label{fig:app.fmo_ishfl}
+    Exciton transfer of the simplified FMO-monomer with seven BChls at 77\,K using our stochastic hierarchical equations up to first~(doted) and second order~(dashed) averaged over 10000 trajectories.
+    For comparison the solid line shows the results of Ishizaki and Fleming~\cite{IsFl09_fmo}, which were obtained in the HEOM approach.
+    Population for BChls 1--4 \textbf{(A)} and BChls 3--6 \textbf{(B)} with initial excitation on site 1 and 6 respectively.
+    The inset displays a purely electronic system without coupling to the vibrational degrees of freedom.
+    Details on parameters can be found in \autoref{sec:coth.fmo}.
   }
-  \label{fig:app.fmo_transfer_2}
-\end{figure}
 
-\begin{figure}[p]
+  \vspace{.3cm}
   \centering
+  % FIXME Run again, timescale is not right
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img/fmo_transfer_0.png}
     \caption{%
-      $t = 0.00 \, \mathrm{fs}$
+      $t = 0.00 \, \mathrm{ps}$
     }
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img/fmo_transfer_1.png}
     \caption{%
-      $t = 0.25 \, \mathrm{fs}$
+      $t = 0.2 \, \mathrm{ps}$
     }
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img/fmo_transfer_2.png}
     \caption{%
-      $t = 0.50 \, \mathrm{fs}$
+      $t = 0.50 \, \mathrm{ps}$
     }
   \end{subfigure}
-  \vspace{1cm}
 
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img/fmo_transfer_3.png}
     \caption{%
-      $t = 1.00 \, \mathrm{fs}$
+      $t = 1.00 \, \mathrm{ps}$
     }
   \end{subfigure}
   \begin{subfigure}[b]{0.3\textwidth}
     \includegraphics[width=\textwidth]{img/fmo_transfer_4.png}
     \caption{%
-      $t = 2.00 \, \mathrm{fs}$
+      $t = 2.00 \, \mathrm{ps}$
     }
   \end{subfigure}
 
   \caption{%
-    Same as \autoref{fig:app.fmo_transfer_2term} with initial excitation on the sixth BChl~(orange).
-    Notice how the energy flow is not evenly distributed but shows a pronounced drift towards the energy sink located at the third BChl~(blue).
+    \label{fig:app.fmo_transport_pretty}
+    Same as \autoref{fig:app.fmo_ishfl} B.
+    The intensity of each molecule represents the population of the associated exciton state.
     For the sake of clarity we do not show the full molecular structure.
   }
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\Autoref{fig:app.fmo_ishfl} shows the results of our calculations at cryogenic temperature $T=77\,\mathrm{K}$ using our stochastic hierarchy as well as the established \HEOM-results of Ishizaki and Fleming \cite{IsFl09_fmo}.
+Both initial excitations move remarkably fast and directed---and up to $t=700\,\mathrm{fs}$ in a quantum-coherent, wavelike fashion---toward the energy sink at BChl 3.
+However, the final population of the latter is only about half as large on the left hand side due to the relatively high site energy of BChl 2.
+This prolongs the lifetime of an exciton-state on BChl 1 significantly.
+It has been conjecture that this barrier is partly responsible for the high yield of the FMO-complex \cite{IsFl09_fmo}.
+Indeed, the relatively small energy gap $\Delta\epsilon = 180\, \mathrm{cm^{-1}}$ between the first and third BChl cannot prevent back-transfer due to thermal excitation from the latter along this channel.
+The larger gap of $\Delta\epsilon = 300\,\mathrm{cm^{-1}}$ between the second and the third suppresses depopulation much more efficiently.
+This is exactly where quantum effects influence the operation significantly:
+Delocalization helps to overcome the resulting subsidiary energetic minima at BChl 1 much quicker than a classical hopping-excitation could.
+
+No such initial \quotes{energy barrier} exists for the transport starting BChl 6, therefore, the excitation-population at molecules 3 and 4 increases up to $t = 1\,\mathrm{ps}$.
+For even longer times, all other sites have only vanishing probability left as shown in \autoref{fig:app.fmo_transport_pretty}.
+
+In the inset to \autoref{fig:app.fmo_ishfl} we also show the dynamics for a purely electronic system:
+As expected the population-probability shows a purely oscillatory behavior with no effective excitation transport, thus emphasizing the importance of vibrational degrees of freedom in the exciton energy transfer.
+
+Remarkably, the results of first and second order in our stochastic hierarchy are almost indistinguishable from each other and agree very well the reference.
+% FIXME Is this a good idea?
+Calculations including one more order (not shown) verify, that the second order is already enough to obtain convergence in these parameter regimes.
+% FIXME Really?
+As we show in \autoref{sec:coth.fmo}, the dominant exponential bath mode is given by\footnote{%
+  Recall our notation $\alpha(t) = g \exp[-\gamma\abs{t}]$.
+}
+$g \approx (2916 - \ii 3716) \, \mathrm{cm^{-2}}$ and $\gamma \approx 106\,\mathrm{cm^{-1}}$.
+Therefore the proposed truncation condition $\sqrt{g} \ll k \gamma$, which for the given parameters reads $83 \ll 106 k$, might be too restricting, yet.
+
+That we do not obtain complete agreement in \autoref{app.fmo_ishfl} A has the following reason:
+The parameter $g$ of the second bath mode (a low temperature correction term) remains real.
+% FIXME Due to Drude; only one Pole, not discontinous at zero!
+Therefore, the complete bath correlation function, which is simply the sum of both modes, obtains a non-vanishing imaginary part at $\alpha(0)$ due to truncating the infinite Matsubara expansion.
+But since $\alpha$ is related to our driving processes $\ZZ$ by $\alpha(t-s) = \E[Z_t \ZZ_s]$, we cannot treat such an unphysical bath correlation function exactly.
+% FIXME Picture?
+Therefore we included an additional, almost-Markovian mode with purely imaginary $g$, such that $\Im\alpha(t)$ goes smoothly to zero as $t \to 0$ while changing $\alpha$ as little as possible---the details may be found in the appendix.\\
+
+
+
+%% MevsPhi plot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\columnwidth]{img/fmo_mevsphi}
+  \caption{%
+    Exciton transfer of the simplified FMO-monomer at 300\,K and internal convergence check of the hierarchies. Solid lines are results from \cite{IsFl09_fmo}.\\
+    \textbf{(A)} Stochastic hierarchy with 10000 realizations and orders 1--3.\\
+    \textbf{(B)} Same sets of parameters, but calculated in the \HEOM formalism with truncation at orders 1, 2 and 5 using \textsc{PHI} \cite{StSc12_heom}.\\
+    % FIXME Dashed lines same but 50000 realizations
+    \textbf{(C)} The deviation of the stochastic hierarchy with respect to its third order result. Dotted lines indicate the maximum value over time. The starred curves correspond to a larger sample size of 50000 realizations.\\
+    \textbf{(D)} Same as (C), but for the \HEOM calculation. Here, the reference is the fifth order result.
+  }
+  \label{fig:app.fmo_mevsphi}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The exciton dynamics at physiological temperature in \autoref{fig:app.fmo_mevsphi} shows a similar qualitative behavior.
+However, the transfer is less efficient and directed as decoherence leads to a much stronger smearing of the excitation over all BChls, even the ones not shown in this picture.
+For the same reason, the wave-like motion only lasts up to $t \approx 400\,\mathrm{fs}$.
+Notwithstanding, at $t = 1\,\mathrm{ps}$ the population of the relevant, third BChl is $0.2$---still about two-thirds of the result at cryogenic temperature---and increases further.
+
+This time, our stochastic hierarchical equations of motion reproduce the results of Ishizaki-Fleming almost exactly even with just one order.
+In contrast to the $T = 77\,\mathrm{K}$ result, there is no pronounced offset, because the imaginary part of $\alpha(0)$ is insignificantly small
+% FIXME Fill in alpha
+\begin{equation*}
+  \alpha(t) = \dots.
+\end{equation*}
+Again, we postpone the calculations to the appendix.
+Nevertheless, the differences between first and second order are larger than for the former calculation.
+% FIXME REally?
+% FIXME Reference
+Since the only distinction in the dominant bath mode is a larger coupling constant $g$, this strengthens our truncation condition~\ref{eq:}.
+
+On the right hand side of \autoref{fig:app.fmo_mevsphi} B we carry out the same calculations using the \HEOM formalism \cite{StSc12_heom}.
+Clearly, convergence with the number of hierarchies is much worse:
+The first order calculations displays highly undamped oscillations and the second order is necessary to get the qualitative picture right.
+We have found that a truncation at fifth order is necessary to correctly reproduce the coherent oscillations between 0\,fs and 300\,fs.
+
+To check internal convergence of each method systematically, we proceed as follows:
+First we define a measure for deviation of a given reduced density matrix $\rho(t)$, obtained from a numerical calculation, with respect to some reference $\rho^{\mathrm{ref}}(t)$ as
+\begin{equation}
+  A[\rho(t), \rho^\mathrm{ref}(t)] = \max\limits_n \left\vert \rho_{nn}(t) - \rho^{\mathrm{ref}}_{nn}(t) \right\vert.
+  \autoref{eq:app.accuracy}
+\end{equation}
+since we confine our discussion to the populations of the exciton states $n$ given by $\rho_{nn}$.
+As we are only interested in the convergence of a given method, the reference state is calculated using the same method and selected by increasing the truncation order $D$ until $A[\rho_{D}(t), \rho{D+1}(t)] < 10^{-3}$; then $\rho^{(ref)} = \rho_D$.
+This amounts to $D=3$ for our \NMSSE-hierarchy and $D=5$ for $\HEOM$.
+The accuracy of lower-order calculations with respect to the chosen reference is shown in \autoref{fig:app.fmo_mevsphi} C and D for the stochastic and the density hierarchy, respectively.
+
+We already mentioned in the general discussion above that the first order's deviation of about 2\% is just barely visible in \autoref{fig:app.fmo_mevsphi} A.
+In contrast, the same accuracy is obtained in the \HEOM-formalism not until we truncate the hierarchy at third order.
+However, we notice an important difference in the two plots:
+While the \HEOM-calculations show the largest discrepancy at the initial wave-like motion and then drop off by about an order of magnitude, the results from the stochastic hierarchy remain more or less constant after $t = 0.2\,\mathrm{ps}$.
+This as well as the tremulous time-dependence indicate, that the error of the latter is due to stochastic effects and not caused by systematic deviation.
+We check this statement by repeating the same calculations using a larger sample size---a start marks the corresponding results in \autoref{fig:app.fmo_mevsphi}.
+Clearly, they show less deviation thus confirming our assertion.\\
+
+
+
+In conclusion, the discussion above shows, that the hierarchical equations based on the nonlinear \NMSSE provide a highly efficient method to calculate exciton energy transfer dynamics in the FMO-complex.
+We obtain almost perfect agreement for both, 77\,K and 300\,K, with the established results of Ishizaki and Fleming in first order calculations.
+The discrepancy of these to higher order calculations is less than 1\% demonstrating very rapid convergence with respect to the truncation order.
+Of course, such an accuracy is completely unnecessary for most investigations of biological systems.
+The theoretical model itself is usually much less reliable due to approximations and experimental errors for the parameters involved.
+Also, the improved numerical efficiency, due to a reduced number of auxiliary states\footnote{%
+  In the case of a single bath mode, we have eight auxiliary states for $D=1$ compared to 330 for $D=4$.
+}
+and propagating Hilbert space vectors instead of density matrices, is more than compensated by the large sample size required.
+However, the stochastic hierarchies' advantages really come to fruition when it comes to more realistic systems.
+% FIXME Can we do this
+For example, data from fluorescence line-narrowing measurements on \emph{Prosthecochloris aesturaii} indicate that realistic spectral densities are far more structured, requiring as much as 25 exponential modes
+This amounts to 176 auxiliary states for $D=1$ compared to a tremendous number of 41 million states required by a fourth-order calculation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Absorption Spectra}
