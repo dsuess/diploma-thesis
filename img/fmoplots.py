@@ -68,14 +68,12 @@ def max_diff(pop, popdiff):
    :returns: @todo
 
    """
-   A =  np.max(np.abs(pop - popdiff), axis=0)
-   return A
+   return np.max(np.abs(pop - popdiff), axis=0)
 
 
 # Main plotting routines ######################################################
 
-def fmo_transfer_bcf(outfilename='fmo_bcf', temp=77, # {{{1
-      width=columnwidth, ratio=.25):
+def fmo_transfer_bcf(outfilename='fmo_bcf', width=columnwidth, ratio=.35):# {{{1
    """
       Plots to compare lin vs. nonlin method.
    """
@@ -93,8 +91,7 @@ def fmo_transfer_bcf(outfilename='fmo_bcf', temp=77, # {{{1
    g = invcm_to_ps / (50 * 1e-3)
    print(g)
    # Plot data ################################################################
-   A = AggregatTransferFromFile(dirloc +
-         'fmo{}-start1-2term-1.pkl'.format(temp))
+   A = AggregatTransferFromFile(dirloc + 'fmo77-start1-2term_delta-1.pkl')
    bath = A._bath
 
    ## plot spectral density
@@ -105,32 +102,52 @@ def fmo_transfer_bcf(outfilename='fmo_bcf', temp=77, # {{{1
    ## plot bath correlation function
    t = np.linspace(0, .2, 1000)
    a = bath._alpha(t) / 1e3
-   ax2.plot(invcm_to_ps * t, np.real(a), color='r', label=r'$\Re\alpha$')
-   ax2.plot(invcm_to_ps * t, np.imag(a), color='g', label=r'$\Im\alpha$')
+   ax2.plot(invcm_to_ps * t, np.real(a), color='k', label=r'$\Re\alpha (77\,\mathrm{K})$',
+         ls='-')
+   ax2.plot(invcm_to_ps * t, np.imag(a), color='k',
+         ls='--')
+
 
    bath.g[1] -= 1.j * np.imag(bath.g[0])
    a = bath._alpha(t) / 1e3
-   ax2.plot(invcm_to_ps * t, np.real(a), color='r', ls='--')
-   ax2.plot(invcm_to_ps * t, np.imag(a), color='g', ls='--')
+   ax2.plot(invcm_to_ps * t, np.imag(a), color='k', ls=':')
+
+   ## and the high-temperature plot
+   A = AggregatTransferFromFile('/home/dsuess/Documents/Diplomarbeit/archive/mevsphi/fmo300-start1-1.pkl')
+   bath = A._bath
+
+   ## plot spectral density
+   t = np.linspace(0, .2, 1000)
+   a = bath._alpha(t) / 1e3
+   ax2.plot(invcm_to_ps * t, np.real(a), color='.6', label=r'$\Re\alpha (300\,\mathrm{K})$',
+         ls='-')
+   ax2.plot(invcm_to_ps * t, np.imag(a), color='k',
+         ls='--')
+
+   bath.g[1] -= 1.j * np.imag(bath.g[0])
+   a = bath._alpha(t) / 1e3
+   #ax2.plot(invcm_to_ps * t, np.imag(a), color='k', ls=':')
+   ax2.plot([], label=r'$\Im\alpha$', ls='-.')
+
 
    # Setup plot ###############################################################
 
    ax1.set_xlabel(r'$\omega\,\mathrm{[cm^{-1}]}$')
    ax1.set_ylabel(r'$J(\omega)\,\mathrm{[cm^{-1}]}$')
    ax2.set_xlabel(r'$t\,\mathrm{[ps]}$')
-   ax2.set_ylabel(r'$\alpha(t)\,\mathrm{[cm^{-2}]}$')
+   ax2.set_ylabel(r'$\alpha(t) / 1000\,\mathrm{[cm^{-2}]}$')
 
 
    ax1.xaxis.set_major_locator(MaxNLocator(4))
    ax1.yaxis.set_major_locator(MaxNLocator(4))
    ax2.xaxis.set_major_locator(MaxNLocator(4))
    ax2.yaxis.set_major_locator(MaxNLocator(4))
-   ax1.axis([0, 2000, 0, 15])
-   ax2.axis([0, .2, -4, 8])
+   ax1.axis([0, 2000, 0, 13])
+   ax2.axis([0, .2, -4, 15])
 
 
-   ax1.text(40, 12.6, r'\textbf A')
-   ax2.text(.005, 6, r'\textbf B')
+   ax1.text(40, 11.5, r'\textbf A')
+   ax2.text(.005, 13, r'\textbf B')
 
    ax2.legend()
    plt.savefig('.'.join([outfilename, outformat]))
@@ -176,23 +193,23 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
       ax1.plot(t, pop[i], color=cmap[i])
    ax1.plot([], ls='-', color='k', label='IF')
 
-   ## FIXME MAke this 3
-   A = AggregatTransferFromFile(dirloc + 'fmo300-start1-2.pkl')
+   A = AggregatTransferFromFile(dirloc + 'fmo300-start1-3.pkl')
    pop_ref = A.get()
    t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
+   print(t.shape)
 
-   ## FIXME Add third order
-   for i, D in enumerate([1, 2]):
+   for i, D in enumerate([1, 2, 3]):
    #for i, D in enumerate([]):
+      print(D)
       A = AggregatTransferFromFile(dirloc + 'fmo300-start1-{}.pkl'.format(D))
       pop = A.get()
+      print(pop.shape)
       for j in sites:
          ax1.plot(t, pop[j], color=cmap[j], ls=lss[i])
       ## for the legend
       ax1.plot([], ls=lss[i], color='k', label=D)
 
-   ## Make this [1, 2]
-   for i, D in enumerate([1, 1]):
+   for i, D in enumerate([1, 2]):
    #for i, D in enumerate([]):
       A = AggregatTransferFromFile(dirloc + 'fmo300-start1-{}.pkl'.format(D))
       pop = A.get()
@@ -352,14 +369,14 @@ def fmo_transfer_ishfl(outfilename='fmo_ishfl', temp=77, # {{{1
 
    ## hierarchy results
    A = AggregatTransferFromFile(dirloc +
-         'fmo{}-start1-2term-1.pkl'.format(temp))
+         'fmo{}-start1-2term_delta-1.pkl'.format(temp))
    t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
    pop = A.get()
    for i in range(4):
       ax1.plot(t, pop[i], ls=':', color=cmap[i])
 
    A = AggregatTransferFromFile(dirloc +
-         'fmo{}-start1-2term-2.pkl'.format(temp))
+         'fmo{}-start1-2term_delta-2.pkl'.format(temp))
    pop = A.get()
    for i in range(4):
       ax1.plot(t, pop[i], ls='--', color=cmap[i])
@@ -439,11 +456,76 @@ def fmo_transfer_ishfl(outfilename='fmo_ishfl', temp=77, # {{{1
 
    ax1.axis([0, 1.0, 0, 1.0])
    ax2.axis([0, 1.0, 0, 1.0])
-   axdet1.axis([0, 4.0, 0, 1.0])
    axdet2.axis([0, 1.0, 0, 1.0])
    plt.savefig('.'.join([outfilename, outformat]))
    plt.close()
    print('Success.')
+
+
+def fmo_77_true(outfilename='fmo_77_true', width=columnwidth, ratio=.4):# {{{1
+   """
+      Plots to compare lin vs. nonlin method.
+   """
+   print('Creating 300K 2term plot')
+   figsize = (width / PtPerIn, width * ratio / PtPerIn)
+   plt.figure(figsize=figsize)
+   plt.subplots_adjust(left=.11, bottom=.16, right=.89, top=.93, wspace=0.,
+         hspace=.05)
+   dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/fmo_300_2ndmode/'
+
+   ax1 = plt.subplot(121)
+   ax2 = plt.subplot(122)
+   # FIXME Match colors with pymol
+   cmap = ['r', 'g', 'b', 'm', 'c', '#ffa500', '.3', 'y']
+   sites = [0, 1, 2, 3, 4, 5, 6]
+
+   # Main plotting ############################################################
+   A = AggregatTransferFromFile(dirloc + 'fmo300-start1-1.pkl')
+   t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
+   pop = A.get()
+   for i in sites:
+      ax1.plot(t, pop[i], color=cmap[i], ls='-')
+   ax1.plot([], ls='-', label='2 Term, D=1')
+
+   A = AggregatTransferFromFile(dirloc + 'fmo300-start1-2.pkl')
+   t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
+   pop = A.get()
+   for i in sites:
+      ax2.plot(t, pop[i], color=cmap[i], ls='-')
+   ax2.plot([], ls='-', label='2 Term, D=2')
+
+   A = AggregatTransferFromFile(dirloc + '../mevsphi/fmo300-start1-1.pkl')
+   t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
+   pop = A.get()
+   for i in sites:
+      ax1.plot(t, pop[i], color=cmap[i], ls=':')
+   ax1.plot([], ls=':', label='1 Term, D=1')
+
+   A = AggregatTransferFromFile(dirloc + '../mevsphi/fmo300-start1-2.pkl')
+   t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
+   pop = A.get()
+   for i in sites:
+      ax2.plot(t, pop[i], color=cmap[i], ls=':')
+   ax2.plot([], ls=':', label='1 Term, D=2')
+
+   # Setup plot ###############################################################
+   ax1.set_xlabel(r't [ps]')
+   ax2.set_xlabel(r't [ps]')
+   ax1.set_ylabel(r'population')
+   ax2.set_yticklabels([])
+
+   ax1.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))
+   ax2.xaxis.set_major_locator(MaxNLocator(5))
+
+
+   ax1.axis([0, 1.0, 0, 1.0])
+   ax2.axis([0, 2.0, 0, 1.0])
+   ax1.legend()
+   ax2.legend()
+   plt.savefig('.'.join([outfilename, outformat]))
+   plt.close()
+   print('Success.')
+
 
 #1}}}
 
@@ -451,3 +533,4 @@ if __name__ == '__main__':
    #fmo_transfer_bcf()
    #fmo_transfer_ishfl(temp=77, ratio=.4)
    fmo_mevsphi_plot()
+   #fmo_77_true()

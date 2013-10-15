@@ -77,10 +77,10 @@ def Lorentzians(outfilename='lorentzian', width=columnwidth, ratio=.35):  # {{{1
    ax.set_ylabel(r'$J(\omega)$')
 
    # Plot the ω=0 axis
-   axvline(0, ls='--', color='k')
+   axvline(0, ls=':', color='k')
 
-   plot(w, lorentzian(w, 1, 7.), label=r'$\gamma=1, \Omega=7')
-   plot(w, lorentzian(w, 5., 2.), label=r'$\gamma=5, \Omega=2')
+   plot(w, lorentzian(w, 1, 7.), label=r'$\gamma=1, \Omega=7', color='k', ls='-')
+   plot(w, lorentzian(w, 5., 2.), label=r'$\gamma=5, \Omega=2', color='k', ls='--')
 
    axis([w_min, w_max, 0, .35])
    legend(loc='upper left')
@@ -184,7 +184,7 @@ def Expansions(outfilename='expansions', width=columnwidth, ratio=.5,  # {{{1
    print('Success.')
 
 
-def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{1
+def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.4):  # {{{1
    """
       Plots the scaling behavior of our Hierarchichal Equations for two
       different numbers of modes.
@@ -195,7 +195,7 @@ def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{1
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
    ax = subplot(111, autoscale_on=False)
-   subplots_adjust(left=.11, bottom=.13, right=.89, top=.99)
+   subplots_adjust(left=.11, bottom=.17, right=.89, top=.99)
 
    Depth_Max = 12
    Depths = np.arange(1, Depth_Max)
@@ -212,25 +212,29 @@ def ScaleBehavior(outfilename='scaling', width=columnwidth, ratio=.5):  # {{{1
    ax.set_yticks([10e0, 10e2, 10e4, 10e6, 10e8, 10e10])
    ax.tick_params(axis='y', which='minor', left='off', right='off')
 
-   colors = ['r', 'b']
-   for i, N in enumerate([5, 10]):
-      # Triangular Shape
-      num = NumberStates(Depths, N)
-      plot(np.array(Depths), np.array(num), 'x', color=colors[i],
-            label='Tri., $N={}$'.format(N))
-      # Rectangular Shape
-      num = (Depths + 1.)**N
-      plot(np.array(Depths), np.array(num), 'o', color=colors[i],
-            label='Cub., $N={}$'.format(N))
+
+   # Triangular Shape
+   num = NumberStates(Depths, 5)
+   plot(np.array(Depths), np.array(num), 'v', label='Tri.,5', color='.6')
+   # Rectangular Shape
+   num = (Depths + 1.)**5
+   plot(np.array(Depths), np.array(num), 's', label='Cub., 5', color='.6')
+
+   # Triangular Shape
+   num = NumberStates(Depths, 10)
+   plot(np.array(Depths), np.array(num), '^', label='Tri., 10')
+   # Rectangular Shape
+   num = (Depths + 1.)**10
+   plot(np.array(Depths), np.array(num), 's', label='Cub., 10')
 
    ax.axis([.5, Depth_Max - 1 + .5, 10e-1, 10e11])
-   legend(ncol=2, loc='upper right')
+   legend(ncol=2, loc='upper left')
    savefig('.'.join([outfilename, outformat]))
    close()
    print('Success.')
 # 1}}}
 
 if __name__ == '__main__':
-   #ScaleBehavior(width=.9*columnwidth)
+   ScaleBehavior(width=.9*columnwidth)
    Lorentzians(width=.7*columnwidth)
    #Expansions(quality='low')

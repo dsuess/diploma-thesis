@@ -2,6 +2,8 @@
 \label{chap:app}
 % * why?
 % * current results/techniques
+%
+% TODO Experimental setup, necessary for app.model.exciton
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % * Growing interest, application, ...
@@ -12,6 +14,7 @@
 % * Non-markovian effects
 % * demonstrate applicability to systems of recent interest
 
+\cm{INTRODUCTION}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Basic Model}
@@ -19,14 +22,7 @@
 % * assumptions
 % * Frenkel excitons
 %
-% FIXME Too many subsections?
-% TODO Experimental setup, necessary for app.model.exciton
-% TODO product initial state ok, vertical Frank-Condon transition
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Aggregat Hamiltonian}
-\label{sub:app.model.hamiltonian}
 
 % GENERAL MOLECULE
 % ---------------
@@ -35,43 +31,38 @@
 % ✔ split into electronic and vibrational degrees of freedom
 % ✔ in aggregat further vibrational degrees of freedom: inter- and intramolecular as well as solvent
 %
-% FIXME Rename V_mn since we use it below for matrix elements
 
-In the follwing chapter we treat molecular aggregats with a size in the order of magnitude from a few up to a hundred molecules.
-Let us consider the latter composed of electrons and point-like nuclei quantum mechanically described by canonical-conjugated pairs of operators $(p_j, q_j)$ and $(P_j, Q_j)$ respectively.
+In the following chapter, we treat molecular aggregates with a size in the order of magnitude from a few up to a hundred molecules.
+Let us consider a molecule composed of electrons and point-like nuclei described quantum mechanically by canonical-conjugated pairs of operators $(p_j, q_j)$ and $(P_j, Q_j)$ respectively.
 The corresponding Hamiltonian is given by
 \begin{equation}
-  \opH{mol} = \opT{el} + \opT{nuc} + \opV{el-el} + \opV{nuc-nuc} + \opV{el-nuc}
+  \opH{mol} = \opT{el} + \opT{nuc} + \opU{el-el} + \opU{nuc-nuc} + \opU{el-nuc}
   \label{eq:app.mol_hamil}
 \end{equation}
-% TODO More?
-with the kinetic energies $T$ and appropriate Coulomb interactions $V$.
-% TODO Really?
-We drop possible contributions from internal spin degrees of freedom since they induce only negligible corrections for the systems under consideration.
+with the kinetic energies $T$ and appropriate Coulomb interactions $U$.
+We drop possible contributions from internal spin degrees of freedom, since they induce only negligible corrections for the systems under consideration.
 
 The vast difference in masses of electrons and nuclei allows us to separate the dynamics of both into two individual parts using the Born-Oppenheimer approximation:
-As electrons move on a much faster time scale they can respond to any changes in the nuclear arrangement almost instantaneously.
-This amounts to including the motion of nuclei mediated by the Coulomb potential $\opV{el-nuc}$ only adiabatically when calculating the electron dynamics from \autoref{eq:app.mol_hamil}.
-% TODO Is this clear and to the point?
-Therefor we can reorganize the summands in \autoref{eq:app.mol_hamil} more appropriately to
+As electrons move on a much faster time scale, they can respond to any changes in the nuclear arrangement almost instantaneously.
+This enables us to include the motion of nuclei mediated by the Coulomb potential $\opU{el-nuc}$ only adiabatically when calculating the electron dynamics from \autoref{eq:app.mol_hamil}.
+Therefore, we can reorganize the summands in \autoref{eq:app.mol_hamil} more appropriately to
 \begin{equation}
-  \opH{mol} = \opH{el}(\QQ) + \opT{nuc} + \opV{nuc-nuc},
+  \opH{mol} = \opH{el}(\QQ) + \opT{nuc} + \opU{nuc-nuc},
   \label{eq:app.mol_hamil_bo}
 \end{equation}
-where the notation $\opH{el} = \opT{el} + \opV{el-el} + \opV{el-nuc}(\QQ)$ indicates that we regard the electronic Hamiltonian to depend only parametrically on the nuclear coordinates $\QQ$.
-% FIXME Notice??
-For the processes under consideration only the valence electrons need to be taken into account explicitly; others are included to the nucleon-part without further notice.
+where the notation $\opH{el}(\QQ) = \opT{el} + \opU{el-el} + \opU{el-nuc}(\QQ)$ indicates that we regard the electronic Hamiltonian to depend only parametrically on the nuclear coordinates $\QQ$.
+For the energy-scales under consideration, we only have to treat the valence electrons explicitly; electrons on lower energy levels are included into the \quotes{environmental} nucleon-part.\\
 
 
-% FIXME In all possible combinations?
-The same reasoning applies to the complete Hamiltonian of the aggregat, which besides contributions of the form~\ref{eq:app.mol_hamil} for each individual molecule contains intermolecular interactions between electrons and nuclei in all possible combinations.
-Therefore it can rephrased similarly to \autoref{eq:app.mol_hamil_bo}
+
+The same reasoning applies to the complete Hamiltonian of the aggregate, which, besides contributions of the form~\ref{eq:app.mol_hamil} for each individual molecule, contains intermolecular interactions between electrons and nuclei in all possible combinations.
+Hence, it can be rephrased similarly to \autoref{eq:app.mol_hamil_bo}
 \begin{equation}
-  \opH{agg} = \opH{el}(\QQ) + \opT{vib} + \opV{vib-vib},
+  \opH{agg} = \opH{el}(\QQ) + \opT{vib} + \opU{vib-vib},
   \label{eq:app.agg_hamil}
 \end{equation}
-Here we use the more general notion of vibrational degrees of freedom, which not only comprises the intra- and intermolecular nuclear coordinates, but also possible environmental degrees of freedom not belonging to the aggregat.
-These appear for example when studying molecular compounds immersed in a liquid solvent.
+Here we use the more general notion of vibrational degrees of freedom, which not only comprises the intra- and intermolecular nuclear coordinates, but also possible environmental degrees of freedom not belonging to the aggregate.
+For example, the latter can be found in molecular compounds immersed in a liquid solvent.
 
 % ELECTRONIC PART
 % ---------------
@@ -80,47 +71,43 @@ These appear for example when studying molecular compounds immersed in a liquid 
 % ✔   => anti-symmetrization in Hartree anatz non necessary; product basis
 % ✔      =>   H_el = Σ_ma ε_ma |φ_ma><φ_ma|  +  ½ Σ ...
 
-The Born-Oppenheimer approximation allows us to analyse the electronic separately from the vibrational part of \autoref{eq:app.agg_hamil} for a fixed coordinate vector $\QQ$.
-We split up the former into contributions for each individual electron
+The Born-Oppenheimer approximation allows us to analyse the electronic part separately from the vibrational part of \autoref{eq:app.agg_hamil} for a fixed set of vibrational coordinates $\QQ$.
+Splitting up the former into contributions from each individual electron and interaction terms gives
 \begin{equation*}
   \opH{el} = \sum_m H_m^\mathrm{(el)} + \frac{1}{2} \sum_{m,n} U_{mn}^\mathrm{(el-el)},
 \end{equation*}
 where $H_m^\mathrm{(el)}$ contains the $m$\th electron's kinetic energy as well as its coupling to the vibrational degrees of freedom and $U_{mn}$ is simply the Coulomb interaction between the $m$\th and $n$\th electron.
-The \quotes{free} Hamiltonians $H_m^\mathrm{(el)}$ define distinct electronic states by
+For each given environmental configuration $\QQ$, the \quotes{free} Hamiltonians $H_m^\mathrm{(el)}$ define adiabatic electronic eigenstates states by
 \begin{equation*}
-  H_m^\mathrm{(el)}(\QQ) \varphi_{ma} (q, \QQ) = \epsilon_{ma}(\QQ) \varphi_{ma} (q, \QQ)
+  H_m^\mathrm{(el)}(\QQ) \varphi_{ma} (q, \QQ) = \epsilon_{ma}(\QQ) \varphi_{ma} (q, \QQ).
 \end{equation*}
-for each given environmental configuration $\QQ$.
-The index $m$ runs over all electrons under consideration and $a$ is used to label the individual states, which we assume to be ordered by the corresponding energies.
-Similar to the Hartree-Fock method we build up an expansion basis for the total electronic state by a product ansatz
+Here, the index $m$ runs over all electrons under consideration and $a$ is used to label the individual states, which we assume to be ordered by the corresponding energies.
+Similarly to the Hartree-Fock method, we build up an expansion basis for the total electronic state by a product ansatz
 \begin{equation}
   \phi_{\vec a}(\qq, \QQ) = \prod_m \varphi_{m, a_m}(q_m, \QQ),
   \label{eq:app.product_states}
 \end{equation}
 which in general needs to be anti-symmetrized to fulfill the Pauli exclusion principle.
 
-If there is at most one valence electron per molecule we need to take into consideration, which is furthermore tightly bound, then the situation simplifies dramatically:
-In this case the spreading of the single-electron states $\ket{\varphi_{ma}} = \ket{m, a}$ is small compared to the distance between two molecules; we can neglect the overlap $\braket{m, a}{n, b}$ for different molecules $m \neq n$.
-Consequently \autoref{app.product_states} yields a complete basis for the electronic degrees of freedom.
-We also have the following representation for the Hamiltonian~\ref{eq:app.agg_hamil}% FIXME Formula!
+If there is at most one relevant valence electron per molecule, which is furthermore tightly bound, then the situation simplifies dramatically:
+In this case, the spreading of the single-electron states $\ket{\varphi_{ma}} = \ket{m, a}$ is small compared to the distance between two molecules; we can neglect the overlap $\braket{m, a}{n, b}$ for different molecules $m \neq n$.
+Consequently \autoref{eq:app.product_states} yields a complete basis for the electronic degrees of freedom.
+Expressed in this adiabatic eigen-basis the Hamiltonian~\ref{eq:app.agg_hamil} reads
 \begin{equation}
-  \opH{el} = \sum_{m, a} \epsilon_{m, a} \, \ket{m, a}\bra{m, a} + \frac{1}{2}\sum_{m,n,a,b,a',b'} U_{mn}(aa', bb') \, \ket{m,a; n,b}\bra{m,a'; n,b'}
+  \opH{el} = \sum_{m, a} \epsilon_{m, a} \, \ket{m, a}\bra{m, a} + \frac{1}{2}\sum_{m,n,a,b,a',b'} U_{mn}(aa', bb') \, \ket{m,a; n,b}\bra{m,a'; n,b'},
   \label{eq:app.agg_hamil_basis}
 \end{equation}
 with the matrix elements of the Coulomb interaction\footnote{%
-  % TODO Mutual enough?
-  This does not include the exchange interaction, since we assume a vanishing mutual overlap for the electrons.
+  This does not include the exchange interaction, since we assume vanishing mutual overlap for the electronic states.
 }
 \begin{equation*}
   U_{mn}(aa', bb') = \bra{m,a; n,b} U_{mn} \ket{m,a'; n,b'}.
 \end{equation*}
-% TODO Is this correct?
-Note that all terms in \autoref{eq_app.agg_hamil_basis} still depend on vibrational coordinates.
-For example the matrix elements $U_{mn}(aa'; bb')$ is influenced by the distance between the $m$\th and $n$\th molecule, while the electronic eigenenergies $\epsilon_{m, a}$ primarily depend on the positions of other electrons belonging to the same molecule.
+Note that all terms in \autoref{eq:app.agg_hamil_basis} still depend on vibrational coordinates.
+For example the matrix elements $U_{mn}(aa'; bb')$ is influenced by the distance between the $m$\th and $n$\th molecule, while the electronic eigenenergies $\epsilon_{m, a}$ primarily depend on the positions of other electrons belonging to the same molecule.\\
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Exciton Model}
-\label{sub:app.model.exciton}
 % ✔ beside electronic ground state only first excited singlet state φ_m^g, φ_m^e for each molecule
 % ✔   => effective 2 level system
 %     * ok if only one S_1 state is initially excited and all first-level energies are same order of magnitude
@@ -133,32 +120,31 @@ For example the matrix elements $U_{mn}(aa'; bb')$ is influenced by the distance
 %     * interaction matrix elements can be calculated from center-of-mass coordinate of molecule and Coulomb interaction
 %        => more details (dipole approximation, etc.) in spectrum-section
 %
-% TODO Dipol-Dipol interactoin approximation (p.372)
 
-% TODO Good? Position of footnote?
-% FIXME I am too long!!!
-In order to describe the experimental setting described in the introduction we do not need to consider the complete electronic Hamiltonian~\ref{eq:app.agg_hamil_basis}:
-if only a single valence electron is initially in the lowest excited state $S_1$ above its ground state $S_0$\footnote{%
-  Note that $S_0$ describes the lowest energy state of the valence electron with all other electrons of the molecule fixed, not to be confused with the atomic ground states.
+In order to treat the setting described in the introduction, we do not need to consider the complete electronic Hamiltonian~\ref{eq:app.agg_hamil_basis}:
+If, initially, there is only a single valence electron in its lowest excited state $S_1$ above its ground state $S_0$\footnote{%
+  Here $S_0$ describes the lowest energy state of the valence electron with all other electrons of the molecule fixed, not to be confused with the atomic ground states.
 }
-and if the various transition energies are in the same order of magnitude, then it is sufficient to take only the $S_0$ state $\ket{m, 0}$ as well as the first excited stated $\ket{m, 1}$ for each molecule into account.
-% FIXME Is charged induced transition a word?
-Under these circumstances the matrix elements $U_{mn}(aa', bb')$ can be classified with respect to a few physical processes such as electrostatic interactions or charge-induced transitions.
-But most important is the resonant contribution $U_{mn}(01; 10)$ (and its inversion $U_{mn}(10; 01)$) describing a $S_0 \to S_1$ excitation for the $m$\th electron induced by a  $S_0 \to S_1$ transition at the $n$\th molecule.
-In the following we neglect all but the last class of processes, which is frequently called Heitler-London approximation.
+and if the various $S_0$-$S_1$-transition energies are in the same order of magnitude, then it is sufficient to take into account only the $S_0$ states $\ket{m, 0}$, as well as the first excited states $\ket{m, 1}$.
+Under these restrictions, the matrix elements $U_{mn}(aa', bb')$ can be classified with respect to a few physical processes such as electrostatic interactions or charge-induced transitions.
+The dominant contribution $U_{mn}(01; 10)$ (and its inversion $U_{mn}(10; 01)$) describes an excitation of the $n$\th electron induced by a $S_1 \to S_0$ transition of the $m$\th electron.
+In the following, we neglect all but the last classes of processes, which is frequently called Heitler-London approximation.
 
 Restricting the allowed electronic states to the two lowest energy levels has a remarkable interpretation in terms of quasi-particles:
-The product
+First, we define the ground state
+\begin{equation}
+  \ket{0_\mathrm{el}} = \prod_{n} \ket{n, 0}
+  \label{eq:app.ground_state}
+\end{equation}
+for the electronic system.
+Similarly, the product
 \begin{equation}
   \ket{m} = \ket{m, 1} \prod_{n \neq m} \ket{n, 0}
   \label{eq:app.exciton_state}
 \end{equation}
-% TODO What about gorund state?
-% FIXME Too much due to, therefore,...
 describes an excited electron localized in the vicinity of the $m$\th molecule, which we refer to as an exciton of the electronic system.
-Due to the Heitler-London approximation our adiabatic Hamiltonian~\ref{eq:app.agg_hamil_basis} conserves the number of excitons.
-Therefore an initial state $\ket{m}$ (or linear combinations thereof) always remains in the one-exciton Hilbert space $\HH^{(1)}$.
-% TODO WHY???
+By virtue of the Heitler-London approximation, our adiabatic Hamiltonian~\ref{eq:app.agg_hamil_basis} conserves the number of excitons.
+Therefore, initial states $\ket{m}$ (or linear combinations thereof) remain in the one-exciton Hilbert space $\HH^{(1)}$.
 The interaction matrix elements
 \begin{equation*}
   V_{mn} = V_{nm} = \bra{m, 0; n, 1} U_{mn} \ket{m, 1; n, 0}
@@ -167,36 +153,37 @@ allow us to express the restriction of $\opH{el}$ to $\HH^{(1)}$ as
 \begin{equation*}
   \opH{el}^{(1)}(\QQ) = \sum_m \epsilon_m(\QQ) \ket{m}\bra{m} + \sum_{m,n} V_{mn}(\QQ) \ket{n}\bra{m}.
 \end{equation*}
-% FIXME Second sentence strange...
-For the rest of this section we assume the $V_{mn}$ to be independent of vibrational degrees of freedom; a more general treatment poses no further difficulties.\\
+For the rest of this section, we assume the $V_{mn}$ to be independent of vibrational degrees of freedom; the general case is treated along the same line.\\
 
 % VIBRATIONAL PART
 % ----------------
 % ✔ include dynamica
 
-% FIXME Too much "degrees of freedom"
-Up to this point we have neglected the dynamical evolution of the vibrational environment, which is essential in a complete description of a molecular aggregat.
-% TODO REALLY? WHY?
-In common settings for the physical systems under consideration a harmonic approximation is sufficient to obtain a realistic model.
-There are two reasons for this:
-First of all most proteins disintegrate at temperatures much higher than room temperature; therefore thermal excitation only leads to small energy gains for each vibrational degree of freedom.
-The other mechanism for driving the environment is dissipation of the electronic system.
-But the latter is small compared to the vast number of vibrational degrees of freedom and energy typically spreads evenly across the environment.
-We can thusly assume that all $Q_\lambda$ experience only a small displacement from their equilibrium positions, which we set to $Q_\lambda = 0$.
+Up to this point, we have neglected the dynamical evolution of the vibrational environment, which is essential in a complete description of a molecular aggregate.
+Treating the environment as a bath of harmonic oscillators is sufficient for biological systems, since most proteins disintegrate at temperatures much higher than 300\,K.
+Therefore, thermal excitation only leads to small energy gains for each vibrational mode.
+Additionally, dissipation of the electronic system leads to an energy gain for the vibrational degrees of freedom.
+But the former is comprised only of a few valence electrons compared to the vast number of inner electrons, nucleons, etc.
+As energy typically spreads evenly across the environment, we can safely assume that all $Q_\lambda$ experience only a small displacement from their equilibrium positions $Q_\lambda = 0$.
+Thus, the usual expansion up to second order is sufficient and yields a purely harmonic oscillator bath.
 
-% TODO More?
-As a consequence both $\opV{vib-vib}(\QQ)$ and $\epsilon_m(\QQ)$ can be expanded in a Taylor series neglecting all but the first non-trivial term.
-To alleviate notation we further assume that each vibrational degree of freedom only couples to one specific exciton.
-This leads to exactly the microscopical model presented in \autoref{sec:nmqsd.model}: a bath of harmonic oscillators linearly coupled to the electronic system
-\begin{align*}
-  \opH{agg} =
+As a consequence both the site energies $\epsilon_m(\QQ)$ can be expanded in a Taylor series as well, neglecting all but the first non-trivial term.
+To alleviate notation further, we assume that each vibrational degree of freedom only couples to one specific exciton.
+This leads exactly to the microscopical model presented in \autoref{sec:nmqsd.model}: a bath of harmonic oscillators linearly coupled to the electronic system
+\begin{align}
+  \label{eq:app.agg_hamil_twolevel}
+  \opH{agg}^{(1)} =
   \sum_m \epsilon_m(0) \ket{m}\bra{m} + \sum_{m,n} V_{mn} \ket{m}\bra{n} + \sum_{m, \lambda} \omega_{m, \lambda} \adj{A}_{m, \lambda} A_{m, \lambda} \\
-  + \sum_{m, \lambda} g_{m, \lambda} \ket{m}\bra{m} \otimes \left( \adj{A}_{m, \lambda} + A_{m, \lambda} \right),
-\end{align*}
-where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding to the $\lambda$\th vibrational mode coupling to the $m$\th exciton.
+  + \sum_{m, \lambda} g_{m, \lambda} \ket{m}\bra{m} \otimes \left( \adj{A}_{m, \lambda} + A_{m, \lambda} \right) \nonumber,
+\end{align}
+where we express the vibrational mode $\lambda$ coupling to the $m$\th exciton in terms of ladder operators $A_{m, \lambda}$ and $\adj{A}_{m, \lambda}$.
+Throughout this chapter, we write $\epsilon_m(0) = \epsilon_m$ for the equilibrium optical transition energies.
+Electronic excitation are transfered from the $m$\th to the $n$\th molecule by virtue of the dipole-dipole interaction $V_{mn}$.
 
-% TODO ε_m(0) = ε_m ... site energy; optical transition energy at the equilibrium configuration of env. phonons associated with S_0 state
-% V_mn electronic coupling strength
+% TODO product initial state ok, vertical Frank-Condon transition
+%The initial product $\ket{m}\otimes\ket{0}$ required for the \NMSSE is also a good approximation to the true initial state:
+%By the
+  %\ket{m} = \ket{m, 1} \prod_{n \neq m} \ket{n, 0}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,67 +192,57 @@ where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% FMO Structure plots %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
+\begin{figure}[p]
   \centering
-  \begin{subfigure}[t]{.6\textwidth}
-    \centering
-    \includegraphics[width=.8\textwidth]{img/fmo_monomer.png}
-    % FIXME Better caption
     % FIXME Higher dpi
-    \caption{%
-      Spatial arrangement
-    }
-    \label{fig:app.monomer_full}
-  \end{subfigure}
-  \begin{subfigure}[t]{.3\textwidth}
-    % FIXME Colors
-    \centering
-    \definecolor{qqttcc}{rgb}{0,0.2,0.8}
-    \definecolor{ffqqzz}{rgb}{1,0,0.6}
-    \definecolor{ffqqqq}{rgb}{1,0,0}
-    \definecolor{qqcccc}{rgb}{0,0.8,0.8}
-    \definecolor{ffzzqq}{rgb}{0.6,0.6,0.6}
-    \definecolor{qqffqq}{rgb}{0,1,0}
-    \begin{tikzpicture}[line cap=round,line join=round,>=triangle 45, xscale=.5, yscale=.014]
-      \draw[->,color=black] (0,-55.09) -- (0,409.79);
-      \foreach \y in {0, 100, 200, 300}
-      \draw[shift={(0,\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {\footnotesize $\y$};
-      \draw[color=black] (-2.30, 180) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
-      \clip(-0.38,-55.09) rectangle (5.9,409.79);
-      \draw [line width=2pt, color=red] (0.17,180)-- (1.17,180);
-      \draw [line width=2pt,color=qqffqq] (1.39,300)-- (2.39,300);
-      \draw [line width=2pt,color=ffzzqq] (3.63,400)-- (4.63,400);
-      \draw [line width=2pt,color=qqcccc] (2.89,250)-- (3.89,250);
-      \draw [line width=2pt,color=orange] (3.85,210)-- (4.85,210);
-      \draw [line width=2pt,color=ffqqzz] (2.57,80)-- (3.57,80);
-      \draw [line width=2pt,color=qqttcc] (1.81,0)-- (2.81,0);
-      \draw [line width=1pt] (0.74,189.05) -- (1.8,284.18);
-      \draw [line width=1pt] (4.13,384.05) -- (3.43,259.34);
-      \draw [line width=1pt] (4.13,384.05) -- (4.32,221.85);
-      \draw [line width=1pt] (3.4,233.65) -- (3.04,87.89);
-      \draw [line width=1pt] (3.03,66.68) -- (2.39,9.1);
-      \draw [line width=1pt] (4.32,193.38) -- (3.21,87.14);
-      \draw [line width=1pt] (1.95,283.23) -- (2.25,9.1);
-      \begin{scriptsize}
-        \draw[color=red] (0.68,168) node {180};
-        \draw[color=qqffqq] (1.90,288.0) node {300};
-        \draw[color=ffzzqq] (4.15,388.0) node {400};
-        \draw[color=qqcccc] (3.4,238.0) node {250};
-        \draw[color=orange] (4.4,198.0) node {210};
-        \draw[color=ffqqzz] (3.05,68.0) node {80};
-        \draw[color=qqttcc] (2.3,-12.0) node {0};
-      \end{scriptsize}
-    \end{tikzpicture}
-  % FIXME LABEL AND CAPTION
-    \caption{%
-      Site energies
-    }
-    \label{fig:app.site_energies}
-  \end{subfigure}
+  \includegraphics[width=.6\columnwidth]{img/fmo_monomer.png}
   \caption{%
-    Spatial and energetic structure of the simplified FMO-monomer with seven BChls; the coloring and numbering is used throughout this section.
-    \textbf{(a)} Was created using the molecular visualization system \textsc{PyMOL} based on the \textsc{PDB} entry \textsc{3eni} \cite{pymol,TrCaBl09_fmo_structure}.
-    \textbf{(b)} Shows the site energies of \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}; lines indicate dominant couplings leading to the two distinct transport channels.
+    % FIXME citatioins
+    Spatial structure of the simplified FMO-monomer with seven BChls \cite{}; the coloring and numbering is used throughout this section.
+    The two main exciton-channels are $1 \to 2 \to 3$ and $6 \to 5,7,4 \to 3$.
+    This figure was created using in \textsc{PyMOL} based on the \textsc{PDB} entry \textsc{3eni} \cite{pymol,TrCaBl09_fmo_structure}.
+    \label{fig:app.monomer_full}
+  }
+  \vspace{.5cm}
+  \centering
+
+  \definecolor{blue}{rgb}{0,0.2,0.8}
+  \definecolor{purple}{rgb}{1,0,0.6}
+  \definecolor{ffqqqq}{rgb}{1,0,0}
+  \definecolor{cyan}{rgb}{0,0.8,0.8}
+  \definecolor{grey}{rgb}{0.6,0.6,0.6}
+  \definecolor{green}{rgb}{0,1,0}
+  \begin{tikzpicture}[line cap=round,line join=round,yscale=1., xscale=1.1]
+    \begin{footnotesize}
+        %% Coordinate axis
+      \foreach \y in {200, 300, 400, 500, 600}
+      \draw[shift={(-.5, 0.01*\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {$\y$};
+      \draw[color=black] (-1.9, 4.00) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
+      \draw[->,color=black,>=triangle 45] (-.5,1.90) -- (-.5,6.50);
+
+        %% Energy levels
+      \draw [color=red, line width=1pt] (-.3,4.10)    -- node[below] (1b) {\footnotesize 410} node[above] (1a) {\footnotesize\textbf{1}} ++(.7, 0);
+      \draw [color=green, line width=1pt] (0,5.30)    -- node[below] (2b) {\footnotesize 530} node[above] (2a) {\footnotesize\textbf{2}} ++(.7, 0);
+      \draw [color=blue, line width=1pt] (1.2,2.10)   -- node[below] (3b) {\footnotesize 210} node[above] (3a) {\footnotesize\textbf{3}} ++(.7, 0);
+      \draw [color=purple, line width=1pt] (1.9,3.20) -- node[below] (4b) {\footnotesize 320} node[above] (4a) {\footnotesize\textbf{4}} ++(.7, 0);
+      \draw [color=cyan, line width=1pt] (1.8,4.80)   -- node[below] (5b) {\footnotesize 480} node[above] (5a) {\footnotesize\textbf{5}} ++(.7, 0);
+      \draw [color=orange, line width=1pt] (2.2,6.30) -- node[below] (6b) {\footnotesize 630} node[above] (6a) {\footnotesize\textbf{6}} ++(.7, 0);
+      \draw [color=grey, line width=1pt] (3,4.40)     -- node[below] (7b) {\footnotesize 440} node[above] (7a) {\footnotesize\textbf{7}} ++(.7, 0);
+
+        %% Connecting arrows
+      \draw[->, line width=.8pt] (1a) -- (2b);
+      \draw[->, line width=.8pt] (2b) -- (3a);
+      \draw[->, line width=.8pt] (4b) -- (3a);
+      \draw[->, line width=.8pt] (5b) -- (4a);
+      \draw[->, line width=.8pt] (7b) -- (4a);
+      \draw[->, line width=.8pt] (6b) -- (5a);
+      \draw[->, line width=.8pt] (6b) -- (7a);
+    \end{footnotesize}
+  \end{tikzpicture}
+  \caption{%
+    Site energies of \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}, an irrelevant global offset of $12\,000\,\mathrm{cm^-1}$ is subtracted.
+    Solid black lines indicate dominant couplings leading to the two distinct transport channels.
+    \label{fig:app.site_energies}
   }
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -280,11 +257,10 @@ where $A_{m, \lambda}/\adj{A}_{m, \lambda}$ are ladder operators corresponding t
 % ✔      => efficiency beyond classical sampling-by-hopping
 % ✔   * before that: semiclass. hopping (Förster theory)
 
-As a first exemplary application of our hierarchical equations of motion we study energy transfer in the Fenna-Matthews-Olson (FMO) complex found in low-light adapted green sulfur bacteria.
-This protein complex plays a crucial role in connecting the light harvesting antenna (chlorosome) to the photosyntetic reaction center, where the absorbed solar energy is converted to a charge gradient.
-% FIXME Quantumness???
-The vast amount of literature on the subject is not only by virtue of its relatively small size---making it an ideal model for numerical investigation---but particularly due to the strong influence of quantum mechanical effects on the transfer, even at physiological temperature.
-Only lately Engel et al.\ as well as Ishizaki-Fleming demonstrated that the FMO complex achieves its remarkable almost-unit efficiency by coherent exciton motion instead of classical hopping described by Förster theory \cite{EnCaRe07_fmo,IsFl09_fmo}. \\
+As a first exemplary application of our hierarchical equations of motion, we study energy transfer in the Fenna-Matthews-Olson (FMO) complex found in low-light adapted green sulfur bacteria.
+This protein complex plays a crucial role in connecting the light harvesting antenna (chlorosome) to the photosynthetic reaction center, where the absorbed solar energy is converted to a charge gradient.
+It is fascinating not only by virtue of its relatively small size---making it an ideal model for numerical investigation---but particularly due to the strong influence of quantum mechanical effects on the transfer, even at physiological temperature.
+Only lately, Engel et al.\ as well as Ishizaki and Fleming demonstrated that the FMO complex achieves its remarkable, almost-unit efficiency by coherent exciton motion instead of classical hopping described by Förster theory \cite{EnCaRe07_fmo,IsFl09_fmo}. \\
 
 
 
@@ -300,23 +276,24 @@ Only lately Engel et al.\ as well as Ishizaki-Fleming demonstrated that the FMO 
 %     * detailed study in \cite{RiRoSt11_fmo}
 
 The FMO protein complex is subdivided into three identical monomers, each comprising eight bacteriochlorophyll pigments (BChls).
-% FIXME +3
 In contrast to the first seven BChls, the eighth was only discovered in recent years due to its rather weak coupling to the remaining BChls and instability during the isolation procedure in experiments \cite{TrCaBl09_fmo_structure,ScMuEl10_eighth}.
-As the main goal here is to show the applicability and reliability of our hierarchical equations of motion we ignore BChl number eight in what follows---this simplified model has been investigated thoroughly with a vast array of methods.
-For the same reason, we also restrict our attention to an individual monomer: as shown by Ritschel et al.\ such a limitation is reasonable for the short time scales under consideration as the intermonomeric interaction strength is rather weak.
+% FIXME MORE CITATIONS?
+As the main goal here is to show the applicability and reliability of our hierarchical equations of motion, we ignore BChl number eight in what follows---this simplified model has been investigated thoroughly with a vast array of methods \cite{IsFl09_fmo,RiRoSt11_fmo}.
+For the same reason, we also restrict our attention to an individual monomer: as shown by Ritschel et al.\ \cite{RiRoSt11_fmo_trimer}, such a limitation is reasonable for the short time scales under consideration as the inter-monomeric interaction strength is rather weak.
 
-In \autoref{fig:app.monomer_full} we display the spatial structure and numbering of the BChls in single a monomer.
-The BChls 1 and 6 are situated in the vicinity of the light harvesting antenna and receive excitation energy captured, while BChl 3 acts as energy sink.
+In \autoref{fig:app.monomer_full} we display the spatial structure and numbering of the BChls in a single monomer.
+The BChls 1 and 6 are situated in the vicinity of the light harvesting antenna and receive captured excitation energy, while BChl 3 acts as an energy sink to the reaction center.
 As both site energies $\epsilon_n$ and electronic coupling strengths $V_{mn}$ depend on the protein environment, different values for different species can be found in the literature.
-%> FIXME Where to put electronic coupling
-Here we use the data obtained from optical spectroscopy in \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}, see \autorefs{fig:app.site_energies} and~\ref{fig:app.fmo_ishfl}.
+Here we use the data obtained from optical spectroscopy in \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}, see \autoref{fig:app.site_energies} and \autoref{tb:fmo.hamiltonian}.
 Although the spectral density may be important for the details of the excitation transfer, no comprehensive information on this matter is available at present.
 Good agreement with experiments on \emph{Prosthecochloris aesturaii} was achieved \cite{ReScEn08_fmo_spectral_density} under the semi-empirical assumption that each exciton couples to an independent environment with a Drude spectral density
 \begin{equation}
   J(\omega) = \frac{2 \lambda}{\pi} \frac{\gamma\omega}{\omega^2 + \gamma^2},
   \label{eq:app.drude}
 \end{equation}
-with reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$ and relaxation time $\gamma^{-1} = 50\,\mathrm{fs}$.\\
+reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$, and relaxation time $\gamma^{-1} = 50\,\mathrm{fs}$ as displayed in \autoref{fig:app.fmo_bcf} A.
+In \autoref{sec:coth.fmo} we calculate the corresponding bath correlation function for $T=77\,\mathrm{K}$ and $T=300\,\mathrm{K}$ using a Matsubara expansion.
+While the latter only requires a single exponential mode, we need to include a low-temperature correction mode for $T=77\,\mathrm{K}$.\\
 
 
 
@@ -327,8 +304,8 @@ with reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$ and relaxation time 
   % FIXME Reference to color encoding?
   \caption{%
     \label{fig:app.fmo_ishfl}
-    Exciton transfer of the simplified FMO-monomer with seven BChls at 77\,K using our stochastic hierarchical equations up to first~(doted) and second order~(dashed) averaged over 10000 trajectories.
-    For comparison the solid line shows the results of Ishizaki and Fleming~\cite{IsFl09_fmo}, which were obtained in the HEOM approach.
+    Exciton transfer of the simplified FMO-monomer with seven BChls at 77\,K using our stochastic hierarchical equations up to first~(dotted) and second order~(dashed) averaged over 10000 trajectories.
+    For comparison, the solid line shows the results of Ishizaki and Fleming~\cite{IsFl09_fmo}, which were obtained in the HEOM approach.
     Population for BChls 1--4 \textbf{(A)} and BChls 3--6 \textbf{(B)} with initial excitation on site 1 and 6 respectively.
     The inset displays a purely electronic system without coupling to the vibrational degrees of freedom.
     Details on parameters can be found in \autoref{sec:coth.fmo}.
@@ -378,40 +355,52 @@ with reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$ and relaxation time 
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\Autoref{fig:app.fmo_ishfl} shows the results of our calculations at cryogenic temperature $T=77\,\mathrm{K}$ using our stochastic hierarchy as well as the established \HEOM-results of Ishizaki and Fleming \cite{IsFl09_fmo}.
+\Autoref{fig:app.fmo_ishfl} shows the results of our calculations at cryogenic temperature $T=77\,\mathrm{K}$ using pure state hierarchy as well as the established \HEOM-results of Ishizaki and Fleming \cite{IsFl09_fmo}.
 Both initial excitations move remarkably fast and directed---and up to $t=700\,\mathrm{fs}$ in a quantum-coherent, wavelike fashion---toward the energy sink at BChl 3.
 However, the final population of the latter is only about half as large on the left hand side due to the relatively high site energy of BChl 2.
-This prolongs the lifetime of an exciton-state on BChl 1 significantly.
-It has been conjecture that this barrier is partly responsible for the high yield of the FMO-complex \cite{IsFl09_fmo}.
-Indeed, the relatively small energy gap $\Delta\epsilon = 180\, \mathrm{cm^{-1}}$ between the first and third BChl cannot prevent back-transfer due to thermal excitation from the latter along this channel.
-The larger gap of $\Delta\epsilon = 300\,\mathrm{cm^{-1}}$ between the second and the third suppresses depopulation much more efficiently.
+This prolongs the lifetime of an exciton-state on BChl 1 significantly, or, put differently, the electronic excitation remains on the first site for a long time.
+It was conjectured that this barrier is partly responsible for the high yield of the FMO-complex \cite{IsFl09_fmo}.
+Indeed, the relatively small energy gap $\Delta\epsilon = 200\, \mathrm{cm^{-1}}$ between the first and third BChl is overcome quite easily by virtue of thermal excitation leading to a loss of population through this channel.
+The larger gap of $\Delta\epsilon = 300\,\mathrm{cm^{-1}}$ between the second and the third molecule suppresses depopulation much more efficiently.
 This is exactly where quantum effects influence the operation significantly:
-Delocalization helps to overcome the resulting subsidiary energetic minima at BChl 1 much quicker than a classical hopping-excitation could.
+The subsidiary energetic minima at BChl 1, which would trap a classical-hopping excitation, is overcome much quicker due to quantum-mechanical delocalization.
 
-No such initial \quotes{energy barrier} exists for the transport starting BChl 6, therefore, the excitation-population at molecules 3 and 4 increases up to $t = 1\,\mathrm{ps}$.
-For even longer times, all other sites have only vanishing probability left as shown in \autoref{fig:app.fmo_transport_pretty}.
+No such initial \quotes{energy barrier} exists for the transport starting at BChl 6, therefore, the yield at BChls 3 and 4 is almost three-quarters of the total probability at $t=1\,\mathrm{ps}$.
+For even longer times, all other sites show almost complete depopulation as shown in \autoref{fig:app.fmo_transport_pretty}.
 
 In the inset to \autoref{fig:app.fmo_ishfl} we also show the dynamics for a purely electronic system:
-As expected the population-probability shows a purely oscillatory behavior with no effective excitation transport, thus emphasizing the importance of vibrational degrees of freedom in the exciton energy transfer.
+As expected, the population-probability shows a purely oscillatory behavior with no effective excitation transport, thus emphasizing the importance of vibrational degrees of freedom in the exciton energy transfer.\\
 
-Remarkably, the results of first and second order in our stochastic hierarchy are almost indistinguishable from each other and agree very well the reference.
-% FIXME Is this a good idea?
-Calculations including one more order (not shown) verify, that the second order is already enough to obtain convergence in these parameter regimes.
-% FIXME Really?
-As we show in \autoref{sec:coth.fmo}, the dominant exponential bath mode is given by\footnote{%
+Remarkably, the results of first and second order in our stochastic hierarchy are almost indistinguishable from each other and agree very well with the reference.
+Calculations including one more order (not shown) verify that the second order is already enough to obtain convergence in these parameter regimes.
+% FIXME TRUNCATION CONDTION
+As we show in the appendix, the dominant exponential bath mode is given by\footnote{%
   Recall our notation $\alpha(t) = g \exp[-\gamma\abs{t}]$.
 }
-$g \approx (2916 - \ii 3716) \, \mathrm{cm^{-2}}$ and $\gamma \approx 106\,\mathrm{cm^{-1}}$.
-Therefore the proposed truncation condition $\sqrt{g} \ll k \gamma$, which for the given parameters reads $83 \ll 106 k$, might be too restricting, yet.
+$g \approx (2428 - \ii 3716) \, \mathrm{cm^{-2}}$ and $\gamma \approx 106\,\mathrm{cm^{-1}}$.
+Therefore, the proposed truncation condition $\sqrt{g} \ll k \gamma$, which for the given parameters reads $83 \ll 106 k$, might be too restricting, yet.
 
-That we do not obtain complete agreement in \autoref{app.fmo_ishfl} A has the following reason:
-The parameter $g$ of the second bath mode (a low temperature correction term) remains real.
-% FIXME Due to Drude; only one Pole, not discontinous at zero!
-Therefore, the complete bath correlation function, which is simply the sum of both modes, obtains a non-vanishing imaginary part at $\alpha(0)$ due to truncating the infinite Matsubara expansion.
-But since $\alpha$ is related to our driving processes $\ZZ$ by $\alpha(t-s) = \E[Z_t \ZZ_s]$, we cannot treat such an unphysical bath correlation function exactly.
-% FIXME Picture?
-Therefore we included an additional, almost-Markovian mode with purely imaginary $g$, such that $\Im\alpha(t)$ goes smoothly to zero as $t \to 0$ while changing $\alpha$ as little as possible---the details may be found in the appendix.\\
+%% Spectral density and bcf plot  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{img/fmo_bcf}
+    \caption{%
+      Environmental parameters used for the FMO-complex.
+      \textbf{(A)} Drude spectral density with reorganization energy $\lambda = 35\,\mathrm{cm^{-1}}$, and relaxation time $\gamma^{-1} = 50\,\mathrm{fs}$.
+      \textbf{(B)} Bath correlation function at 77\,K and 300\,K.
+      The imaginary part with (dotted) and without(dashed) almost-Markovian correction is identical for both.
+    }
+    \label{fig:app.fmo_bcf}
+  \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  % TODO What abount additional term???
+Nevertheless, we do not obtain complete agreement in \autoref{fig:app.fmo_ishfl} A for the reason discussed at the end of \autoref{sec:num.expansion}:
+As shown in the appendix, the bath correlation function of a Drude spectral density always has a discontinuous jump in its imaginary part at the origin.
+This manifests in the complex prefactor $g$ in our exponential mode for $t > 0$, and cannot be adjusted by the low-temperature correction term as the dashed line in \autoref{fig:app.fmo_bcf} indicates.
+But since $\alpha$ is related to our driving processes $\ZZ$ by $\alpha(t-s) = \E[Z_t \ZZ_s]$, we cannot reproduce such a correlation function in the driving noise.
+However, we approximate the discontinuous jump by including an additional, almost-Markovian mode with purely imaginary $g$, such that $\Im\alpha(t)$ goes smoothly to zero as $t \to 0$ while changing $\alpha$ as little as possible---the result is shown by a dotted line in the plot.
+Since the low-temperature correction mode is already approximated with an almost-Markovian mode, this does not increase the computational expense.\\
 
 
 %% MevsPhi plot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -431,58 +420,57 @@ Therefore we included an additional, almost-Markovian mode with purely imaginary
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The exciton dynamics at physiological temperature in \autoref{fig:app.fmo_mevsphi} shows a similar qualitative behavior.
-However, the transfer is less efficient and directed as decoherence leads to a much stronger smearing of the excitation over all BChls, even the ones not shown in this picture.
+However, the transfer is less efficient and directed, as decoherence leads to a much stronger smearing of the excitation over all BChls, even the ones not shown in this picture.
 For the same reason, the wave-like motion only lasts up to $t \approx 400\,\mathrm{fs}$.
 Notwithstanding, at $t = 1\,\mathrm{ps}$ the population of the relevant, third BChl is $0.2$---still about two-thirds of the result at cryogenic temperature---and increases further.
 
-This time, our stochastic hierarchical equations of motion reproduce the results of Ishizaki-Fleming almost exactly even with just one order.
-In contrast to the $T = 77\,\mathrm{K}$ result, there is no pronounced offset, because the imaginary part of $\alpha(0)$ is insignificantly small
-% FIXME Fill in alpha
-\begin{equation*}
-  \alpha(t) = \dots.
-\end{equation*}
+This time, our stochastic hierarchical equations of motion reproduce the results of Ishizaki-Fleming almost exactly and once again, differences between first and second order are negligible.
+We see in \autoref{fig:app.fmo_bcf} that the imaginary part of $\alpha(0)$ is now very small compared to its real part, therefore, the deviations it caused at $77\,\mathrm{K}$ are not relevant at higher temperatures.
 Again, we postpone the calculations to the appendix.
-Nevertheless, the differences between first and second order are larger than for the former calculation.
+Nevertheless, the differences between first and second order are larger than those in the former calculation.
 % FIXME REally?
 % FIXME Reference
-Since the only distinction in the dominant bath mode is a larger coupling constant $g$, this strengthens our truncation condition~\ref{eq:}.
+Since the only distinction in the dominant bath mode is a larger coupling constant $g=(14279 - \ii3716)\,\mathrm{cm^{-1}}$, this strengthens our truncation condition~\ref{eq:}.
 
-On the right hand side of \autoref{fig:app.fmo_mevsphi} B we carry out the same calculations using the \HEOM formalism \cite{StSc12_heom}.
-Clearly, convergence with the number of hierarchies is much worse:
-The first order calculations displays highly undamped oscillations and the second order is necessary to get the qualitative picture right.
+On the right hand side of \autoref{fig:app.fmo_mevsphi} B, we carry out the same calculations using the \HEOM formalism \cite{StSc12_heom}.
+Clearly, for a good approximation we need a much larger truncation order:
+The first order calculation displays highly undamped oscillations and the second order is necessary to get the qualitative picture right.
 We have found that a truncation at fifth order is necessary to correctly reproduce the coherent oscillations between 0\,fs and 300\,fs.
 
 To check internal convergence of each method systematically, we proceed as follows:
-First we define a measure for deviation of a given reduced density matrix $\rho(t)$, obtained from a numerical calculation, with respect to some reference $\rho^{\mathrm{ref}}(t)$ as
+First we define a measure for deviation of a given reduced density matrix $\rho(t) = \rho_D(t)$, obtained from a numerical calculation up to order $D$, with respect to some reference $\rho^{\mathrm{ref}}(t)$ as
 \begin{equation}
   A[\rho(t), \rho^\mathrm{ref}(t)] = \max\limits_n \left\vert \rho_{nn}(t) - \rho^{\mathrm{ref}}_{nn}(t) \right\vert.
-  \autoref{eq:app.accuracy}
+  \label{eq:app.accuracy}
 \end{equation}
-since we confine our discussion to the populations of the exciton states $n$ given by $\rho_{nn}$.
-As we are only interested in the convergence of a given method, the reference state is calculated using the same method and selected by increasing the truncation order $D$ until $A[\rho_{D}(t), \rho{D+1}(t)] < 10^{-3}$; then $\rho^{(ref)} = \rho_D$.
+Since we confine our discussion to the populations of the exciton states $n$ given by $\rho_{nn}$, $A$ reflects the deviations seen in the pictures.
+Also, we are only interested in the convergence of a given method, therefore, the reference state $\rho^{(ref)} = \rho_D$ is calculated using the same method and selected by increasing the truncation order $D$ until $A[\rho_{D}(t), \rho{D+1}(t)] < 10^{-2}$.
 This amounts to $D=3$ for our \NMSSE-hierarchy and $D=5$ for $\HEOM$.
-The accuracy of lower-order calculations with respect to the chosen reference is shown in \autoref{fig:app.fmo_mevsphi} C and D for the stochastic and the density hierarchy, respectively.
+The accuracy of lower-order calculations with respect to the chosen reference is shown in \autoref{fig:app.fmo_mevsphi} C and D for the stochastic and the density matrix hierarchy, respectively.
 
-We already mentioned in the general discussion above that the first order's deviation of about 2\% is just barely visible in \autoref{fig:app.fmo_mevsphi} A.
-In contrast, the same accuracy is obtained in the \HEOM-formalism not until we truncate the hierarchy at third order.
-However, we notice an important difference in the two plots:
-While the \HEOM-calculations show the largest discrepancy at the initial wave-like motion and then drop off by about an order of magnitude, the results from the stochastic hierarchy remain more or less constant after $t = 0.2\,\mathrm{ps}$.
-This as well as the tremulous time-dependence indicate, that the error of the latter is due to stochastic effects and not caused by systematic deviation.
-We check this statement by repeating the same calculations using a larger sample size---a start marks the corresponding results in \autoref{fig:app.fmo_mevsphi}.
+We already mentioned in the general discussion above that within the pure state hierarchy, the first order's deviation of about 2\% is barely visible in \autoref{fig:app.fmo_mevsphi} A.
+Although the second order approximates the result of Ishizaki-Fleming a little better, the deviation from the reference remains basically unchanged.
+In contrast, the same accuracy is obtained in the \HEOM-formalism not until we truncate the hierarchy at third order (neglecting the stronger deviations for $t < 300\,\mathrm{fs}$), but the result converges steadily toward the reference result.
+Finally, the \HEOM-calculations show the largest discrepancy at the initial wave-like motion and then drop off by about an order of magnitude, while the deviations of the stochastic hierarchy remain more or less constant after $t = 0.2\,\mathrm{ps}$.
+All these observations combined indicate that the error of the latter is due to stochastic effects and not caused by systematic deviation.
+We check this statement by repeating the same calculations using a larger sample size---a star marks the corresponding results in \autoref{fig:app.fmo_mevsphi}.
 Clearly, they show less deviation thus confirming our assertion.\\
 
 
+% TODO True two mode term for T = 77 K without Markov approximation;
 
-In conclusion, the discussion above shows, that the hierarchical equations based on the nonlinear \NMSSE provide a highly efficient method to calculate exciton energy transfer dynamics in the FMO-complex.
+
+
+In conclusion, the discussion above shows that the hierarchical equations based on the nonlinear \NMSSE provide a highly efficient method to calculate exciton energy transfer dynamics in the FMO-complex.
 We obtain almost perfect agreement for both, 77\,K and 300\,K, with the established results of Ishizaki and Fleming in first order calculations.
-The discrepancy of these to higher order calculations is less than 1\% demonstrating very rapid convergence with respect to the truncation order.
+The discrepancy of these to higher order calculations is less than a few percent, demonstrating very rapid convergence with respect to the truncation order.
 Of course, such an accuracy is completely unnecessary for most investigations of biological systems.
 The theoretical model itself is usually much less reliable due to approximations and experimental errors for the parameters involved.
 Also, the improved numerical efficiency, due to a reduced number of auxiliary states\footnote{%
   In the case of a single bath mode, we have eight auxiliary states for $D=1$ compared to 330 for $D=4$.
 }
 and propagating Hilbert space vectors instead of density matrices, is more than compensated by the large sample size required.
-However, the stochastic hierarchies' advantages really come to fruition when it comes to more realistic systems.
+However, the stochastic hierarchies' advantages really come to fruition when dealing with more complex systems.
 % FIXME Can we do this
 For example, data from fluorescence line-narrowing measurements on \emph{Prosthecochloris aesturaii} indicate that realistic spectral densities are far more structured, requiring as much as 25 exponential modes
 This amounts to 176 auxiliary states for $D=1$ compared to a tremendous number of 41 million states required by a fourth-order calculation.
@@ -494,13 +482,155 @@ This amounts to 176 auxiliary states for $D=1$ compared to a tremendous number o
 % * why not so good, but we still use them -> 2D spectroscopy
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The second exemplary application of our pure-state hierarchy is the calculation of absorption spectra in molecular aggregates.
+% FIXME Eiseld new paper
+In general, the \NMSSE provides a highly efficient framework to attack this problem, since all the relevant information is encoded in a single realization $\psi_t(\ZZ = 0)$ and no stochastic average is necessary.
+In previous work based on the convolutionless formulation~\ref{eq:nmqsd.nmsse_o} in ZOFE approximation, good agreement with the exact pseudo-mode approach was achieved in large parts of the parameter space \cite{RoStEi11_nmqsd_aggregats}.
+However, for intermediate values of the electronic coupling $V_{mn}$ noticeable deviations occurred.
+Here, we show that the linear hierarchy~\ref{eq:num.hierarchy_lin} provides an efficient tool to calculate spectra even for large systems with a highly-structured spectral density.
+
+% TODO What is already out there
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{NMSSE for Spectra}
 \label{sub:app.spectra.nmsse}
 % * why nmsse so good for this?
+
+In this section, we demonstrate the simple connection between solutions of the linear \NMSSE with $\ZZ_t = 0$ and absorption spectra of molecular aggregate at zero temperature \cite{RoEiWo09_aggregats,RoStEi11_nmqsd_aggregats}.
+% FIXME Cite eisfeld paper
+Using the thermo-field construction from \autoref{sec:nmqsd.temperature}, we can treat an arbitrary thermal environment along the same lines \cite{}.
+
+Clearly, for $T = 0\,\mathrm{K}$ the initial state of the aggregate is given by $\ket{0_\mathrm{el}}\otimes\ket{0}$ with the electronic ground state $\ket{0_\mathrm{el}}$ defined in \autoref{eq:app.ground_state} and the vibrational ground state $\ket{0}$.
+In dipole-approximation the absorption coefficient of light with frequency $\nu$ and polarization $\rvec{E}$ is given by \cite{MaKu11_dynamics}
+\begin{equation}
+  A(\nu) = \Re \left( \int_0^\infty \exp[\ii\nu t] M(t) \dd t \right),
+  \label{eq:app.absorption}
+\end{equation}
+where the dipole-correlation function reads
+\begin{equation}
+  M(t) = \bra{0_\mathrm{el}}\bra{0} \rvec\mu\cdot\rvec{E} \, \exp[-\ii \opH{agg} t] \, \rvec\mu\cdot\cc{\rvec{E}} \ket{0_\mathrm{el}}\ket{0}
+  \label{eq:app.dipole_correlation}
+\end{equation}
+Here, $\rvec\mu = \sum_m \rvec\mu_m$ denotes the total dipole operator of the aggregate and $\opH{agg} = \opH{agg}^{(0)} + \opH{agg}^{(1)}$ is the total aggregate Hamiltonian restricted to the electronic subspace with at most one exciton.
+Its single-exciton contribution is given by \autoref{eq:app.agg_hamil_twolevel}.
+Provided the dipole-operators are independent of the vibrational degrees of freedom, inserting complete sets of electronic basis vectors $\sum_m \ket{m}\bra{m}$ in \autoref{eq:app.dipole_correlation} yields
+\begin{equation}
+  M(t) = \sum_{m,n} \cc{d}_m d_n \, \bra{m}\bra{0} \exp[-\ii \opH{agg} t] \ket{n} \ket{0}
+  \label{eq:app.dipole_correlation_two}
+\end{equation}
+with the transition dipole-elements projected in the direction of polarization
+\begin{equation*}
+  d_m = \bra{m} \rvec\mu \cdot \cc{\rvec{E}} \ket{0_\mathrm{el}}.
+\end{equation*}
+Since the expectation-value of the time-evolution operator in \autoref{eq:app.dipole_correlation_two} includes only contributions from the one-exciton subspace, it is equivalent to
+\begin{equation*}
+  M(t) = \left(\sum_m \cc{d}_m \bra{m}\bra{0} \right) \exp[-\ii \opH{agg}^{(1)} t] \left(\sum_n d_n \ket{n}\ket{0} \right) = \abs{\vec{d}}^2 \braket{\Psi_0}{\Psi_t}.
+\end{equation*}
+Here, $\ket{\Psi_t}$ denotes the solution to
+\begin{equation}
+  \partial_t \ket{\Psi_t} = -\ii \opH{agg}^{(1)} \ket{\Psi_t}, \qquad \ket{\Psi_0} = \ket{\psi_0}\otimes\ket{0}
+  \label{eq:app.eqom}
+\end{equation}
+with the initial electronic state $\ket{\psi_0} = \abs{\vec d}^{-1} \, \sum_m d_m \ket{m}$.
+The sum of the dipole-elements $\abs{\vec{d}}^2 = \sum_n \abs{d_n}^2$ is introduced to ensure normalization of $\ket{\psi_0}$.\\
+
+
+
+\Autoref{eq:app.eqom} is already very close to the microscopical version of our {\NMSSE}.
+The only difference to \autoref{eq:nmqsd.hamiltonian_microsopic} is that the latter is formulated in the interaction picture.
+However, $\braket{\Psi_0}{\Psi_t}$ does not change under the transformation to the interaction picture, since the environmental vacuum is an eigenstate of $\Henv$ with eigenvalue $0$.
+Therefore, we can insert the resolution of unity for coherent states~\ref{eq:nmqsd.identity} and obtain
+\begin{equation*}
+  M(t) = \abs{\vec d}^2 \int \frac{\mathrm{d}^{2N}z}{\pi^N} \, \braket{\psi_0}{\psitz} \, \braket{0}{\zz},
+\end{equation*}
+where $\psitz$ is the solution to \autoref{eq:nmqsd.hamiltonian_microsopic}.
+As $\braket{0}{\zz} = 1$ and $\braket{\psi_0}{\psi_t(\cc\zz)}$ is analytical in $\cc\zz$, the only term of the corresponding Taylor series that is not canceled by the integral is independent of $\cc\zz$.
+In other words, the dipole correlation function expressed in terms of solutions $\psitZ$ of the linear \NMSSE reads
+\begin{equation}
+  M(t) = \abs{\vec d}^2 \, \braket{\psi_0}{\psi_t(\cc\zz = 0)} = \abs{\vec d}^2 \, \braket{\psi_0}{\psi_t(\ZZ = 0)}
+  \label{eq:app.dipole_correlation_nmsse}
+\end{equation}
+Of course, this does not imply that we can simply drop the functional derivative from the {\NMSSE}.
+Nevertheless, the corresponding hierarchy~\ref{eq:num.hierarchy_lin} is completely local in $\ZZ_t$, so we can set $\ZZ_t = 0$ in each order.
+In conclusion, assuming a single exponential bath mode $\alpha(t) = g\,\exp[-(\gamma + \ii\Omega) t]$ ($t > 0$), the relevant trajectory $\psi_t(\ZZ = 0) =: \psit[0]$ satisfies the following set of equations
+% FIXME CORRECT PREFACTOR?
+\begin{equation}
+  \partial_t\psit[k] = (-\ii\Hsys - (\gamma + \ii\Omega)\psit[k] + k \alpha(0) \psit[k-1] - \adj{L} \psit[k+1].
+  \label{eq:app.spectrum_hierarchy}
+\end{equation}
+with initial conditions $\psi_0^{(0)} = \psi_0$ and $\psi_0^{(k)} = 0$ ($k \ge 1$).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results}
 \label{sub:app.spectra.results}
 % * other techniques
 % * cool behavior of hierarchies
+
+%% Spectra plot %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\columnwidth]{img/spectra}
+  \caption{%
+    \emph{Left column}: Absorption spectra for a Dimer and a single exponential bath mode with $g=0.64\Omega^2$ and $\gamma = 0.1\Omega$.\\
+    \emph{Right column}: Same, but with $\gamma = 0.25\Omega$.\\
+    We compare the \NMSSE-hierarchy (blue) truncated at first (solid), third (dotted) and fifth (dashed) order to the pseudo-mode results (red).
+  }
+  \label{fig:app.spectra}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+As a first test, we investigate absorption spectra of linear aggregates with identical monomers and parallel dipole-moments.
+For the electronic interaction, we assume nearest-neighbor coupling $V_{mn} = V\delta_{m,n+1} + V\delta{m, n-1}$ with equal strength.
+The vibrational degrees of freedom are described by a single exponential mode $\alpha(t) = \exp[-\gamma\abs{t} - \ii\Omega t]$.
+We use the results of Roden, Strunz and Eisfeld \cite{RoStEi11_nmqsd_aggregats} obtained in the exact pseuo-mode approach as a reference, but also compare a few aspects to the \textsc{ZOFE}-results from the same work.
+
+\Autoref{fig:app.spectra} displays the spectra of a dimer for two widths of the spectral density, namely $\gamma=0.25\,\Omega$ and $\gamma=0.1\,\Omega$, and different values for the coupling strength $V$.
+With truncation order $D = 5$ (dashed line), we obtain perfect agreement with the reference for all values of $V$.
+To investigate the behavior for smaller truncation orders, we also show the results for $D=1$ (solid) and $D=3$ (dotted).
+Not surprising, these approximate the exact result better for the larger $\gamma=0.25$ compared to $\gamma=0.1$.
+Similar to the \textsc{ZOFE}-approach, the best agreement with any truncation order is achieved for large values of $\abs{V}$, because the impact of the environment is reduced by a strong electronic Hamiltonian.
+For smaller $\abs{V}$, the influence of the environment grows and more orders are needed in order to reproduce the reference's results.
+However, there is an important difference to the behavior of the \textsc{ZOFE}-calculations:
+While the latter is exact for $V = 0$\cite{RoStEi11_nmqsd_aggregats}, the deviation of the first order \NMSSE-hierarchy is even more pronounced compared to $V=-0.41$.\\
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+  \centering
+  % TODO Plot spectral density?
+  % FIXME Parameter table
+  \includegraphics[width=\columnwidth]{img/ptcda}
+  \caption{%
+    Absorption spectrum for the \textsc{PTCDA}-dimer convoluted with a Gaussian of width $\sigma = 20\,\mathrm{cm^{-1}}$ with electronic coupling $V=600\,\mathrm{cm^{-1}}$ and different truncation orders $D$ of the hierarchy.
+    The black lines display the sharp peaks of spectrum for $D=7$ with a much narrower enveloping Gaussian ($\sigma = 1\,\mathrm{cm^{-1}}$).
+    We use a bath correlation function with six purely-oscillatory exponentials, see \autoref{tb:} for the parameters \cite[Tab.\,1 D]{RoEiDv11_ptcda}.
+  }
+  \label{fig:app.ptcda}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We now discuss a major advantage of the \NMSSE-hierarchy over the pseudo-mode approach.
+Already \autoref{fig:app.spectra} shows that the first order calculations are always sufficient to reproduce the position of lowest energy peak up to very high precision.
+Even the shape and magnitude of the latter fit well to the exact result in most cases.
+This behavior continues for the next peaks, too, as the pictures corresponding to $V=0.44$ show:
+Although the higher-frequency spectrum $\nu > 0$ is obtained only with the maximum value $k = 5$ for the truncation order, the position of the second peak is well-approximated at the intermediate value $D = 3$.
+
+% FIXME Show in picture,
+To strengthen this statement, we study a more complex system, namely a \textsc{PTCDA} dimer with a bath correlation function consisting of six exponential modes.
+The latter was already used as an approximation to a realistic environment in pseudo-mode calculations \cite{RoEiDv11_ptcda}.
+In contrast to the rest of this work, all modes under consideration are purely oscillatory, that is $\gamma = 0$.
+Nevertheless, \autoref{fig:app.ptcda} clearly shows a behavior similar to the previous spectra~\ref{fig:app.spectra} with increasing truncation order $D$:
+Even the first order $D=1$ yields the correct position of the lowest major peak at wavenumber $k \approx -800\,\ucm^{-1}$ with good precision, but fails at higher energies.
+The next higher order shown ($D=3$) roughly reproduces the correct magnitude and position for the three characteristic peaks on the left and approximately indicates the smaller structure between the two major peaks at $k \approx -800\,\ucm^{-1}$ and $k \approx 700\,\ucm^{-1}$.
+The latter marks the upper boundary for the region where the two highest order calculations $D=5$ and $D=7$ practically coincide.
+For even higher wavenumber, deviations are pronouncedly visible but not random.
+Roughly, the highest order calculation only improves the position and magnitude of the peaks that are already present for $D=5$.\\
+
+
+
+Summarizing the above, we have demonstrated that the hierarchy of pure states provides an efficient tool to study absorption spectra of quantum aggregates.
+In contrast to the study of transfer and dynamics, the calculation of spectra in the \NMSSE requires no Monte-Carlo average over several realizations.
+Therefore, one major advantage of the \NMSSE compared to density-matrix formalisms, namely the propagation of state vectors, really comes into its one.
+This combined with the very predictable behavior for a growing number of hierarchy orders allows studying large-dimensional systems coupled to a highly structured environment, especially in the small-wavenumber regime.
+Besides, we have also demonstrated that truncation of the \NMSSE-hierarchy is possible for $\gamma \to 0$, exemplifying applicability of this approach even the highly non-Markovian limit.

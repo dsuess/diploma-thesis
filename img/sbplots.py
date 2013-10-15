@@ -31,6 +31,7 @@ def plot_single_realization_norm(SB, ax, single_realizations):
       ax.plot(t, np.sqrt(normsq))
    SB.free_single_realizations()
 
+
 # Main plotting routines ######################################################
 
 def depth_plot(outfilename='depth', width=columnwidth, ratio=.4):# {{{1
@@ -40,17 +41,22 @@ def depth_plot(outfilename='depth', width=columnwidth, ratio=.4):# {{{1
    print('Creating depth plot...')
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
-   subplots_adjust(left=.18, bottom=.09, right=.82, top=.94, wspace=0.,
+   subplots_adjust(left=.1, bottom=.09, right=.9, top=.94, wspace=0.3,
          hspace=.05)
    dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson-cutoff/'
 
-   ax = subplot(111)
+   ax = subplot(121)
+   axdet = subplot(122)
+
+   A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(17))
+   t, avgs_ref = A.get_sigma_avg()
 
    # Plotting the data
-   for D in [0, 1, 2, 4, 8, 16]:
-      A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(0))
+   for D in [0, 1, 2, 4, 8, 16, 17]:
+      A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(D))
       t, avgs = A.get_sigma_avg()
       ax.plot(t, avgs[2], label=D)
+      axdet.plot(t, np.abs(avgs[2] - avgs_ref[2]))
 
    # Setup the subplot
    ## Only left ones
@@ -61,7 +67,10 @@ def depth_plot(outfilename='depth', width=columnwidth, ratio=.4):# {{{1
    ax.yaxis.set_major_locator(MaxNLocator(3))
    ax.yaxis.set_minor_locator(MaxNLocator(5))
 
+   axdet.set_yscale('log')
+
    ax.axis([0, 10, 0, 1])
+   axdet.axis([0, 10, 1e-5, 1e0])
    ax.legend(loc='upper right', ncol=2)
    savefig('.'.join([outfilename, outformat]))
 
@@ -80,6 +89,8 @@ def lin_norm_comparisson(outfilename='normcomp', # {{{1
    subplots_adjust(left=.11, bottom=.19, right=.89, top=.97, wspace=0.25,
          hspace=.05)
    dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson/'
+   matplotlib.rcParams['axes.color_cycle'] = ['r', 'g', 'b', 'm', 'c', '#ffa500', '.3', 'y']
+
 
    axweak = subplot(121, autoscale_on=True)
    axstrong = subplot(122, autoscale_on=True)
@@ -118,22 +129,32 @@ def lin_norm_comparisson(outfilename='normcomp', # {{{1
    #axstrongtwin.set_xticklabels([])
    #axstrongtwin.set_xlabel('Strongly Coupled')
 
+   x1, x2, y1, y2 = axweak.axis()
+   axweak.axis([0, 200, 0, y2])
+   axweak.text(180, .9 * y2, r'\textbf{A}')
+
+   x1, x2, y1, y2 = axstrong.axis()
+   axstrong.axis([0, 50, 0, y2])
+   axstrong.text(45, .9 * y2, r'\textbf{B}')
+
    savefig('.'.join([outfilename, outformat]))
    close()
    print('Success.')
 
 
 def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
-      width=columnwidth, ratio=1.):
+      width=columnwidth, ratio=.8):
    """
       Plots to compare lin vs. nonlin method.
    """
    print('Creating lin vs nonlin plot (sigma_z)...')
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
-   subplots_adjust(left=.11, bottom=.09, right=.89, top=.94, wspace=0.,
-         hspace=.05)
+   subplots_adjust(left=.11, bottom=.07, right=.89, top=.94, wspace=0.,
+         hspace=.15)
    dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson/'
+
+   matplotlib.rcParams['axes.color_cycle'] = ['y', 'b', 'r']
 
    axlintop = subplot(221, autoscale_on=True)
    axnontop = subplot(222, autoscale_on=True)
@@ -183,7 +204,7 @@ def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
    ## Only the top ones
    for ax in [axlintop, axnontop]:
       ax.axis([0, 200, -1.05, 1.05])
-      ax.set_xticklabels([])
+      #ax.set_xticklabels([])
 
    ## Only the bottom ones
    for ax in [axlinbot, axnonbot]:
@@ -206,15 +227,20 @@ def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
    ## Set text on the top
    axlintoptwin = axlintop.twiny()
    axlintoptwin.set_xticklabels([])
-   axlintoptwin.set_xlabel('Linear Equations')
+   axlintoptwin.set_xlabel('Linear Equation')
 
    axnontoptwin = axnontop.twiny()
    axnontoptwin.set_xticklabels([])
-   axnontoptwin.set_xlabel('Nonlinear Equations')
+   axnontoptwin.set_xlabel('Nonlinear Equation')
 
 
    axnontop.legend(loc='upper right')
    axnonbot.legend(loc='upper right')
+   axlintop.text(180, -.95, r'\textbf{A}')
+   axnontop.text(180, -.95, r'\textbf{B}')
+   axlinbot.text(45, -.95, r'\textbf{C}')
+   axnonbot.text(45, -.95, r'\textbf{D}')
+
    savefig('.'.join([outfilename, outformat]))
 
    close()
@@ -223,7 +249,6 @@ def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
 #1}}}
 
 if __name__ == '__main__':
-   # TODO Adjust parameters such that times are the same!
-   #lin_vs_nonlin_averaged()
+   lin_vs_nonlin_averaged()
    #lin_norm_comparisson(single_realizations=6)
-   depth_plot()
+   #depth_plot()

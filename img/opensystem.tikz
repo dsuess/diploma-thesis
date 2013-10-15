@@ -1,0 +1,19 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\begin{document}
+\begin{tikzpicture}[scale=.8]
+  \node[align=center] at (-2.4, .7) (sys) {\footnotesize $H_\mathrm{sys}$; $|\psi_0\rangle$};
+  \draw[dashed] (-2.4,.7) ellipse (1.5 and .7);
+  \node[align=center,] at (2, -.8) (env) {\footnotesize $H_\mathrm{env}=\sum_\lambda a_\lambda^\dagger a_\lambda$;  $|\boldsymbol{0}\rangle$};
+
+  \draw[thick] (0, 0) ellipse (5 and 2);
+
+  \draw[<->, line width=2, dashed] (sys) -- (env);
+
+  \node[align=right] at (2, .3) {\footnotesize $H_\mathrm{int} = \sum_\lambda g_\lambda^* L \otimes a_\lambda^\dagger + \mathrm{c.c.}$};
+
+\end{tikzpicture}
+\end{document}

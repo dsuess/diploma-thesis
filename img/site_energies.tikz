@@ -1,0 +1,39 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\definecolor{blue}{rgb}{0,0.2,0.8}
+\definecolor{purple}{rgb}{1,0,0.6}
+\definecolor{ffqqqq}{rgb}{1,0,0}
+\definecolor{cyan}{rgb}{0,0.8,0.8}
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{green}{rgb}{0,1,0}
+\begin{document}
+\begin{tikzpicture}[line cap=round,line join=round,yscale=2]
+  %% Coordinate axis
+  \foreach \y in {200, 300, 400, 500, 600}
+  \draw[shift={(-.5, 0.01*\y)},color=black] (2pt,0pt) -- (-2pt,0pt) node[left] {$\y$};
+  \draw[color=black] (-1.7, 4.00) node[rotate=90] {$\epsilon_m$ [$cm^{-1}$]};
+  \draw[->,color=black,>=triangle 45] (-.5,1.90) -- (-.5,6.50);
+
+  %% Energy levels
+  \draw [color=red, line width=2pt] (-.3,4.10) -- node[below] (1b) {410} node[above] (1a) {\large\textbf{1}} ++(1, 0);
+  \draw [color=green, line width=2pt] (0,5.30) -- node[below] (2b) {530} node[above] (2a) {\large\textbf{2}} ++(1, 0);
+  \draw [color=blue, line width=2pt] (1.5,2.10) -- node[below] (3b) {210} node[above] (3a) {\large\textbf{3}} ++(1, 0);
+  \draw [color=purple, line width=2pt] (1.9,3.20) -- node[below] (4b) {320} node[above] (4a) {\large\textbf{4}} ++(1, 0);
+  \draw [color=cyan, line width=2pt] (1.8,4.80) -- node[below] (5b) {480} node[above] (5a) {\large\textbf{5}} ++(1, 0);
+  \draw [color=orange, line width=2pt] (2.2,6.30) -- node[below] (6b) {630} node[above] (6a) {\large\textbf{6}} ++(1, 0);
+  \draw [color=grey, line width=2pt] (3,4.40) -- node[below] (7b) {440} node[above] (7a) {\large\textbf{7}} ++(1, 0);
+
+  %% Connecting arrows
+  \draw[->, line width=1pt] (1a) -- (2b);
+  \draw[->, line width=1pt] (2b) -- (3a);
+  \draw[->, line width=1pt] (4b) -- (3a);
+  \draw[->, line width=1pt] (5b) -- (4a);
+  \draw[->, line width=1pt] (7b) -- (4a);
+  \draw[->, line width=1pt] (6b) -- (5a);
+  \draw[->, line width=1pt] (6b) -- (7a);
+\end{tikzpicture}
+\end{document}

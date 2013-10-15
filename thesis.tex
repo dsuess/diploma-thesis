@@ -19,6 +19,10 @@
 \usepackage{cite}
 \usepackage{enumerate}
 
+% tables
+\usepackage{tabu}
+\usepackage{multicol}
+
 
 \usepackage{pgf}
 \usepackage{tikz}
@@ -64,6 +68,7 @@
 \newcommand{\cm}[1]{{\color{red}#1}}   % (c)orrection (m)ark
 \newcommand{\NMSSE}{\textsc{NMSSE}\xspace}
 \newcommand{\HEOM}{\textsc{HEOM}\xspace}
+\newcommand{\ucm}{\mathrm{cm}}
 
 % Math Macros
 \newcommand{\cc}[1]{{#1}^*}
@@ -97,6 +102,7 @@
 }
 \newcommand{\intl}[3]{\int_{#1}^{#2}\mathrm{d}#3\,}
 
+\let\rvec\vec
 \renewcommand{\vec}[1]{\boldsymbol{#1}}
 \newcommand{\bra}[1]{\langle #1 |}
 \newcommand{\ket}[1]{| #1 \rangle}
@@ -167,6 +173,7 @@
 \newcommand{\opH}[1]{H_\mathrm{#1}}
 \newcommand{\opT}[1]{T_\mathrm{#1}}
 \newcommand{\opV}[1]{V_\mathrm{#1}}
+\newcommand{\opU}[1]{U_\mathrm{#1}}
 
 % Math Sets
 \newcommand{\Complex}{\mathbb{C}}
@@ -246,11 +253,17 @@
          \def\tableautorefname{Tables}%
          \orgautoref}
 
+
+% centered table header
+ \newcommand{\theader}[1]{\multicolumn{1}{c}{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\includeonly{introduction}
 %\includeonly{nmqsd}
 %\includeonly{numerics}
 %\includeonly{application}
+%\includeonly{appendix}
 
 \begin{document}
 \frontmatter
@@ -267,7 +280,9 @@
 \appendix
 \include{appendix}
 
-\bibliographystyle{alpha}
+% FIXME OLD CITATION STYLE
+%\bibliographystyle{alpha}
+\bibliographystyle{plain}
 \bibliography{references}
 
 \end{document}

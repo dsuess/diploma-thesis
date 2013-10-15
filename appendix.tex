@@ -275,11 +275,15 @@ this allows us to rewrite \autoref{eq:tla.psi_plus_eq} as a system of $(N+1)$ or
 with constant coefficients and initial conditions $\psi^+(0)$ as well as $\phi_j(0) = 0$.
 In the special case $N = 1$ the diagonalization of the coefficient matrix can be carried out analytically; for $N=2$ it is---at least in principle---possible, too.
 With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ and $g_1$ absorbed into the coupling strength $g$, the solution to \autoref{eq:tla.psi_plus_eq} reads
-% FIXME INSERT γ
 \begin{equation}
   \psi^+(t) = \frac{\psi^+(0)}{2\tilde\Omega} \left( (\omega - \Omega + \tilde\Omega) \, \exp[-\ii \frac{\Omega + \tilde\Omega}{2} t ]  -  (\omega - \Omega - \tilde\Omega) \, \exp[-\ii \frac{\Omega - \tilde\Omega}{2} t ] \right).
   \label{eq:tla.solution}
 \end{equation}
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -291,14 +295,22 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ a
 \label{sec:hierarchy.memory_integral}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO FIX
-As the singular terms in the time derivative of $\alpha$ cancel we obtain
-\begin{equation*}
+In this section we discuss the crucial simplification, how an exponential bath correlation function $\alpha(t) = g\,\exp[-\gamma\abs{t}-\ii\Omega t]$ leads to
+\begin{equation}
+  \dot\adjZZ_t\psitZ = (-\gamma + \ii\Omega) \adjZZ_t\psitZ
+  \label{eq:memint.adjzzt_deriv}
+\end{equation}
+for the noise-derivation operator $\adjZZ_t = \int\alpha(t-s)\delta/\delta \ZZ_s$ applied to a solution of the \NMSSE with vacuum initial conditions, that is $\frac{\delta\psi_0}{\delta \ZZ_s} = 0$.
+ %= g \exp[-\ii \Omega t] \left( \Theta(t) \exp[-\gamma t] + \Theta(-t) \exp[\gamma t] \right),
+
+For the above $\dot\adjZZ_t = \int\dot\alpha(t-s)\delta/\delta \ZZ_s$, we need to calculate
+\begin{equation}
   \dot\alpha(t) = g \exp[-\ii \Omega t] \left( (-\gamma - \ii\Omega) \Theta(t) \exp[-\gamma t] + (\gamma - \ii\Omega)\Theta(-t)\exp[\gamma t] \right).
-\end{equation*}
-Therefore we cannot exploit $\dot\adjZZ_t \propto \adjZZ_t$ on the level of operators in general.
+\end{equation}
+Notice that the singular time-derivatives $\dot\Theta = \delta$ cancel.
+This show clearly, that $\dot\adjZZ_t \propto \adjZZ_t$ does not hold on the level of operators.
 Even the vanishing of the functional derivative $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s > t$ with some arbitrary stochastic state $\phi_t(\ZZ)$ does not imply $\dot\adjZZ_t \phi_t(\ZZ) \propto \adjZZ_t\phi_t(\ZZ)$ as the following example shows:
-Take a noise expansion of the form $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$, where $\varphi$ is some $\ZZ$ independent system state and $0 < t' < t$.
+Take a noise expansion of the form $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$, where $\varphi$ is some $\ZZ_t$ independent system state and $0 < t' < t$.
 It clearly satisfies the required boundary conditions, but
 \begin{equation*}
   \dot\adjZZ_t \phi_t(\ZZ) = (\dot\alpha(0) + \dot\alpha(t-t')) \varphi = \left( -2\ii\Omega - (\gamma + \ii\Omega) \exp[-(\gamma + \ii\Omega) (t-t')] \right) \varphi
@@ -307,16 +319,11 @@ which is not proportional to
 \begin{equation*}
   \adjZZ_t \phi_t(\ZZ) = (\alpha(0) + \alpha(t - t')) \varphi = g (1 + \exp(-\gamma + \ii \Omega)(t-t')) \varphi.
 \end{equation*}
-We clearly see that the problematic first summand arises due to singular behavior of $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s = t$.
+The problematic first summand arises due to singular behavior of $\delta \phi_t(\ZZ) / \delta \ZZ_s$ at the upper integral bound $s = t$.
 
-Such problems do not occur once we restrict $\dot\adjZZ_t$ to solutions of our NMSSE~\ref{eq:num.nmsse} with vacuum initial conditions.
-Indeed we see from \autoref{eq:nmqsd.deriv_psit} that the functional derivative of $\psitZ$ at the upper boundary is regular and therefore has vanishing weight under the integral.
-Hence we obtain for the time derivative of our integrated derivation operator
-\begin{equation}
-  % TODO Watch for change in \psitZ
-  \dot\adjZZ_t \psitZ = - (\gamma + \ii \Omega) \adjZZ_t\psitZ
-  \label{eq:num.dot_adjZZt}
-\end{equation}
+However, such problems do not occur once we restrict $\dot\adjZZ_t$ to solutions of our NMSSE~\ref{eq:num.nmsse} with vacuum initial conditions.
+Indeed, since $\delta\psit / \delta\ZZ_t \propto L\psit$, the functional derivative of $\psitZ$ at the upper bound is regular and therefore has vanishing weight under the integral.
+This is how we obtain \autoref{eq:memint.adjzzt_deriv}.
 
 % section memory_integral (end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -324,6 +331,11 @@ Hence we obtain for the time derivative of our integrated derivation operator
 \label{sec:hierarchy.terminator}
 
 % TODO Some detailed discussion
+% TODO Time-local/nonlocal terminators
+\begin{equation}
+  \psit[k] = \int_0^t \exp[-kw(t-s)] \Texp[\int_s^t -\ii\Hsys + L\ZZ_u \dd u] \left( k \alpha(0)L\psi_s^{(k-1)} - \adj{L} \psi_s^{(k+1)} \right) \dd s,
+  \label{eq:num.terminator_integral}
+\end{equation}
 
 % too generic cases γ=0 and Ω=0; different approaches, ...
 % when is k large enough
@@ -331,44 +343,182 @@ Hence we obtain for the time derivative of our integrated derivation operator
 
 
 % section hierarchy.terminator (end)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Matsubara Expansions of Hyperbolic Cotangens}
-\label{cha:coth}
-%
-% * punktierte Umgebung = punctured
-% * picture of coth-singularities
 
-%Before presenting the two expansion schemes for the hyperbolic cotangens function mentioned in \autoref{sec:num.expansion} we need to introduce a few ideas from complex analysis.
+
+
+%\section{Matsubara Spectrum Decomposition}
+%\label{sec:coth.matsubara}
+
+%In section we proof the Matsubara expansion of the hyperbolic cotangens
+%\begin{equation}
+  %\coth z = \sum_{n=-\infty}^\infty \frac{1}{\ii\xi_n - z},
+  %\label{eq:num.matsubara_expansion}
+%\end{equation}
+%with $\xi_n = \pi n$ using elementary tools from Complex Analysis, see the book of Rudin \cite{Ru87_analysis} for more details.
+%Recall that a function $f$ with an isolated singularity $a\in\Complex$ can always be expanded in a Laurent series around $a$
+%\begin{equation}
+  %f(z) = \sum_{j=0}^\infty a_j (z - a)^j + \sum_{j=1}^\infty \frac{a_{-j}}{(z-a)^j} \qquad (0 < \abs{z-a} < \varepsilon).
+  %\label{eq:coth.laurent}
+%\end{equation}
+%The first sum is called \idef{analytical part} while the second one is called \idef{principal part}.
+%Clearly, if $a$ is a removable singularity, that is the principal part vanishes, we can continue $f$ to an analytical function for all $z$ with $\abs{z-a} < \varepsilon$---this is the content of Riemann's theorem.
+%A complex function $f$ is said to be \idef{meromorphic} on an open set $\Omega\subset\Complex$, if it is analytical on $\Omega$ except a set $A \subset\Omega$ of isolated points, which are finite poles for $f$.\\
+
+
+
+%To prove \autoref{eq:num.matsubara_expansion}, notice that $\ii\xi_n$ are exactly the isolated singularities of the hyperbolic cotangens.
+%Indeed, using the representation
+%\begin{equation}
+  %\coth z = \frac{1 + \exp[-2 z]}{1 - \exp[-2 z]}
+  %\label{eq:coth.representation}
+%\end{equation}
+%we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \xi_n$.
+%By the usual formula for simple poles, we find for the corresponding residua
+%\begin{equation*}
+  %\Res_{\ii\pi n} (\coth) = \lim_{z\to \ii\pi n} z \coth z = 1
+%\end{equation*}
+
+%Let us now define $g$ by the right hand side of \autoref{eq:num.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
+%\begin{equation}
+  %g(z) = \lim_{N\to\infty} \sum_{n=-N}^{N} \frac{1}{\ii\xi_n - z} = - \sum_{n=0}^\infty \frac{2z}{\pi^2 n^2 + z^2} - \frac{1}{z}.
+  %\label{eq:coth.series}
+%\end{equation}
+%Since there is $n^2$ in the denominator, the infinite series for $g$ converges absolutely unless $z = \pm \ii \pi n$ and defines a meromorphic function with the same poles and residues as the hyperbolic cotangens.
+%This leads to the conclusion that $h := \coth - g$ can be continued to an analytical function on the entire complex plane.
+%Except in the vicinity of their poles, $\coth$ and $g$ are bounded, therefore, $h$ is a bounded, entire function on $\Complex$.
+%Finally, we know from Liouville's Theorem that $h$ is a constant function, which can be calculated from
+
+%% FIXME FINALIZE
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to FMO}
+\label{sec:coth.fmo}
+%
+
+In this section we present the details for the FMO-transfer in \autoref{sec:app.fmo}.
+We start by calculating the exponential expansion
+\begin{equation}
+  \alpha(t) = \sum_{n=0}^\infty g_n\,\exp[-\gamma_n t]
+  \label{eq:coth.alpha_expansion}
+\end{equation}
+of the bath correlation function for a Drude spectral density
+\begin{equation*}
+  J(\omega) = \frac{2 \lambda}{\pi} \frac{\gamma\omega}{\omega^2 + \gamma^2}
+\end{equation*}
+with poles $\omega = \pm \ii\gamma$ and residues $\Res_{\pm\ii\gamma} (J) = \frac{\gamma\lambda}{\pi}$.
+Let us write $\alpha(t) = a(t) + \ii b(t)$ with the corresponding integrals
+\begin{align*}
+  a(t) = \frac{1}{2} \int J(\omega) \, \coth \left( \frac{\beta\omega}{2} \right) \, \exp[\ii\omega t] \dd\omega \qquad \mbox{and} \qquad
+  b(t) = \frac{1}{2\ii} \int J(\omega) \, \exp[\ii\omega t] \dd\omega.
+\end{align*}
+As already mentioned in \autoref{sec:num.expansion}, these integrals are solved using the residue theorem:
+For $t > 0$ we have to include only poles with positive imaginary part, so \autoref{eq:num.sum_over_poles} gives
+\begin{align*}
+  a(t) &= \ii \gamma\lambda\, \coth \left(\frac{\ii\beta\gamma}{2}\right) \exp[-\gamma t] + \frac{2\pi\ii}{\beta} \sum_{\gamma_n} \frac{2\lambda}{\pi} \frac{\ii\gamma\gamma_n}{-\gamma_n^2 + \gamma^2} \, \exp[-\gamma_n t] \\
+  &= \gamma\lambda\, \cot \left(\frac{\beta\gamma}{2}\right) \exp[-\gamma t] + \frac{4\lambda\gamma}{\beta} \sum_{\gamma_n} \frac{\gamma_n}{\gamma_n^2 - \gamma^2} \, \exp[-\gamma_n t],
+\end{align*}
+where the last sum is taken over Matsubara frequencies $\gamma_n = 2\pi n / \beta$, $n \ge 1$.
+For convenience we also set $\gamma_0 = \gamma$.
+
+Similarly, we have for the imaginary part
+\begin{equation*}
+  b(t) = \gamma\lambda \, \exp[-\gamma t].
+\end{equation*}
+In conclusion, we obtain for the parameters in the expansion~\ref{eq:coth.alpha_expansion}
+\begin{equation*}
+  g_0 = \gamma\lambda \left(\cot \left( \frac{\beta \gamma}{2}\right) - \ii\right) \qquad \mbox{and} \qquad
+  g_{n\ge1} = \frac{4\lambda\gamma}{\beta} \frac{\gamma_n}{\gamma_n^2 - \gamma^2}.
+\end{equation*}\\
+
+We now turn to the concrete values used in \autoref{sec:app.fmo} and the calculations of Ishizaki-Fleming \cite{IsFl09_fmo}; for the results see \autoref{tb:fmo.bcfs}.
+
+Compared to the inverse relaxation time $\gamma_0 = 106\,\mathrm{cm^{-1}}$, the first Matsubara frequency $\gamma_1 = 1310\,\mathrm{cm^{-1}}$ at $T = 300\,\mathrm{K}$ is already quite large.
+The opposite holds for the corresponding coupling strengths $g_0 = (14279 - 3716\ii)\,\mathrm{cm^{-2}}$ and $g_1 = 2381\,\mathrm{cm^{-2}}$, respectively.
+Hence, we follow the reference and drop all low-temperature correction terms with $n \ge 1$ in \autoref{eq:coth.alpha_expansion}.
+
+For cryogenic temperature $T = 77\,\mathrm{K}$, a single mode with $g_0 = (2916 - 3716\ii)\,\mathrm{cm^{-2}}$ is not sufficient, since the first low-temperature correction term is given by $\gamma_1 = 336\,\mathrm{cm^{-2}}$ and $g_1 = 2628\,\mathrm{cm^{-2}}$.
+However, the latter was approximated by a purely Markovian mode $\gamma_1\,\exp[-\gamma_1 t] \approx \delta(t)$ by Ishizaki-Fleming in order to keep the number of modes as small as possible for the \HEOM-approach.
+The implementation of the pure-state hierarchies could not handle a true Markovian mode, so we resort to an exponential mode with $\tilde\gamma_1 > 1000\,\mathrm{cm^{-1}}$ in order to obtain good agreement.
+To check whether such an approximation has a large impact on the results, we also check the true values in \autoref{fig:app.fmo_77_true}
+
+\begin{table}[h]
+  \centering
+  % FIXME Letzte spalte rausnehmen, wenn nicht gebraucht
+  \begin{tabu}{c|r|r|r}
+    \rowfont[c]{}           & \autoref{fig:app.fmo_ishfl} & \autoref{fig:app.fmo_mevsphi} & \autoref{fig:app.fmo_77_true}  \\ \hline
+    $g_0\,[\ucm^{-2}]$      & $2916 - 3716\ii$            & $14279 - 3716\ii$             & $2916 - 3716\ii$             \\
+    $\gamma_0\,[\ucm^{-1}]$ & $106$                       & $106$                         & $106$                        \\ \hline
+    $g_1\,[\ucm^{-2}]$      & $7814^*$                    & --                            & $2628$                       \\
+    $\gamma_1\,[\ucm^{-1}]$ & $1000^*$                    & --                            & $336$                        \\ \hline
+    $g_2\,[\ucm^{-2}]$      & $3716\ii$                   & $3716\ii$                     & $3716\ii$                    \\
+    $\gamma_2\,[\ucm^{-1}]$ & $1000$                      & $1000$                        & $1000$                       \\ \hline\hline
+
+  \end{tabu}
+  \caption{%
+    Parameters for the bath correlation function $\alpha(t) = \sum_n g_n\,\exp[-\gamma_n t]$ used in \autoref{sec:app.fmo}.
+    Values marked with a star are approximated Markov-modes from the reference.
+    The third mode is merely used to remove the imaginary part of $\alpha(0)$.
+  }
+  \label{tb:fmo.bcfs}
+\end{table}
+
+\begin{table}[h]
+  \centering
+  \begin{tabu}{c|rrrrrrr}
+    \rowfont[c]{}
+    $H_{mn}\, \mathrm{[cm^{-1}]}$ & 1            & 2            & 3            & 4            & 5            & 6            & 7  \\ \hline
+    1                             & \textbf{410} & -87.7        & 5.5          & -5.9         & 6.7          & -13.7        & -9.9         \\
+    2                             &              & \textbf{530} & 30.8         & 8.2          & 0.7          & 11.8         & 4.3          \\
+    3                             &              &              & \textbf{210} & -53.5        & -2.2         & -9.6         & 6.0          \\
+    4                             &              &              &              & \textbf{320} & -70.7        & -17.0        & -63.3        \\
+    5                             &              &              &              &              & \textbf{480} & 81.1         & -1.3         \\
+    6                             &              &              &              &              &              & \textbf{630} & 39.7         \\
+    7                             &              &              &              &              &              &              & \textbf{440} \\
+    \hline\hline
+  \end{tabu}
+  \caption{%
+    Matrix elements of the purely electronic Hamiltonian used in \autoref{sec:app.fmo}.
+    Consists of site energies (bold) and electronic coupling elements for \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}.
+    An irrelevant global offset of $12\,000\,\mathrm{cm^{-1}}$ has been subtracted from the site energies.
+  }
+  \label{tb:fmo.hamiltonian}
+\end{table}
+
+% section coth.fmo (end)
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SCRAP YARD  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %For more details and proofs we refer to the book of Rudin \cite{Ru87_analysis}.
 
-%% TODO Is this already enough citation?
 %First recall that a function $f$ with an isolated singularity $a\in\Complex$ can always be expanded in a Laurent series around $a$
 %\begin{equation}
   %f(z) = \sum_{j=0}^\infty a_j (z - a)^j + \sum_{j=1}^\infty \frac{a_{-j}}{(z-a)^j} \qquad (0 < \abs{z-a} < \varepsilon).
   %\label{eq:coth.laurent}
 %\end{equation}
-%% TODO Mention punctured environment
 %The first sum is called \idef{analytical part} while the second one is called \idef{principal part}.
 %Clearly if $a$ is a removable singularity, that is the principal part vanishes, we can continue $f$ to a function analytical for all $z$ with $\abs{z-a} < \varepsilon$.
 %A complex function $f$ is said to be \idef{meromorphic} in an open set $\Omega\subset\Complex$ if it is analytical on $\Omega$ except a set $A \subset\Omega$ of isolated points, which are poles for $f$.
 %Roughly speaking meromorphic functions are analytical leaving out some isolated poles; this reading is further substantiated by the following theorem.
 %\begin{thm}[Mittag-Leffler, {{\cite[13.10]{Ru87_analysis}}}]
-%  Suppose $\Omega$ is an open set in the complex plane, $A \subset \Omega$ has no limit points in $\Omega$, and to each $a \in A$ there is a polynomial of finite order $P_a(z)$ in $1/(z-a)$, that is
-%  \begin{equation*}
-%    P_a(z) = \sum_{j=1}^{o(a)} \frac{c_{j,a}}{(z-a)^j}.
-%  \end{equation*}
-%  Then there exists a meromorphic function $f$ in $\Omega$, whose principle part at each $a \in A$ is $P_a$ and which has no further singularities in $\Omega$.
-%  \label{thm:coth.mittag_leffler}
+  %Suppose $\Omega$ is an open set in the complex plane, $A \subset \Omega$ has no limit points in $\Omega$, and to each $a \in A$ there is a polynomial of finite order $P_a(z)$ in $1/(z-a)$, that is
+  %\begin{equation*}
+    %P_a(z) = \sum_{j=1}^{o(a)} \frac{c_{j,a}}{(z-a)^j}.
+  %\end{equation*}
+  %Then there exists a meromorphic function $f$ in $\Omega$, whose principle part at each $a \in A$ is $P_a$ and which has no further singularities in $\Omega$.
+  %\label{thm:coth.mittag_leffler}
 %\end{thm}
 %Clearly the choice of such a $f$ is not unique as we can always add a function analytical in $\Omega$ to $f$.
 %On the other hand this exhausts all possibilities: if $f$ and $f'$ both satisfy the conditions mentioned above then they have identical isolated singularities given by the elements of $A$.
 %The same applies to their difference $g = f - f'$; but since all principle parts for $f$ and $f'$ at each $a \in A$ match, we can continue $g$ to an analytical function on $\Omega$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Matsubara Spectrum Decomposition}
-\label{sec:coth.matsubara}
-
 %In \autoref{sec:num.expansion} we use the expansion of the hyperbolic cotangens in terms of Matsubara frequencies \cite{Ma00_many_particle}
 %\begin{equation}
   %\xi_n = \frac{2\pi n}{\beta} \qquad (n \in \Integers).
@@ -376,60 +526,7 @@ Hence we obtain for the time derivative of our integrated derivation operator
 %\end{equation}
 %It provides a sum over poles representation, namely
 %\begin{equation}
-  %% TODO Check
   %\coth\left(\frac{\beta z}{2}\right) = \frac{2}{\beta} \sum_{n=-\infty}^\infty \frac{1}{\ii\xi_n - z},
   %\label{eq:coth.matsubara_expansion}
 %\end{equation}
 %with singularities evenly distributed along the imaginary axis.
-
-%In order to proof \autoref{eq:coth.matsubara_expansion} notice that $\ii\omega_n$ are exactly the isolated singularities of $z \mapsto \coth(\beta z / 2)$.
-%Indeed, using the representation
-%\begin{equation}
-  %f(z) := \coth\left(\frac{\beta z}{2}\right) = \frac{1 + \exp[-\beta z]}{1 - \exp[-\beta z]}
-  %\label{eq:coth.representation}
-%\end{equation}
-%we see that the numerator as well as the denominator are analytical for all $z \in \Complex$, but the latter vanishes for $z = \ii \omega_n$.
-%% TODO Elaborate?
-%A short calculation reveals that these $z$ are simple poles with $\Res f(\ii\omega_n) = 2/\beta$.
-
-%Let us now define $g$ by the right hand side of \autoref{eq:coth.matsubara_expansion}; in order to enforce convergence of the infinite series, we need to take the symmetric limit
-%\begin{equation}
-  %g(z) = \frac{2}{\beta} \, \lim_{N\to\infty} \sum_{n=-N}^{N} \frac{1}{\ii\omega_n - z} = - \frac{2}{\beta} \, \left( \sum_{n=0}^\infty \frac{2z}{\omega_n^2 + z^2} + \frac{1}{z} \right)
-  %\label{eq:coth.series}
-%\end{equation}
-%where we used $\omega_{-n} = -\omega_n$ in the second step.
-%Since $\omega\propto n$ the infinite series for $g$ in \autoref{eq:coth.series} converges absolutely unless $z = \ii\omega_n$ and defines a meromorphic function with the same poles and principal parts as $f$.
-%This leads to the conclusion that $h := f - g$ can be continued to an analytical function on the entire complex plane.
-%We now show that $h$ is bounded on $\Complex$ and therefore a constant function by Liouville's Theorem.
-%% TODO Fill in!
-%Expanding both $f$ and $g$ in a Laurent series about 0 allows us to calculate $f() = g() = $ as % lies within the convergence disk of both series.
-%In conclusion we find $h = 0$, or put differently $f = g$---the Matsubara expansion~\ref{eq:coth.matsubara_expansion} is valid on the entire complex plane.
-
-% TODO Boundness of h!!
-%
-% Idea: Show f and g are bounded for Re z --> infinty; enough since periodic
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Application to FMO}
-\label{sec:coth.fmo}
-
-% TODO Calculations to get results of FMO plot
-% Markov approximation; here nu >> 1
-% Correction to get proper bcf (alpha(0) ≠ 0)
-
-% section coth.fmo (end)
-
-
-%% Bath Correlation Function & Spectral density plot %%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %\begin{figure}
-  %  \centering
-  %  \includegraphics[width=\columnwidth]{img/fmo_bcf}
-  %  \caption{%
-  %    \textbf{(A)} Drude spectral density~\ref{eq:app.drude} with $\gamma^{-1} = 50\,\mathrm{fs}$ and $\lambda=35\,\mathrm{cm^{-1}}$.
-  %    \textbf{(B)} Real and imaginary part of the corresponding bath correlation function at 77\,K with one Matsubara term and Markov
-  %  }
-  %  \label{fig:}
-  %\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-

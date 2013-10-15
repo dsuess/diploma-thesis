@@ -46,7 +46,7 @@ def jaynes_cummings_plot(outfilename='jaynescummings.' + outformat,
    plt.subplots_adjust(left=.11, bottom=.19, right=.89, top=.97, wspace=0.0,
          hspace=.05)
 
-   matplotlib.rcParams['axes.color_cycle'] = ['#004225']
+   matplotlib.rcParams['axes.color_cycle'] = ['b']
    axdamp_s = plt.subplot(121, autoscale_on=True)
    axfree_s = plt.subplot(122, autoscale_on=True)
    axdamp_F = plt.axes([.285, .62, .2, .3], autoscale_on=True)
@@ -69,8 +69,8 @@ def jaynes_cummings_plot(outfilename='jaynescummings.' + outformat,
    Omega = 1.01
    jc = JCAnalytical(omega, g, gamma, Omega, coupl)
    t, sz = jc.solve(20, 1000, psi0)
-   axdamp_s.plot(t, sz, color='r', ls='--')
-   axdamp_F.plot(t, np.abs(jc.get_F(t)), color='r', ls='--')
+   axdamp_s.plot(t, sz, color='r', ls='--', lw=2)
+   axdamp_F.plot(t, np.abs(jc.get_F(t)), color='r', ls='--', lw=2)
 
    ## Weakly damped
    gamma = 0.1
@@ -87,8 +87,8 @@ def jaynes_cummings_plot(outfilename='jaynescummings.' + outformat,
    Omega = 1.01
    jc = JCAnalytical(omega, g, gamma, Omega, coupl)
    t, sz = jc.solve(40, 1000, psi0)
-   axfree_s.plot(t, sz, ls='--', color='r')
-   axfree_F.plot(t, np.abs(jc.get_F(t)), ls='--', color='r')
+   axfree_s.plot(t, sz, ls='--', color='r', lw=2)
+   axfree_F.plot(t, np.abs(jc.get_F(t)), ls='--', color='r', lw=2)
 
    # Setup the subplot
    ## reduce fontsize of inset tick-labels
@@ -133,8 +133,8 @@ def jaynes_cummings_plot(outfilename='jaynescummings.' + outformat,
    axdamp_F.axis([0, 10, 0, 1.5])
 
 
-   axfree_s.axis([0, 30, -1, 1])
-   axfree_F.axis([0, 30, -1, 120])
+   axfree_s.axis([0, 20, -1, 1])
+   axfree_F.axis([0, 20, -1, 40])
 
    ## And add subfigure caption
    axdamp_s.text(9, -.88, r'\textbf A', fontsize=11)
