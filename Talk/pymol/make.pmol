@@ -1,0 +1,111 @@
+#load monomer_reduced.pdb
+load 3ENI.pdb
+
+# define the bcls
+select bclA1, (chain A and resi 371)
+select bclA2, (chain A and resi 372)
+select bclA3, (chain A and resi 373)
+select bclA4, (chain A and resi 374)
+select bclA5, (chain A and resi 375)
+select bclA6, (chain A and resi 376)
+select bclA7, (chain A and resi 377)
+select bclA8, (chain A and resi 378)
+
+
+select bclB1, (chain B and resi 371)
+select bclB2, (chain B and resi 372)
+select bclB3, (chain B and resi 373)
+select bclB4, (chain B and resi 374)
+select bclB5, (chain B and resi 375)
+select bclB6, (chain B and resi 376)
+select bclB7, (chain B and resi 377)
+select bclB8, (chain B and resi 378)
+
+select bclC1, (chain C and resi 371)
+select bclC2, (chain C and resi 372)
+select bclC3, (chain C and resi 373)
+select bclC4, (chain C and resi 374)
+select bclC5, (chain C and resi 375)
+select bclC6, (chain C and resi 376)
+select bclC7, (chain C and resi 377)
+select bclC8, (chain C and resi 378)
+
+select bcl1, (resi 371)
+select bcl2, (resi 372)
+select bcl3, (resi 373)
+select bcl4, (resi 374)
+select bcl5, (resi 375)
+select bcl6, (resi 376)
+select bcl7, (resi 377)
+select bcl8, (resi 378)
+
+# set the viewpos
+# viewpos for plotting transfer
+set_view (\
+    -0.480811268,    0.603387773,    0.636203885,\
+     0.675508440,    0.717507422,   -0.169974893,\
+    -0.559037924,    0.348030269,   -0.752567112,\
+    -0.000127681,    0.000030167, -122.974456787,\
+    13.921709061,   -7.469791889,   -4.264435768,\
+  -1086.176879883, 1332.132446289,  -20.000000000 )
+
+# and the monomer with 7 bcls which is of interest
+select monomerA, bclA1 bclA2 bclA3 bclA4 bclA5 bclA6 bclA7 bclA8
+select monomerB, bclB1 bclB2 bclB3 bclB4 bclB5 bclB6 bclB7 bclB8
+select monomerC, bclC1 bclC2 bclC3 bclC4 bclC5 bclC6 bclC7 bclC8
+
+select FMO, monomerA monomerB monomerC
+
+# no raytracing fog
+set ray_trace_fog, 0
+set ray_trace_mode, 2
+set ray_opaque_background, 1
+set antialias, 2
+
+# and white background
+set bg_rgb, [1, 1, 1]
+
+# set the appropriate colors
+color red, bcl1
+color green, bcl2
+color blue, bcl3
+color magenta, bcl4
+color cyan, bcl5
+color orange, bcl6
+color grey, bcl7
+color yellow, bcl8
+
+# add some labels
+set label_outline_color, black
+set label_shadow_mode, 4
+
+select lab1, id 5472
+label lab1, "1"
+select lab2, id 5555
+label lab2, "2"
+select lab3, id 5615
+label lab3, "3"
+select lab4, id 5704
+label lab4, "4"
+select lab5, id 5754
+label lab5, "5"
+select lab6, id 5807
+label lab6, "6"
+select lab7, id 5940
+label lab7, "7"
+select lab8, id 5980
+label lab8, "8"
+
+set label_color, red, lab1
+set label_color, green, lab2
+set label_color, blue, lab3
+set label_color, magenta, lab4
+set label_color, cyan, lab5
+set label_color, orange, lab6
+set label_color, grey, lab7
+set label_color, yellow, lab8
+
+select labels, lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8
+set label_size, 50
+
+# Use control+shift for repositioning

@@ -1,0 +1,53 @@
+\newcommand{\ket}[1]{| #1 \rangle}
+\newcommand{\bra}[1]{\langle #1 |}
+\newcommand{\Hel}{H_\mathrm{el}}
+\newcommand{\opH}[1]{H_\mathrm{#1}}
+\newcommand{\opHH}[1]{\mathcal{H}_\mathrm{#1}}
+\newcommand{\ptr}{\mathrm{Tr}_\mathrm{env}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\adj}[1]{#1^{\dagger}}
+\newcommand{\cc}[1]{{#1}^\ast}
+\newcommand{\quotes}[1]{``#1''}
+\newcommand{\dd}{\mathrm{d}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\abs}[1]{\vert #1 \vert}
+
+
+\newcommand{\zz}{{\vec z}}               % Our noise process
+\newcommand{\ZZ}{\cc{Z}}               % Our noise process
+\newcommand{\tildeZZ}{\cc{\tilde Z}}
+\newcommand{\adjZZ}{\mathcal{D}}         % and it's adjoint
+
+\newcommand{\E}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+  {\mathbb{E}}
+  {\mathbb{E}\left( #1 \right)}
+}
+\newcommand{\unit}{\mathrm{I}}
+
+\renewcommand{\exp}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\mathrm{exp}}
+    {\mathrm{e}^{#1}}
+}
+
+\newcommand{\braket}[2]{\langle #1 | #2 \rangle}
+
+
+\newcommand{\psit}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t}
+    {\psi_t^{(#1)}}
+}
+\newcommand{\psitz}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t(\cc\zz)}
+    {\psi_t^{(#1)(\cc\zz)}}
+}
+\newcommand{\psitZ}[1][\empty]{%
+  \ifthenelse{\equal{#1}{\empty}}
+    {\psi_t(\ZZ)}
+    {\psi_t^{(#1)}(\ZZ)}
+}
+
+\newcommand{\NMSSE}{\textsc{NMSSE}}

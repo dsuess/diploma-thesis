@@ -1,0 +1,21 @@
+# ray: 2100, 2000
+# set cartoon_transparency, 0.9, all
+set_view (\
+    -0.775402069,   -0.582216024,    0.244480655,\
+    -0.615104556,    0.608843923,   -0.500960469,\
+     0.142813802,   -0.538819194,   -0.830218971,\
+     0.000037585,    0.000645459, -250.503463745,\
+    57.510410309,   33.547000885,   33.562500000,\
+   204.610565186,  296.356292725,  -20.000000000 )
+
+
+# no raytracing fog
+set ray_trace_fog, 0.7
+set ray_trace_mode, 1
+set ray_opaque_background, 1
+set antialias, 2
+set cartoon_fancy_helices, 1
+set cartoon_side_chain_helper, on
+
+# and white background
+set bg_rgb, [1, 1, 1]

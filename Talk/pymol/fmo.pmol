@@ -1,0 +1,81 @@
+## Build structure
+load 3EOJ.pdb
+
+# define the bcls
+select bcl1, (resi 371)
+select bcl2, (resi 372)
+select bcl3, (resi 373)
+select bcl4, (resi 374)
+select bcl5, (resi 375)
+select bcl6, (resi 376)
+select bcl7, (resi 377)
+select bcl8, (resi 378)
+select monomer, bcl1 bcl2 bcl3 bcl4 bcl5 bcl6 bcl7 bcl8
+
+# set the appropriate colors
+color red, bcl1
+color green, bcl2
+color blue, bcl3
+color magenta, bcl4
+color cyan, bcl5
+color orange, bcl6
+color grey, bcl7
+color yellow, bcl8
+
+
+
+# add some labels
+set label_outline_color, black
+set label_shadow_mode, 4
+
+select lab1, id 3138
+label lab1, "1"
+select lab2, id 3198
+label lab2, "2"
+select lab3, id 3259
+label lab3, "3"
+select lab4, id 3344
+label lab4, "4"
+select lab5, id 3390
+label lab5, "5"
+select lab6, id 3494
+label lab6, "6"
+select lab7, id 3576
+label lab7, "7"
+select lab8, id 3618
+label lab8, "8"
+select labels, lab1 lab2 lab3 lab4 lab5 lab6 lab7 lab8
+
+set label_color, red, lab1
+set label_color, green, lab2
+set label_color, blue, lab3
+set label_color, magenta, lab4
+set label_color, cyan, lab5
+set label_color, orange, lab6
+set label_color, grey, lab7
+set label_color, yellow, lab8
+
+set label_size, 50
+
+
+symexp sym,3EOJ,(3EOJ),1
+# define the bcls (full protein)
+select bcls1, (resi 371)
+select bcls2, (resi 372)
+select bcls3, (resi 373)
+select bcls4, (resi 374)
+select bcls5, (resi 375)
+select bcls6, (resi 376)
+select bcls7, (resi 377)
+select bcls8, (resi 378)
+select monomers, bcls1 bcls2 bcls3 bcls4 bcls5 bcls6 bcls7 bcls8
+
+# set the appropriate colors
+color red, bcls1
+color green, bcls2
+color blue, bcls3
+color magenta, bcls4
+color cyan, bcls5
+color orange, bcls6
+color grey, bcls7
+color yellow, bcls8
