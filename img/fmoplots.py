@@ -121,8 +121,8 @@ def fmo_transfer_bcf(outfilename='fmo_bcf', width=columnwidth, ratio=.35):# {{{1
    a = bath._alpha(t) / 1e3
    ax2.plot(invcm_to_ps * t, np.real(a), color='.6', label=r'$\Re\alpha (300\,\mathrm{K})$',
          ls='-')
-   ax2.plot(invcm_to_ps * t, np.imag(a), color='k',
-         ls='--')
+   #ax2.plot(invcm_to_ps * t, np.imag(a), color='k',
+   #      ls='--')
 
    bath.g[1] -= 1.j * np.imag(bath.g[0])
    a = bath._alpha(t) / 1e3
@@ -196,14 +196,12 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
    A = AggregatTransferFromFile(dirloc + 'fmo300-start1-3.pkl')
    pop_ref = A.get()
    t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
-   print(t.shape)
 
    for i, D in enumerate([1, 2, 3]):
    #for i, D in enumerate([]):
-      print(D)
       A = AggregatTransferFromFile(dirloc + 'fmo300-start1-{}.pkl'.format(D))
+      print('Small sample size: {}'.format(A._Trajectories))
       pop = A.get()
-      print(pop.shape)
       for j in sites:
          ax1.plot(t, pop[j], color=cmap[j], ls=lss[i])
       ## for the legend
@@ -218,6 +216,7 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
       axdet1.axhline(np.max(diff), color=diff_cmap[i], ls=':')
 
    A = AggregatTransferFromFile(dirloc + 'fmo300-start1-3-super.pkl')
+   print('Large sample size: {}'.format(A._Trajectories))
    pop_ref = A.get()
    t = np.linspace(0, A._tLength, A._tSteps) * invcm_to_ps
    crop = t <= 1.0
@@ -225,6 +224,7 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
    #for i, D in enumerate([]):
       A = AggregatTransferFromFile(dirloc + 'fmo300-start1-{}-super.pkl'.format(D))
       pop = A.get()
+      print('Large sample size: {}'.format(A._Trajectories))
       diff = max_diff(pop, pop_ref)
       axdet1.plot(t, diff, color=diff_cmap[i+2], label='{}*'.format(D))
       axdet1.axhline(np.max(diff[crop]), color=diff_cmap[i+2], ls=':')
@@ -238,18 +238,18 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
    ## for the legend
    ax2.plot([], ls='-', color='k', label='IF')
 
-   for i, D in enumerate([1, 2, 5]):
+   for i, D in enumerate([1, 3, 5]):
    #for i, D in enumerate([]):
-      t, pop = get_phi(dirloc + 'fmophi300-start1-{}.dat'.format(D), 7)
+      t, pop = get_phi(dirloc + 'fmophi300-start1-{}-new.dat'.format(D), 7)
       for j in sites:
          ax2.plot(t, pop[j], color=cmap[j], ls=lss[i])
       ## for the legend
       ax2.plot([], ls=lss[i], color='k', label=D)
 
-   pop_ref = get_phi(dirloc + 'fmophi300-start1-5.dat', 7)[1]
+   pop_ref = get_phi(dirloc + 'fmophi300-start1-5-new.dat', 7)[1]
    for i, D in enumerate([1, 2, 3, 4]):
    #for i, D in enumerate([]):
-      t, pop = get_phi(dirloc + 'fmophi300-start1-{}.dat'.format(D), 7)
+      t, pop = get_phi(dirloc + 'fmophi300-start1-{}-new.dat'.format(D), 7)
       diff = max_diff(pop, pop_ref)
       axdet2.plot(t, diff, color=diff_cmap[i], label=D)
       axdet2.axhline(np.max(diff), color=diff_cmap[i], ls=':')
@@ -260,8 +260,8 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
 
    axdet1.set_xlabel(r't [ps]')
    axdet2.set_xlabel(r't [ps]')
-   ax1.set_ylabel(r'population')
-   axdet1.set_ylabel(r'deviation')
+   ax1.set_ylabel(r'Population')
+   axdet1.set_ylabel(r'Deviation')
 
    ## left side
    for ax in [ax1, axdet1]:
@@ -303,7 +303,7 @@ def fmo_mevsphi_plot(outfilename='fmo_mevsphi', width=columnwidth, ratio=.7):# {
    ## Labels on top
    ax1top = ax1.twiny()
    ax1top.set_xticklabels([])
-   ax1top.set_xlabel(r'Stochastic Hierarchy')
+   ax1top.set_xlabel(r'\textsc{NMSSE}-Hierarchy')
    ax2top = ax2.twiny()
    ax2top.set_xticklabels([])
    ax2top.set_xlabel(r'\textsc{HEOM}')
@@ -419,7 +419,7 @@ def fmo_transfer_ishfl(outfilename='fmo_ishfl', temp=77, # {{{1
    # Setup plot ###############################################################
    ax1.set_xlabel(r't [ps]')
    ax2.set_xlabel(r't [ps]')
-   ax1.set_ylabel(r'population')
+   ax1.set_ylabel(r'Population')
 
    ax1.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))
    ax2.xaxis.set_major_locator(MaxNLocator(5))
@@ -511,7 +511,7 @@ def fmo_77_true(outfilename='fmo_77_true', width=columnwidth, ratio=.4):# {{{1
    # Setup plot ###############################################################
    ax1.set_xlabel(r't [ps]')
    ax2.set_xlabel(r't [ps]')
-   ax1.set_ylabel(r'population')
+   ax1.set_ylabel(r'Population')
    ax2.set_yticklabels([])
 
    ax1.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))

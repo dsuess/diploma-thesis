@@ -1,0 +1,27 @@
+\documentclass{standalone}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usetikzlibrary{calc}
+\begin{document}
+\begin{tikzpicture}[xscale=2., yscale=2.]
+  %% Axis and oscillators
+  \draw[->,color=black] (-0.5,-.2) -- (4.5,-.2);
+    \draw[shift={(0,-0.2)}, color=black] (0pt,-2pt) -- (0pt,0pt) node[below] {$t_0$};
+  \foreach \x in {1, 2, 3, 4}
+  {%
+    \draw[shift={(\x,-0.2)}, color=black] (0pt,-2pt) -- (0pt,0pt) node[below] {$t_\x$};
+    \draw[line width=1.3pt] ({\x - .3}, 1) parabola bend (\x, .5) ({\x + .3}, 1);
+    \draw[dotted,color=black] ({\x - .1}, .65) -- ({\x + .1}, .65);
+    \draw[dotted,color=black] ({\x - .15}, .75) -- ({\x + .15}, .75);
+    \draw[dotted,color=black] ({\x - .25}, .85) -- ({\x + .25}, .85);
+  }
+
+  %% Two level system
+  \node (TL) at (1, .0) {};
+  \draw (TL) circle(.15);
+  \draw ($(TL) + (.07,.05)$) -- ($(TL) + (-.07,.05)$);
+  \draw ($(TL) + (.07,-.05)$) -- ($(TL) + (-.07,-.05)$);
+
+\end{tikzpicture}
+\end{document}

@@ -1,5 +1,80 @@
-\chapter{Conclusions}
+\chapter{Conclusions and Outlook}
 \label{cha:conclusions}
 
-\cm{CONCLUSION}
+% general non-Markovian systems
+%  * analytical and numerical difficult due to memory
+% this work: devised powerful method based on NMSSE
+%  * in terms of quantum trajectories
+%  * extends the benefit of Monte Carlo methods & quantum trajectories to non-Markovian systems
+%  * recover density matrix as Monte Carlo average
+
+Starting with the goal to investigate large open quantum systems coupled to structured environments, we devised a hierarchy of quantum trajectories in this work.
+Since it extends the benefits of Monte-Carlo methods from the Markovian regime to the more general case of a non-Markovian environment, the newly-devised approach is highly suited to attack problems of current research.\\
+
+% recalled underlying theory of NMSSE in section 2
+%  * functional derivative
+% short discussion of established results based on Jaynes-Cummings model
+%  * using expansion in noise connect O-operator to observable <σ_z>
+%  * for certain parameters found resonant behavior also present in more realistic systems
+%  * since peaks of O are canceled in time evolution of state --> not necessary
+%  * idea to directly attack functoin deriv
+
+With the \NMSSE constituting the foundation of this work, we recalled its derivation based on a microscopic model for the system and its environment in Chapter~2.
+Subsequently, the most challenging characteristic of the \NMSSE, namely the appearance of a functional derivative with respect to the noise involving the complete history of the system, was discussed based on the Jaynes-Cummings model.
+Beside the established $O$-operator substitution, we introduced a new direct approach that makes use of a functional Taylor series of the quantum trajectory with respect to the noise.
+With the help of the latter, we were able to explain the resonant peaks showing up in the magnitude of the $O$-operator for certain sets of parameters which are likely responsible for divergences in a numerical propagation.
+The observation that these large contributions disappear in the \NMSSE due to cancellation with small components of the quantum trajectory has convinced us to attack the problem of the functional derivative directly.
+
+% derived the NMSSE-hierarchy for an exponential bath correlation function
+% linear and nonlinear version; effectivity of latter demonstrate by means of Spin-Boson
+% also: effectivity of terminator and discussion of truncation
+% for application: expansion in necessary form of bcf
+
+For that matter, we derived a hierarchy of linear stochastic Schrödinger equations in Chapter 3 by absorbing the memory integral with the derivatives into auxiliary pure states.
+The corresponding nonlinear hierarchy constitutes an important result of this work, since it dramatically reduces the sample size required for the Monte-Carlo average.
+We demonstrated this statement with the help of the Spin-Boson model, which was also used to demonstrate the influence of the truncation order on the accuracy of the results.
+
+% Applied new method to quantum aggregates, which can be described in terms of open quantum sytems
+% First: FMO complex in light harvesting systems
+%  * beside general advantages of Monte-Carlo methods compared to master equations:
+%  * able to reproduce all established results with first order calculations
+%  * since computational effort depends crucially on number of auxiliary states, very important for efficiency
+% Spectra
+%  * no averaging necessary => NMSSE comes into its own
+%  * combinded with very systematic construction with increasing number of orders
+%  * experimental relevant information obtained easily
+
+The main part of this work is the investigation of exciton energy transfer in light-harvesting complexes in Chapter 4.
+With quantum effects responsible for its remarkable efficiency, the \textsc{FMO}-protein complex constitutes a great example of how quantum mechanics influences the operation of living cells.
+Our calculations from \autoref{sec:app.fmo} confirm the results from prior work that even at physiological temperature the coherent, wave-like motion of excitons is crucial for the operation of the \textsc{FMO}-complex.
+As we demonstrated, the \NMSSE-hierarchy is capable of reproducing the established results obtained in the \HEOM-formalism.
+Even more, our newly-devised approach achieves the same precision as the established density matrix hierarchy consuming only a fraction of the computational resources.
+Although the Monte-Carlo evaluation requires the propagation of many trajectories, the \NMSSE-hierarchy benefits from the reduced number of auxiliary states due to the smaller truncation order necessary.
+Besides, the calculation of independent realizations is easily distributed to many computers.
+
+The second application of the pure state hierarchy presented in this work is the study of optical absorption spectra of molecular aggregates.
+Since the latter is reduced to the calculation of a single pure state trajectory, no Monte-Carlo average is necessary.
+Also, we have demonstrated that the low-energy part of the absorption spectrum can be obtained with less computational expense than the full spectrum.
+This makes the \NMSSE highly interesting for the study of systems that are currently out of reach from established methods as the lowest energy peaks are often sufficient to assess the structure of the complex roughly.\\
+
+% OUTLOOK
+% test method for even larger systems, find boundaries of what s possible
+% relativion between density operator hierarchy; maybe unravelling?
+% not just averaging --> more information (entanglement)
+% treat entangled initial state by adjusting initial value (complicated expansion in noise)
+
+With the reliability and efficiency of the \NMSSE-hierarchy demonstrated in this work, future investigation will have to attack new problems.
+For example, we have restricted the investigation in \autoref{sec:app.fmo} to very simple spectral densities.
+The treatment of a more realistic environment will clearly benefit from the improved convergence of the \NMSSE-hierarchy with respect to the truncation order.
+Therefore, the question, how details of the spectral density affect the energy transfer, constitutes a suitable subject of future work.
+This problem has already been treated in the \textsc{ZOFE}-approach \cite{RiRoSt11_fmo}, however, it is not sure if the latter is still valid for the parameters under consideration.
+Since we can check the accuracy of a calculation simply by comparing with higher-order results, the \NMSSE-hierarchy may shed some light into this question.
+
+A further point, which has not been treated in this work at all, is that quantum trajectories contain more information than the reduced density operator.
+Indeed, since the \NMSSE is equivalent to the microscopic Schrödinger equation introduced in \autoref{sec:nmqsd.model}, the set of all quantum trajectories contains---at least in principle---all information on the environment and the system-bath entanglement.
+It is a fascinating question, if it is possible to gain knowledge about the full state from the finite set of trajectories calculated in a Monte-Carlo simulation.
+
+Finally, future work should investigate how a large class of initial conditions can be treated in the \NMSSE-formalism.
+Throughout this thesis, we have only considered a product state with the environment at thermal equilibrium.
+Especially the treatment of initially entangled states with the \NMSSE remains an open problem.
 

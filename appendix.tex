@@ -21,11 +21,6 @@
 %\section{Hilbert Space of \quotes{Time Oscillators}}
 %\label{sec:math.hilbert_space}
 %%
-%%TODO besser erklären, wie verschiede versionen zustande kommen
-%%TODO reference
-%%TODO ZZ_t explizit nochmal reinschreiben?
-%%TODO Abkürzungen? NMSSE? BCF?
-%%TODO interpretation von Ω?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %Let us first recall some basic terminology from probability theory (see e.g.~\cite{Sc05_mims}):
@@ -33,7 +28,6 @@
 %Here $\Omega$, $C$ denote sets, $\mathcal{A}$, $\mathcal{B}$ are $\sigma$-algebras of $\Omega$ and $C$ respectively, and $\PM$ is a probability measure on $(\Omega, \mathcal{A})$.\footnote{In what follows, we will consider only Borel-$\sigma$-algebras and therefore not mention them any further.}
 %Expectation values, variances, etc., may then be expressed as integrals of $X$ with respect to $\PM$.
 %
-%%TODO Satz fertig
 %It is important to mention, that --- versions\dots
 %Therefore we may always use the version of $\ZZ_t$ defined in the microscopical model as
 %\begin{equation*}
@@ -51,7 +45,6 @@
 %Here $J(\omega)\dd\omega$ denotes the \idef{spectral density} formally represented by a positive, bounded measure, that is $J\ge0$ and $\int J(\omega)\dd\omega < \infty$.
 %Although the latter condition excludes the important Markov limit $\alpha(t)\propto\delta(t)$ derived from a constant spectral density we can treat it along the same lines.
 %
-%%TODO Write down conventions for Fourier Transform.
 %As a starting point we introduce the probability space $\Omega$ replacing the coherent state labels $(z_1, \dots, z_N)$.
 %In what follows the \idef{Schwartz space} $\SchwartzS$ of real valued, infinitely often differtiable functions on $\Reals$ with rapid decrease plays an important role---see \cite[Chap.~7]{Ru91_functional_analysis} for its definition and properties.
 %The reason for its importance is found in the following theorem.
@@ -72,7 +65,6 @@
 %
 %Here $\dualp{\xi}{f}$ denotes the dual pairing of $\SchwartzS/\dual{\SchwartzS}$, which can formally be written as $\dualp{\xi}{f} = \int_\Reals \xi(t) f(t) \, \dd t$.
 %We also recall that a function $f$ is called \idef{positive definite}, if\dots
-%%TODO Insert definition POSTIVE DEFINITE
 %In \cite{HiKuPo93_white_noise} they take advantage of this theorem to construct a real valued White Noise processes on $\dual\SchwartzS$ with the choice $\CHF(f) = \exp(-\int_\Reals f(t)^2 \dd t)$.
 %This can be rephrased as $\CHF(f)=\exp(-\,\varf(f,f))$ with the \emph{variance functional} $\varf(f,f) =\int f(t)^2 \dd t$.\\
 %
@@ -97,15 +89,12 @@
 %%  \label{lem:math.covf_sp}
 %%\end{lem}
 %%For the proof we need an important property of the Fourier transform when acted on test functions with rapid decrease.
-%%% TODO Fix spaces!
-%%% TODO Too much formula, more words!
 %%\begin{lem}[{{\cite[Thm.~7.7]{Ru91_functional_analysis}}}]
 %%  Let $\SchwartzSC=\SchwartzS+\ii\SchwartzS$ denote the complexified space of test-functions.
 %%  Put differently $f \in \SchwartzSC \iff \Re{f}, \Im{f} \in \SchwartzS$.
 %%  The Fourier transform is a continuous, linear one-to-one mapping of $\SchwartzSC$ onto $\SchwartzSC$.
 %%  \label{lem:math.fourier}
 %%\end{lem}
-%%% TODO Does this look ok?
 %%\begin{proof}[Proof of Lemma~\ref{lem:math.covf_sp}]
 %%  Since $\abs{\alpha(t)} \le \int J(\omega)\dd\omega =: A < \infty$, we have for any $f,g\in\SchwartzS$
 %%  \begin{equation*}
@@ -174,6 +163,72 @@
 %
 %On all elements with finite expansion, $f \in \mathcal{H}$ define $\op Z_f$; calculate Adjoint, Formal notation, define $\op Z_t$
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Discrete Time Evolution of Time-Oscillators}
+\label{cha:timeo}
+
+In this chapter we rewrite the full time evolution operator for the \NMSSE
+\begin{equation}
+  U(t, 0) = \Texp \left( \int_0^t -\ii\Hsys + L \ZZ_s - \adj{L} \adjZZ_s \dd s \right)
+  \label{eq:timeo.time_ev_op}
+\end{equation}
+for discrete time steps $t_k = k \Delta t$ ($k \in \mathbb{Z}$) and small $\Delta t$.
+We show that under these conditions it can be approximated by an alternating product of the free evolution operator $\exp(-\ii\Delta t \Hsys)$ of the system and
+\begin{equation}
+  U_n = \exp(\Delta t L \ZZ_n - \Delta t \adj{L} \adjZZ_n)
+  \label{eq:timeo.discrete_timeev}
+\end{equation}
+accounting for the bath-interaction.
+Here, the discrete \quotes{noise-process} is given by
+\begin{equation}
+  \ZZ_n := \frac{1}{\Delta t}\, \int_{t_{n-1}}^{t_{n}} \ZZ_t \dd t
+  \label{eq:timeo.discrete_noise}
+\end{equation}
+with the corresponding derivative-operator
+\begin{equation*}
+  \adjZZ_n := \frac{1}{\Delta t} \int_{t_{n-1}}^{t_{n}} \, \adjZZ_t \dd t = \frac{1}{\Delta t} \int_{t_{n-1}}^{t_{n}} \int \alpha(t - s) \, \frac{\delta}{\delta \ZZ_s} \dd s \dd t.
+\end{equation*}
+For the latter, we find the familiar representation $\adjZZ_n = \sum_k \alpha_{n-k} \, \frac{\partial}{\partial \ZZ_k}$, since
+\begin{align*}
+  \adjZZ_n \ZZ_k &= \frac{1}{(\Delta t)^2}\, \intl{t_{n-1}}{t_{n}}{t} \intl{t_{k-1}}{t_{k}}{t'} \int\mathrm{d}s \, \alpha(t - s) \, \frac{\delta \ZZ_{t'}}{\delta \ZZ_{s}} \\
+  &= \frac{1}{(\Delta t)^2}\, \intl{t_{n-1}}{t_{n}}{t}  \intl{t_{k-1}}{t_{k}}{t'} \alpha(t - t') \\
+  &=: \alpha_{n-k}
+\end{align*}
+and $\sum_{k'} \alpha_{n-k'} \frac{\partial \ZZ_k}{\partial \ZZ_{k'}} = \alpha_{n-k}$ coincide.
+
+Starting from the Schrödinger time evolution for the microscopic model introduced in \autoref{sec:nmqsd.model}, we use Trotter's product formula to separate the system's free evolution
+\begin{equation}
+  \ket{\Psi_t} = \exp[-\ii t (\Hsys + \Henv + \Hint) ]\ket{\Psi_0} = \lim_{n\to\infty} \left( \exp[-\ii t (\Henv + \Hint) / n] \, \exp[-\ii t \Hsys / n] \right)^n \ket{\Psi_0}.
+  \label{eq:timeo.trotter}
+\end{equation}
+Since in the following we are only interested in the qualitative picture, we drop the limit and assume a sufficiently small time step $\Delta t = t / n$.
+Similar to the derivation of the \NMSSE, we switch to the interaction picture with respect to $\Henv$ and denote the corresponding state by $\ket{\tilde\Psi_t}$.
+The propagator of the interaction part reads
+\begin{equation*}
+  \tilde U_\mathrm{int}(t, s) = \exp[+\ii t \Henv] \, \exp[-\ii(t - s) \Hint] \, \exp[-\ii s \Henv] = \Texp[-\ii\int_s^t \tilde H_\mathrm{int}(\tau) \dd \tau],
+\end{equation*}
+where $\tilde H_\mathrm{int}(t)$ is the time-dependent interaction from the microscopic model, namely
+\begin{equation}
+  \tilde H_\mathrm{int}(t) = L \sum_\lambda \cc g_\lambda \exp[-\ii\omega_\lambda t] \cc z_\lambda + \adj{L} \sum_\lambda g_\lambda \exp[\ii\omega_\lambda t] \, \partial_{\cc z_\lambda}.
+  \label{eq:timeo.hint}
+\end{equation}
+Here, we choose the coherent state-representation used throughout this work.
+Also, the initial state $\ket{\Psi_0} = \ket{\psi_0} \otimes \ket{0}$ remains unchanged under the time evolution picture transformation.
+Therefore, we can rewrite \autoref{eq:timeo.trotter} using $t_k = k \Delta t$
+\begin{align*}
+  \tilde \psi_{t_n}(\cc\zz) &= \exp[\ii t_n \Henv] \, \left( \exp[-\ii \Delta t (\Henv + \Hint)] \, \exp[-\ii \Delta t \Hsys] \right)^n \psi_0 \\
+  &= \tilde U_\mathrm{int}(t_n, t_{n-1}) \, \exp[-\ii \Delta t \Hsys] \, \exp[\ii t_{n-1} \Henv] \left( \exp[-\ii \Delta t (\Henv + \Hint)] \, \exp[-\ii \Delta t \Hsys] \right)^{n-1} \psi_0 \\
+  &= \tilde U_\mathrm{int}(t_n, t_{n-1}) \, \exp[-\ii \Delta t \Hsys] \, \tilde U_\mathrm{int}(t_{n-1}, t_{n-2}) \, \ldots \, \tilde U_\mathrm{int}(t_{1}, t_{0}) \exp[-\ii \Delta t \Hsys] \,  \psi_0.
+\end{align*}
+This is almost the sought-after form, since $\tilde U_\mathrm{int}(t_n, t_{n-1})$ and $U_n$ defined in \autoref{eq:timeo.discrete_timeev} coincide except for the time-ordering operator.
+However, the latter only yields corrections proportional to $\Delta t$, which we already neglected using the Trotter product formula.
+In conclusion, we can rewrite the full time evolution operator~\ref{eq:timeo.time_ev_op} (dropping the tilde for the interaction-picture) as
+\begin{equation}
+  \psi_{t_n}(\ZZ) = U_n \, \exp[-\ii \Delta t \Hsys] \, U_{n-1} \, \ldots \, U_1 \,  \exp[-\ii \Delta t \Hsys] \,\psi_0.
+  \label{eq:timeo.final}
+\end{equation}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -184,99 +239,97 @@
 \section{General Approach}
 \label{sec:tla.general}
 
-Here we present in full detail the analytic solution of the Jaynes-Cummings model introduced in \autoref{sec:nmqsd.two_level}.
-For zero-temperature the relevant NMSSE can always be expressed in terms of a single process
+Here, we present in full detail the analytic solution of the Jaynes-Cummings model introduced in \autoref{sec:nmqsd.two_level}.
+For zero temperature the relevant NMSSE can always be expressed in terms of a single process
 \begin{equation}
-  \partial_t \psi_t = -\ii\frac{\omega}{2}\sigma_z\psi_t + g \sigma_- \ZZ_t \psi_t - g\sigma_+ \int \alpha(t - s) \frac{\delta\psi_t}{\delta \ZZ_s} \dd s.
+  \partial_t \psitZ = -\ii\frac{\omega}{2}\sigma_z\psitZ + g \sigma_- \ZZ_t \psitZ - g\sigma_+ \int \alpha(t - s) \frac{\delta\psitZ}{\delta \ZZ_s} \dd s.
   \label{eq:tla.nmsse_twolevel}
 \end{equation}
+with initial conditions $\psi_0(\ZZ) = \psi_0$.
 We make an ansatz for the quantum trajectory at most linear in $\ZZ_s$
 \begin{equation}
-  \psitZ = \psi(t) + \int_0^t \psi_s(t) \ZZ_s \dd s.
+  \psitZ = \psi(t) + \int_0^t \psi_s(t) \ZZ_s \dd s
   \label{eq:tla.ansatz}
 \end{equation}
-% FIXME Is footnote clear?
-Here we already incorporate the $\ZZ_s$-independence of $\psitZ$ for $s < 0$ and $s>t$ using a bounded integral domain.\footnote{%
-  A consistent treatment of these independence-conditions is more tricky than it seems at first glance, since we are mixing a distributional object $\ZZ_s$ with a discontinuous function $s \mapsto \psi_s(t)$.
-  As $\delta \psi_t(\ZZ) / \delta \ZZ_s = 0$ translates to $\psi_s(t) = 0$, the correct integral boundary reads $\int_{0-\varepsilon}^{t+\varepsilon}$ with $\varepsilon > 0$ but arbitrary otherwise.
-  \label{fn:tla.boundaries}
-}
-% FIXME Is this really necessary?
-%In where $\sigma_z$ is diagonal we denote corresponding components of $\psi_t$ by \quotes{+} and \quotes{-}.
+and incorporate the $\ZZ_s$-independence of $\psitZ$ for $s < 0$ and $s>t$ using a bounded integral domain.
 The \quotes{+}-component of our NMSSE with the ansatz~\ref{eq:tla.ansatz} reads
 \begin{align}
-  \dot\psi^+(t) + \psi^+_t(t)\ZZ_t &+ \int_0^t \dot\psi^+_s\ZZ_s \dd s \nonumber\\
-  &= -\ii \frac{\omega}{2} \left( \psi^+(t) + \int_0^t \psi^+_s(t)\ZZ_s \dd s \right) - g \int_0^t \alpha(t-s) \psi^-_s(t) \dd s.
+  \dot\psi^+(t) + \psi^+_t(t)\ZZ_t &+ \int_0^t \dot\psi^+_s(t) \ZZ_s \dd s \nonumber\\
+  &= -\ii \frac{\omega}{2} \left( \psi^+(t) + \int_0^t \psi^+_s(t)\ZZ_s \dd s \right) - g \int_0^t \alpha(t-s) \psi^-_s(t) \dd s,
   \label{eq:tla.psi_plus}
 \end{align}
+where the dot indicates derivation with respect to $t$.
 In order to separate contributions of different order in $\ZZ_s$, we apply the functional derivative $\delta/\delta\ZZ_s$ to the last equation
 \begin{equation}
   \psi^+_t(t) \delta(t - s) + \int_0^t \dot\psi^+_{s'}(t) \delta(s - s') \dd s' = -\ii \frac{\omega}{2} \int_0^t \psi^+_{s'}(t) \delta(s - s') \dd s'.
   \label{eq:tla.psi_plus_deriv}
 \end{equation}
-Choosing $s \in (0, t)$ leaves us with a simple ordinary differential equation with solution $\psi^+_s(t) = C_s \exp(- \ii \omega t / 2)$.
-Since there is only one singular term in \autoref{eq:tla.psi_plus_deriv}, $\psi^+_s(s)$ and thus the constant $C_s$ must vanish.
-This amounts formally to integrating~\ref{eq:tla.psi_plus_deriv} over a small interval $(t-\varepsilon, t+\varepsilon)$ with respect to $s$.
+Choosing $s \in (0, t)$ leaves us with a simple ordinary differential equation with solution $\psi^+_s(t) = C_s \, \exp(- \ii \omega t / 2)$.
+Since there is only one term in \autoref{eq:tla.psi_plus_deriv} proportional to $\delta(t-s)$, $\psi^+_t(t)$ and thus the constant $C_t$ must vanish.
+Formally, this amounts to integrating~\ref{eq:tla.psi_plus_deriv} over a small interval $(t-\varepsilon, t+\varepsilon)$ with respect to $s$.
 In the limit $\varepsilon \to 0$ all terms except the first go to zero.
-
-On the other hand we can isolate all terms independent of $\ZZ_s$ in \autoref{eq:tla.psi_plus} simply by taking the expectation value, yielding
+On the other hand, we can isolate all terms independent of $\ZZ_s$ in \autoref{eq:tla.psi_plus} simply by taking the expectation value, yielding
 \begin{equation}
   \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t)  - g \int_0^t \alpha(t - s) \psi^-_s(t) \dd s.
-  \label{eq:psi_plus_expect}
+  \label{eq:tla.psi_plus_expect}
 \end{equation}
-We postpone its solution to the end of this section.\\
-
-
+We postpone its solution to the end of this section.
 
 The \quotes{-} component of \autoref{eq:tla.nmsse_twolevel} is quite similar to~\ref{eq:tla.psi_plus}:
 \begin{align}
   \dot\psi^-(t) + \psi^-_t(t)\ZZ_t &+ \int_0^t \dot\psi^-_s(t)\ZZ_s \dd s \nonumber \\
-  &= \ii \frac{\omega}{2} \left( \psi^-(t) + \int_0^t \psi^-_s(t)\ZZ_s \right) + g \psi^+(t)\ZZ_t,
+  &= \ii \frac{\omega}{2} \left( \psi^-(t) + \int_0^t \psi^-_s(t)\ZZ_s \dd s \right) + g \psi^+(t)\ZZ_t,
   \label{eq:tla.psi_minus}
 \end{align}
-where we already used that $\psi^+_s(t) = 0$.
-All terms independent of $\ZZ$ require
+where we have already used that $\psi^+_s(t) = 0$.
+Comparing all terms independent of $\ZZ_s$ leads to $\psi^-(t) = \psi^-_0 \, \exp[\ii \frac{\omega}{2} t]$.
+In the same manner as we derived \autoref{eq:tla.psi_plus_deriv}, we can treat all terms proportional to $\ZZ_s$.
+There is an additional singular terms proportional to $\ZZ_t$ due to the driving process in \autoref{eq:tla.nmsse_twolevel}.
+It gives rise to the boundary condition
 \begin{equation}
-  \psi^-(t) = \psi^-(0) \, \exp[\ii \frac{\omega}{2} t].
+  \psi^-_t(t) = g \psi^+(t)
+  \label{eq:tla.boundary}
 \end{equation}
-In the same manner as we derived \autoref{eq:tla.psi_plus_deriv}, we can treat all terms proportional to $\ZZ_t$;
-again we find a solution of the form $\psi^-_s(t) = C_s \exp(\ii\omega t / 2)$; the only difference is an additional singular term due to the driving process in \autoref{eq:tla.nmsse_twolevel}.
-It gives rise to the boundary condition $\psi^-_t(t) = g \psi^+(t)$; therefore
+The contributions proportional to $\ZZ_s$ under the integral $\dot\psi^-_s(t) = \ii \frac{\omega}{2} \psi^-_s(t)$ for $0 < s < t$ are solved by $\psi^-_s(t) = C_s \, \exp(\ii\omega t / 2)$, where $C_s$ is determined by~\ref{eq:tla.boundary}.
+Therefore, we find
+\begin{equation*}
+  \psi^-_s(t) = g \psi^+(t) \, \exp[\ii \frac{\omega}{2}(t - s)].
+\end{equation*}
 Together with~\ref{eq:tla.psi_plus_expect} we obtain a closed equation for $\psi^+(t)$
 \begin{equation}
-  \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t) - c^2 \int_0^t \alpha(t - s) \exp[\ii \frac{\omega}{2} (t - s)] \psi^+(s) \dd s.
+  \dot\psi^+(t) = -\ii \frac{\omega}{2} \psi^+(t) - g^2 \int_0^t \alpha(t - s) \exp[\ii \frac{\omega}{2} (t - s)] \psi^+(s) \dd s.
   \label{eq:tla.psi_plus_eq}
 \end{equation}
-Hence we may replace the original NMSSE~\ref{eq:tla.nmsse_twolevel} by a $\Complex$-valued integro-differential equation.
+Hence, we may replace the original NMSSE~\ref{eq:tla.nmsse_twolevel} by a $\Complex$-valued integro-differential equation.
 The full solution to \autoref{eq:tla.nmsse_twolevel} in terms of $\psi^+(t)$ is written out in \autoref{eq:nmqsd.solution}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Exponential Correlation Function}
+\section{Exponential Bath Correlation Function}
 \label{sec:tla.exp}
 
-\Autoref{eq:tla.psi_plus_eq} still contains a memory integral, which appears to be impossible to solve analytically for an arbitrary bath correlation function.
+\Autoref{eq:tla.psi_plus_eq} still contains a memory integral, which makes it tremendously hard to find an analytical solution.
 The situation is noticeably simpler for
 \begin{equation}
   \alpha(t - s) = \sum_{j=1}^N g_j \, \exp[-\gamma_j \abs{t - s} - \ii \Omega_j (t - s)].
   \label{eq:tla.exp_alpha}
 \end{equation}
-Since $\psi^+$ only depends on values of $\alpha(t)$ for $t \ge 0$ we can assume $\gamma = 0$ without loss of generality.
-Similar to our hierarchical equations of motion we absorb the problematic terms into auxiliary functions
+Since $\psi^+(t)$ only depends on values of $\alpha(t-s)$ for $s \ge t$, we can assume $\gamma = 0$ without loss of generality.
+Similar to our hierarchical equations of motion, we absorb the problematic terms into auxiliary functions
 \begin{equation}
-  \phi_j(t) := \int_0^t \alpha_j(t-s) \exp[\ii \frac{\omega}{2}(t-s)] \psi^+(s) \dd s,
+  \phi_j(t) := \int_0^t \alpha_j(t-s) \exp[\ii \frac{\omega}{2}(t-s)] \psi^+(s) \dd s.
   \label{eq:tla.auxiliary}
 \end{equation}
-this allows us to rewrite \autoref{eq:tla.psi_plus_eq} as a system of $(N+1)$ ordinary differential equations
+This allows us to rewrite \autoref{eq:tla.psi_plus_eq} as a system of $(N+1)$ ordinary differential equations
 \begin{align*}
   \dot\psi^+(t) &= -\ii \frac{\omega}{2} \psi^+(t) - g^2 \sum_{j=1}^N \phi_j(t) \\
-  \dot\phi_j(t) &= g_j \psi^+(t) + \ii \left( \frac{\omega}{2} - \Omega \right) \phi_j(t).
+  \dot\phi_j(t) &= g_j \psi^+(t) + \ii \left( \frac{\omega}{2} - \Omega \right) \phi_j(t)
 \end{align*}
-with constant coefficients and initial conditions $\psi^+(0)$ as well as $\phi_j(0) = 0$.
-In the special case $N = 1$ the diagonalization of the coefficient matrix can be carried out analytically; for $N=2$ it is---at least in principle---possible, too.
+with constant coefficients and initial conditions $\psi^+(0) = \psi^+_0$ as well as $\phi_j(0) = 0$.
+In the special case $N = 1$ the diagonalization of the coefficient matrix can be carried out analytically.
 With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ and $g_1$ absorbed into the coupling strength $g$, the solution to \autoref{eq:tla.psi_plus_eq} reads
 \begin{equation}
-  \psi^+(t) = \frac{\psi^+(0)}{2\tilde\Omega} \left( (\omega - \Omega + \tilde\Omega) \, \exp[-\ii \frac{\Omega + \tilde\Omega}{2} t ]  -  (\omega - \Omega - \tilde\Omega) \, \exp[-\ii \frac{\Omega - \tilde\Omega}{2} t ] \right).
+  \psi^+(t) = \frac{\psi^+_0}{2\tilde\Omega} \left( (\omega - \Omega + \tilde\Omega) \, \exp[-\ii \frac{\Omega + \tilde\Omega}{2} t ]  -  (\omega - \Omega - \tilde\Omega) \, \exp[-\ii \frac{\Omega - \tilde\Omega}{2} t ] \right).
   \label{eq:tla.solution}
 \end{equation}
 
@@ -287,7 +340,7 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ a
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Some Remarks concerning the Hierachy}
+\chapter{NMSSE-Hierarchy and Application}
 \label{cha:hierarchy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -295,47 +348,53 @@ With the shorthand notation $\tilde\Omega = \sqrt{(\omega - \Omega)^2 + 4g^2}$ a
 \label{sec:hierarchy.memory_integral}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section we discuss the crucial simplification, how an exponential bath correlation function $\alpha(t) = g\,\exp[-\gamma\abs{t}-\ii\Omega t]$ leads to
+In this section we discuss the crucial simplification, how an exponential bath correlation function $\alpha(t) = g\,\exp[-\gamma\abs{t}-\ii\Omega t]$ with real parameters $g,\gamma,\Omega$ leads to
 \begin{equation}
   \dot\adjZZ_t\psitZ = (-\gamma + \ii\Omega) \adjZZ_t\psitZ
   \label{eq:memint.adjzzt_deriv}
 \end{equation}
-for the noise-derivation operator $\adjZZ_t = \int\alpha(t-s)\delta/\delta \ZZ_s$ applied to a solution of the \NMSSE with vacuum initial conditions, that is $\frac{\delta\psi_0}{\delta \ZZ_s} = 0$.
+for the noise-derivation operator $\adjZZ_t = \int\alpha(t-s)\delta/\delta \ZZ_s \dd s$ applied to a solution of the \NMSSE with vacuum initial conditions, that is $\frac{\delta\psi_0}{\delta \ZZ_s} = 0$.
  %= g \exp[-\ii \Omega t] \left( \Theta(t) \exp[-\gamma t] + \Theta(-t) \exp[\gamma t] \right),
 
-For the above $\dot\adjZZ_t = \int\dot\alpha(t-s)\delta/\delta \ZZ_s$, we need to calculate
-\begin{equation}
-  \dot\alpha(t) = g \exp[-\ii \Omega t] \left( (-\gamma - \ii\Omega) \Theta(t) \exp[-\gamma t] + (\gamma - \ii\Omega)\Theta(-t)\exp[\gamma t] \right).
-\end{equation}
-Notice that the singular time-derivatives $\dot\Theta = \delta$ cancel.
-This show clearly, that $\dot\adjZZ_t \propto \adjZZ_t$ does not hold on the level of operators.
-Even the vanishing of the functional derivative $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s > t$ with some arbitrary stochastic state $\phi_t(\ZZ)$ does not imply $\dot\adjZZ_t \phi_t(\ZZ) \propto \adjZZ_t\phi_t(\ZZ)$ as the following example shows:
-Take a noise expansion of the form $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$, where $\varphi$ is some $\ZZ_t$ independent system state and $0 < t' < t$.
-It clearly satisfies the required boundary conditions, but
+For what follows the bath correlation function is best written as
 \begin{equation*}
-  \dot\adjZZ_t \phi_t(\ZZ) = (\dot\alpha(0) + \dot\alpha(t-t')) \varphi = \left( -2\ii\Omega - (\gamma + \ii\Omega) \exp[-(\gamma + \ii\Omega) (t-t')] \right) \varphi
+  \alpha(t) = g \, \exp[-\gamma t - \ii \Omega t] \Theta(t) + g \, \exp[\gamma t - \ii \Omega t] \Theta(-t).
+\end{equation*}
+using the Heaviside function $\Theta(t)$.
+In order to determine $\dot\adjZZ_t = \int\dot\alpha(t-s)\delta/\delta \ZZ_s \dd s$, we need to calculate
+\begin{align*}
+  \dot\alpha(t) = g (-\gamma - \ii\Omega) \, \exp[-\gamma t - \ii \Omega t] \Theta(t) + g (\gamma - \ii\Omega)\, \exp[\gamma t - \ii \Omega t] \Theta(-t)
+  + g \delta(t) - g \delta(t).
+\end{align*}
+Notice that the singular time-derivatives $\dot\Theta(t) = \delta(t)$ cancel.
+This shows clearly, that $\dot\adjZZ_t = (-\gamma - \ii\Omega)\adjZZ_t$ does not hold on the level of operators.
+Even the vanishing of the functional derivative $\delta \phi_t(\ZZ) / \delta \ZZ_s$ for $s > t$ with some arbitrary stochastic state $\phi_t(\ZZ)$ does not imply $\dot\adjZZ_t \phi_t(\ZZ) \propto \adjZZ_t\phi_t(\ZZ)$ as the following example shows:
+Take a noise expansion~\ref{eq:nmqsd.time_series} of the form $\phi_t(\ZZ) = \varphi \cdot (\ZZ_t + \ZZ_{t'})$, where $\varphi$ is some $\ZZ_t$ independent system state and $0 < t' < t$.
+It clearly satisfies the required boundary conditions, but using $\Theta(0) = 1/2$ we find
+\begin{equation*}
+  \dot\adjZZ_t \phi_t(\ZZ) = (\dot\alpha(0) + \dot\alpha(t-t')) \varphi = g \left( -\ii\Omega - (\gamma + \ii\Omega) \exp[-(\gamma + \ii\Omega) (t-t')] \right) \varphi
 \end{equation*}
 which is not proportional to
 \begin{equation*}
-  \adjZZ_t \phi_t(\ZZ) = (\alpha(0) + \alpha(t - t')) \varphi = g (1 + \exp(-\gamma + \ii \Omega)(t-t')) \varphi.
+  \adjZZ_t \phi_t(\ZZ) = (\alpha(0) + \alpha(t - t')) \varphi = g \left(1 + \exp[(-\gamma + \ii \Omega)(t-t')]  \right) \varphi.
 \end{equation*}
 The problematic first summand arises due to singular behavior of $\delta \phi_t(\ZZ) / \delta \ZZ_s$ at the upper integral bound $s = t$.
 
 However, such problems do not occur once we restrict $\dot\adjZZ_t$ to solutions of our NMSSE~\ref{eq:num.nmsse} with vacuum initial conditions.
-Indeed, since $\delta\psit / \delta\ZZ_t \propto L\psit$, the functional derivative of $\psitZ$ at the upper bound is regular and therefore has vanishing weight under the integral.
+Indeed, since $\delta\psit / \delta\ZZ_t \propto L\psit$ as shown in \autoref{sub:nmqsd.markov}, the functional derivative of $\psitZ$ at the upper bound is regular and therefore has vanishing weight under the integral.
 This is how we obtain \autoref{eq:memint.adjzzt_deriv}.
 
 % section memory_integral (end)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Terminating the Hierarchy}
-\label{sec:hierarchy.terminator}
+%\section{Terminating the Hierarchy}
+%\label{sec:hierarchy.terminator}
 
-% TODO Some detailed discussion
-% TODO Time-local/nonlocal terminators
-\begin{equation}
-  \psit[k] = \int_0^t \exp[-kw(t-s)] \Texp[\int_s^t -\ii\Hsys + L\ZZ_u \dd u] \left( k \alpha(0)L\psi_s^{(k-1)} - \adj{L} \psi_s^{(k+1)} \right) \dd s,
-  \label{eq:num.terminator_integral}
-\end{equation}
+%% TTODO Some detailed discussion
+%% TTODO Time-local/nonlocal terminators
+%\begin{equation}
+%  \psit[k] = \int_0^t \exp[-kw(t-s)] \Texp[\int_s^t -\ii\Hsys + L\ZZ_u \dd u] \left( k \alpha(0)L\psi_s^{(k-1)} - \adj{L} \psi_s^{(k+1)} \right) \dd s,
+%  \label{eq:num.terminator_integral}
+%\end{equation}
 
 % too generic cases γ=0 and Ω=0; different approaches, ...
 % when is k large enough
@@ -388,21 +447,17 @@ This is how we obtain \autoref{eq:memint.adjzzt_deriv}.
 %Except in the vicinity of their poles, $\coth$ and $g$ are bounded, therefore, $h$ is a bounded, entire function on $\Complex$.
 %Finally, we know from Liouville's Theorem that $h$ is a constant function, which can be calculated from
 
-%% FIXME FINALIZE
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Application to FMO}
-\label{sec:coth.fmo}
-%
+\section{Drude Spectral Densities}
+\label{sec:tla.drude}
 
-In this section we present the details for the FMO-transfer in \autoref{sec:app.fmo}.
-We start by calculating the exponential expansion
+This section is dedicated to the calculation of the expansion of the bath correlation function
 \begin{equation}
-  \alpha(t) = \sum_{n=0}^\infty g_n\,\exp[-\gamma_n t]
+  \alpha(t) = \sum_{n=0}^\infty g_n\,\exp[-\gamma_n t] \qquad (t > 0)
   \label{eq:coth.alpha_expansion}
 \end{equation}
-of the bath correlation function for a Drude spectral density
+for a Drude spectral density
 \begin{equation*}
   J(\omega) = \frac{2 \lambda}{\pi} \frac{\gamma\omega}{\omega^2 + \gamma^2}
 \end{equation*}
@@ -420,7 +475,6 @@ For $t > 0$ we have to include only poles with positive imaginary part, so \auto
 \end{align*}
 where the last sum is taken over Matsubara frequencies $\gamma_n = 2\pi n / \beta$, $n \ge 1$.
 For convenience we also set $\gamma_0 = \gamma$.
-
 Similarly, we have for the imaginary part
 \begin{equation*}
   b(t) = \gamma\lambda \, \exp[-\gamma t].
@@ -429,42 +483,46 @@ In conclusion, we obtain for the parameters in the expansion~\ref{eq:coth.alpha_
 \begin{equation*}
   g_0 = \gamma\lambda \left(\cot \left( \frac{\beta \gamma}{2}\right) - \ii\right) \qquad \mbox{and} \qquad
   g_{n\ge1} = \frac{4\lambda\gamma}{\beta} \frac{\gamma_n}{\gamma_n^2 - \gamma^2}.
-\end{equation*}\\
+\end{equation*}
+Since $g_0$ has non-vanishing imaginary part and $\alpha(-t) = \cc{\alpha(t)}$, a bath correlation function obtained from a Drude spectral density has a discontinuous jump at $t = 0$.
 
-We now turn to the concrete values used in \autoref{sec:app.fmo} and the calculations of Ishizaki-Fleming \cite{IsFl09_fmo}; for the results see \autoref{tb:fmo.bcfs}.
 
-Compared to the inverse relaxation time $\gamma_0 = 106\,\mathrm{cm^{-1}}$, the first Matsubara frequency $\gamma_1 = 1310\,\mathrm{cm^{-1}}$ at $T = 300\,\mathrm{K}$ is already quite large.
-The opposite holds for the corresponding coupling strengths $g_0 = (14279 - 3716\ii)\,\mathrm{cm^{-2}}$ and $g_1 = 2381\,\mathrm{cm^{-2}}$, respectively.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parameters for Calculations}
+\label{sec:tla.parameters}
+
+We now turn to the concrete values used in \autoref{sec:app.fmo} and in the calculations of Ishizaki-Fleming \cite{IsFl09_fmo}.
+Compared to the inverse relaxation time $\gamma_0 = 106\,\mathrm{cm^{-1}}$, the first Matsubara frequency $\gamma_1 = 1310\,\mathrm{cm^{-1}}$ at $T = 300\,\mathrm{K}$ is quite large.
+Additionally, the opposite holds for the corresponding coupling strengths $g_0 = (14279 - 3716\ii)\,\mathrm{cm^{-2}}$ and $g_1 = 2381\,\mathrm{cm^{-2}}$, respectively.
 Hence, we follow the reference and drop all low-temperature correction terms with $n \ge 1$ in \autoref{eq:coth.alpha_expansion}.
 
 For cryogenic temperature $T = 77\,\mathrm{K}$, a single mode with $g_0 = (2916 - 3716\ii)\,\mathrm{cm^{-2}}$ is not sufficient, since the first low-temperature correction term is given by $\gamma_1 = 336\,\mathrm{cm^{-2}}$ and $g_1 = 2628\,\mathrm{cm^{-2}}$.
 However, the latter was approximated by a purely Markovian mode $\gamma_1\,\exp[-\gamma_1 t] \approx \delta(t)$ by Ishizaki-Fleming in order to keep the number of modes as small as possible for the \HEOM-approach.
-The implementation of the pure-state hierarchies could not handle a true Markovian mode, so we resort to an exponential mode with $\tilde\gamma_1 > 1000\,\mathrm{cm^{-1}}$ in order to obtain good agreement.
-To check whether such an approximation has a large impact on the results, we also check the true values in \autoref{fig:app.fmo_77_true}
+The implementation of the \NMSSE-hierarchies could not handle a true Markovian mode, so we resort to an exponential mode with $\tilde\gamma_1 > 1000\,\mathrm{cm^{-1}}$ in order to obtain good agreement.
+
+Besides the modes used in the reference, we also added a third almost-Markovian mode $g_2$, $\gamma_2$ in order to have a purely real $\alpha(0) = \sum_n g_n$.
+All results are summarized in \autoref{tb:fmo.bcfs}.\\
+
 
 \begin{table}[h]
   \centering
-  % FIXME Letzte spalte rausnehmen, wenn nicht gebraucht
-  \begin{tabu}{c|r|r|r}
-    \rowfont[c]{}           & \autoref{fig:app.fmo_ishfl} & \autoref{fig:app.fmo_mevsphi} & \autoref{fig:app.fmo_77_true}  \\ \hline
-    $g_0\,[\ucm^{-2}]$      & $2916 - 3716\ii$            & $14279 - 3716\ii$             & $2916 - 3716\ii$             \\
-    $\gamma_0\,[\ucm^{-1}]$ & $106$                       & $106$                         & $106$                        \\ \hline
-    $g_1\,[\ucm^{-2}]$      & $7814^*$                    & --                            & $2628$                       \\
-    $\gamma_1\,[\ucm^{-1}]$ & $1000^*$                    & --                            & $336$                        \\ \hline
-    $g_2\,[\ucm^{-2}]$      & $3716\ii$                   & $3716\ii$                     & $3716\ii$                    \\
-    $\gamma_2\,[\ucm^{-1}]$ & $1000$                      & $1000$                        & $1000$                       \\ \hline\hline
-
+  \begin{tabu}{c|r|r}
+    \rowfont[c]{}           & \autoref{fig:app.fmo_ishfl} & \autoref{fig:app.fmo_mevsphi} \\ \hline
+    $g_0\,[\ucm^{-2}]$      & $2916 - 3716\ii$            & $14279 - 3716\ii$             \\
+    $\gamma_0\,[\ucm^{-1}]$ & $106$                       & $106$                         \\ \hline
+    $g_1\,[\ucm^{-2}]$      & $7814^*$                    & --                            \\
+    $\gamma_1\,[\ucm^{-1}]$ & $1000^*$                    & --                            \\ \hline
+    $g_2\,[\ucm^{-2}]$      & $3716\ii$                   & $3716\ii$                     \\
+    $\gamma_2\,[\ucm^{-1}]$ & $1000$                      & $1000$                        \\ \hline\hline
   \end{tabu}
   \caption{%
     Parameters for the bath correlation function $\alpha(t) = \sum_n g_n\,\exp[-\gamma_n t]$ used in \autoref{sec:app.fmo}.
     Values marked with a star are approximated Markov-modes from the reference.
     The third mode is merely used to remove the imaginary part of $\alpha(0)$.
+    \label{tb:fmo.bcfs}
   }
-  \label{tb:fmo.bcfs}
-\end{table}
-
-\begin{table}[h]
   \centering
+  \vspace{1.5cm}
   \begin{tabu}{c|rrrrrrr}
     \rowfont[c]{}
     $H_{mn}\, \mathrm{[cm^{-1}]}$ & 1            & 2            & 3            & 4            & 5            & 6            & 7  \\ \hline
@@ -481,13 +539,22 @@ To check whether such an approximation has a large impact on the results, we als
     Matrix elements of the purely electronic Hamiltonian used in \autoref{sec:app.fmo}.
     Consists of site energies (bold) and electronic coupling elements for \emph{Chlorobaculum tepidum} \cite{AdRe06_fmo}.
     An irrelevant global offset of $12\,000\,\mathrm{cm^{-1}}$ has been subtracted from the site energies.
-  }
   \label{tb:fmo.hamiltonian}
+  }
+  \centering
+  \vspace{1.5cm}
+  \begin{tabu}{c|r|r|r|r|r|r}
+    \hline
+    $g_i \, [\ucm^{-2}]$    & 21068 & 12406 & 57868 & 414743 & 220556 & 626749 \\
+    $\Omega_i\,[\ucm^{-1}]$ & 229   & 421   & 567   & 1263   & 1416   & 1616   \\
+    \hline\hline
+  \end{tabu}
+  \caption{%
+    Parameters used in \autoref{fig:app.ptcda} and the reference \cite[Tab.\,1 D]{RoEiDv11_ptcda}.
+    All exponential modes are purely oscillatory, that is $\gamma_i = 0$.
+    \label{tb:tla.spectra}
+  }
 \end{table}
-
-% section coth.fmo (end)
-
-
 
 
 

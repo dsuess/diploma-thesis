@@ -18,7 +18,7 @@ from aggregats import AggregatTransferFromFile
 ###############################################################################
 #ratio = 1.6180339887
 ratio = .8
-width = columnwidth / 2 / PtPerIn * DPI
+width = columnwidth / 2 / PtPerIn * 1200
 height = ratio * width
 
 
@@ -35,7 +35,7 @@ def p_to_alpha_abs(val):
 p_to_alpha = p_to_alpha_rel
 
 # where tosda find the data
-fname = '/home/dsuess/Documents/Diplomarbeit/archive/fmo/fmo77-start6-2.pkl'
+fname = '/home/dsuess/Documents/Diplomarbeit/archive/fmo77-plotdata.pkl'
 A = AggregatTransferFromFile(fname)
 
 cmd.set_view ([
@@ -46,7 +46,7 @@ cmd.set_view ([
     13.921709061,   -7.469791889,   -4.264435768,
   -1086.176879883, 1332.132446289,  -20.000000000])
 # select only a few sample points
-indices = [0, 500, 1000, 2000, 3999]
+indices = [0, 250, 500, 1000, 1999]
 t = np.linspace(0, A._tLength, A._tSteps)[indices]
 
 # Get values ordered by time in first index

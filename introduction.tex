@@ -15,25 +15,10 @@
 The explanation of the discrete Hydrogen-spectrum in terms of Matrix-mechanics by Heisenberg and Wave-mechanics by Schrödinger is often perceived as the hour of birth for modern quantum theory.
 Since then, the desire to understand systems with an increasing number of degrees of freedom and ever-growing complexity has been a main driving force behind the development of new theoretical ideas.
 However, the overwhelming majority of quantum mechanical insights relies on more or less severe approximations, as even apparently simple models like the Helium atom have not been solved analytically.
-One simplification that underlies all physical investigation is the distinction between relevant and irrelevant degrees of freedom for a certain situation:
-Even the simple Hydrogen model, made up from an electron-proton pair and the mutual Coulomb attraction, ignores the surrounding electrons and protons in the same container, to give an example.
-While under many circumstances the relevant degrees of freedom behave like an isolated unit, there are examples where environmental effects significantly shape the dynamical behavior of the system under consideration---these are referred to as open quantum systems.
+One simplification that underlies all physical investigation is the distinction between relevant and irrelevant degrees of freedom for a certain setting:
+Even the simple Hydrogen model consisting of an electron-proton pair and the mutual Coulomb attraction ignores the surrounding electrons and protons in the same container, to give an example.
+While under many circumstances the relevant degrees of freedom approximately behave like an isolated unit, there are examples where environmental effects significantly shape the dynamical behavior of the system under consideration---these are referred to as open quantum systems.
 Clearly, the cut distinguishing between relevant system and irrelevant environment is not uniquely defined, but generally, the requirement to account for a given experimental setting eliminates ambiguities to the greatest possible extent.
-
-% Open Classical System
-% * possibly only true closed system: universe
-% * classical open systems
-% * Brownian motion
-% * colission based models
-% * well understood, friction and fluctuations, but not conceptual that much harder
-%  * still well defined system state
-% * QM ENTAAAAANGLEMENT!!!!
-
-Of course, the previous discussion applies not only to quantum mechanics:
-A closed classical system is described by phase space coordinates $(p,q)$ and canonical equations of motion in the Hamiltonian framework.
-To account for the influence of an environment, the latter are simply extended by fluctuation- and friction-forces leading to an irreversible time evolution governed by the stochastic Langevin equation \cite{GaCr85_handbook}.
-A different description arises by averaging trajectories corresponding to different noise-realizations, the resulting probability density on phase space satisfies the Fokker-Planck equation.
-However, both points of view are completely equivalent; there is no conceptual problem in assigning a pure state, namely a phase space point $(p(t),q(t))$, to a given trajectory at any time $t$---this simplifies matters dramatically compared to an open quantum system.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Open Quantum Systems}
@@ -52,11 +37,10 @@ However, both points of view are completely equivalent; there is no conceptual p
 %  * product Hilbert space (or one isomorphic)
 %  * reduced density matrix; all answers
 %  * although complete state pure; entanglement causes mixed reduced state
-
-In order to determine the dynamics of an open quantum system from first principles, we proceed as follows:
-First we embed the system into an environment such that both combined can be regarded as a closed system for all practical matters.
-Mathematically, the kinematic structure is given by the product $\HHsys\otimes\HHenv$ or any Hilbert space isomorphic to it.
-For such an isolated system, the time evolution is governed by the usual postulates of quantum mechanics, that is the Schrödinger or the von Neumann equation for pure or mixed initial state, respectively.
+\ref{eq:nmqsd.thermal_correlation_function}
+The fundamental dynamical equation of non-relativistic quantum mechanics, namely the \emph{Schrödinger equation}, is valid only for closed systems.
+Embedding the open system into a larger, approximately closed system allows for a systematic treatment of its dynamics based on first principles.
+Mathematically, the kinematic structure is given by the product $\HHsys\otimes\HHenv$ (or any Hilbert space isomorphic to it).
 Since the environment's purpose is merely to restore a unitary time evolution, all relevant information about the system is encoded in the \emph{reduced state} $\rho(t) = \Tr_\mathrm{env} \rho_\mathrm{tot}(t)$ obtained by tracing over the environmental degrees of freedom.
 Formally, this amounts to assigning the expectation value
 \begin{equation}
@@ -65,8 +49,8 @@ Formally, this amounts to assigning the expectation value
 \end{equation}
 to each observable $A$ on $\HHsys$.
 The second part, namely that $\qmean{\cdot}$ defines a genuine trace-class operator $\rho_t$ on $\HHsys$, follows under some additional regularity assumptions \cite{BrRo03_operator_algebras}.
-Although the total system-bath state is pure at any given time, the reduced state is not necessarily a pure-state projector.
-On the contrary, quantum entanglement caused by the interaction requires assigning a true mixture to the system---this makes the treatment of open quantum system so much harder compared to its classical counterpart.\\
+But even if the total system-bath state is pure at any given time, the reduced state is not necessarily a pure-state projector.
+On the contrary, due to quantum entanglement caused by the interaction between the system and its environment, the reduced state must be described by a mixture.\\
 
 
 
@@ -77,12 +61,12 @@ On the contrary, quantum entanglement caused by the interaction requires assigni
 %        * valid only for some initial conditions
 %        * possibly unphyical behavior due to purely perturbational treatment (Breuer or Cohen-Tanduij)
 
-Although the reduced state's time evolution is uniquely defined by the von Neumann equation for $\rho_\mathrm{tot}(t)$ and \autoref{eq:intro.reduced_state}, a dynamical equation purely in terms of $\rho(t)$, a \emph{Master equation}, is more desirable for all practical purposes.
+Although the reduced state's time evolution is uniquely defined by the von Neumann equation for $\rho_\mathrm{tot}(t)$ and \autoref{eq:intro.reduced_state}, a dynamical equation purely in terms of $\rho(t)$ is more desirable for all practical purposes.
 In general, the derivation of a closed equation in $\rho(t)$ from the unitary system-bath evolution relies on quite severe approximations.
 A typical example is the \emph{Redfield}-equation \cite{BrPe2002_open_quantum}, which is based on the following physical assumptions:
-First, one starts with a initial product state $\rho_\mathrm{tot}(0) = \rho(0) \otimes \rho_\mathrm{env}$.
+First, one starts with an initial product state $\rho_\mathrm{tot}(0) = \rho(0) \otimes \rho_\mathrm{env}$.
 By the weak-coupling or \emph{Born}-approximation, this product form with a fixed environmental state $\rho_\mathrm{env}$ is preserved for all times.
-Furthermore, we assume that the dynamics of the environment proceed on a much smaller timescale compared to the system and any \quotes{memory}-effects are negligible small---this is the \emph{Markov}-approximation
+Furthermore, we assume that the dynamics of the environment proceed on a much smaller timescale compared to the system and any \quotes{memory}-effects are negligible small---this is the \emph{Markov}-approximation.
 However, because it is derived from a truncated perturbation expansion, the Redfield-master equation does not necessarily preserve all properties of a genuine density matrix.
 
 %  * Linblad: (axiomatic)
@@ -94,10 +78,10 @@ However, because it is derived from a truncated perturbation expansion, the Redf
 % Markov approx well founded in quantum optics (high transition frequencies, weak coupling, short correlation time)
 %     * operator algebras
 
-A more robust approach based on similar physical assumptions, but more axiomatic in spirit has been elaborated by Linblad \cite{Li76_generators_qdsg}:
+A more robust approach based on similar physical assumptions, but more axiomatic in spirit has been elaborated among others by Kossakowski and Linblad \cite{Ko72_linblad,Li76_generators_qdsg}:
 It is formulated purely in terms of propagators $\Lambda_t$ on the system's Hilbert space without making reference to a certain environment.
 The Born-Markov approximation is rephrased to the condition that the family of maps $(\Lambda_t)_{t\ge 0}$ constitute a quantum dynamical semi-group \cite{AlLe87_qds}, namely $\Lambda_{s+t} = \Lambda_s\Lambda_t$.
-Provided the $\Lambda_t$ are completely-positive as well, the corresponding Master equation for the reduced state necessarily takes the Linblad form
+Provided the $\Lambda_t$ are completely-positive as well (and certain regularity assumptions are satisfied), the corresponding time evolution equation for the reduced state necessarily takes the form of a \emph{Lindblad master equation}
 \begin{equation}
   \partial_t \rho_t = - \frac{\ii}{\hbar} [H, \rho_t] + \frac{1}{2}\sum_n \left( [L_n\,\rho_t, \adj{L}_n] + [L_n, \rho_t\,\adj{L}_n] \right).
   \label{eq:intro.linblad}
@@ -114,23 +98,15 @@ Here $H = \adj{H}$ is a self-adjoint operator and $L_n$ are Linbladians describi
 %     * approximation in practical evaluation: product initial state; although general case possible by ???
 %     * unwieldy numerics due to memory effecs,
 
-% TODO Add applications...
-no universally valid and tractable non-Markovian generalization of the Lindblad Master equation is known today.
-The projection formalism of Nakajima-Zwanzig provides a closed equation in the reduced state $\rho_t$ by separating relevant and irrelevant degrees of freedom in the von Neumann equation \cite{BrPe2002_open_quantum}.
-However, it includes non-Markovian effects by a memory-integral such that the evolution of $\rho(t)$ depends on all reduced states at times prior to $t$.
-This renders analytical or numerical solutions without further approximations virtually impossible.\\
-
-% Alternative: Feynman Vernon
-%  * direct calculation of path integrals
-%  * problematic due to oscillatory effecs
-%  * equivalent, but more better suited: Tanimura hierarchy
-
-A completely different approach to the dynamics of open quantum systems is the influence-functional formalism \cite{FeVe63_quantum_dissipative,FeHi10_path_integrals}:
-Besides its strength in analytical calculations
-
+However, for many open systems the Born-Markov approximation turns out to be too severe to account for a realistic environment:
+Non-Markovian effects arise for example in the radiative decay of an atom into a structured environment \cite{BrPe2002_open_quantum} or the tunneling of the trapped flux in a super-conducting qubit \cite{CaLe83_diss_system,Le87_spinboson}.
+Also, recent experiments suggest that the high efficiency of exciton-transfer in light-harvesting systems is achieved by virtue of non-Markovian effects \cite{EnCaRe07_fmo}.
+Unfortunately, no universally valid and tractable non-Markovian generalization of Lindblad's master equation~\ref{eq:intro.linblad} is known today.
+Although the projection formalism of Nakajima-Zwanzig provides a closed equation in the reduced state $\rho_t$ by separating relevant and irrelevant degrees of freedom in the von Neumann equation \cite{BrPe2002_open_quantum}, non-Markovian effects are included by means of a memory-integral such that the evolution of $\rho(t)$ depends on all reduced states at times prior to $t$.
+This makes an analytical or numerical solution without further approximations very difficult.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Unravellings}
+\section{Unravellings and Stochastic Schrödinger Equations}
 \label{sec:intro.unravellings}
 
 % Classical Mechanics: equivalance between Fokker-Planck
@@ -139,7 +115,12 @@ Besides its strength in analytical calculations
 % => Connection between partial differential equations and stochastic processes: Feynman Kac Formula
 %  * lies at the Heart of the Path integral formulation
 
-
+Of course, the previous discussion is not exclusive to quantum mechanics:
+To account for the influence of an environment on a classical system, its equations of motion are simply extended by fluctuation- and friction-forces giving rise to the \emph{Langevin equation} \cite{GaCr85_handbook}.
+A different description is obtained by averaging trajectories corresponding to different noise-realizations.
+The time evolution of the resulting probability density on phase space is governed by the \emph{Fokker-Planck equation}.
+%However, both points of view are completely equivalent; there is no conceptual problem in assigning a pure state, namely a phase space point $(p(t),q(t))$, to a given trajectory at any time $t$.
+For numerical purposes, Monte-Carlo simulations of individual stochastic trajectories are often preferred over the integration of the Fokker-Planck equation due to reduced computational demand and better parallel-computing performance.
 
 % Quantum mechanics: Markovian regime
 %  * Stochastic Schrödinger equation for pure states
@@ -147,10 +128,32 @@ Besides its strength in analytical calculations
 % diffusive equation (linear and nonlinear)
 % jump unravellings
 % favored due to smaller size, parallelization, always positive density operator\cite{GaWi02_real_nmsse}
-% Monte-Carlo: Take E(...) and evaluate for "random" trajectories; N-->\infty should work fine by law of large numbers
 % favored, since they contain more information; we have a pure product state for open system!!; still have environmental degrees of freedom
-%
 
+Similar Monte-Carlo techniques have been developed to deal with Markovian open quantum systems.
+So called \quotes{\emph{unravellings}} of the Lindblad master equation~\ref{eq:intro.linblad} determine stochastic pure states $\ket{\psi_t}$ in the system's Hilbert space, such that averaging over the corresponding projectors yields the reduced density matrix
+\begin{equation}
+  \rho_t = \E[\ket{\psi_t}\bra{\psi_t}].
+  \label{eq:intro.reduced_operator}
+\end{equation}
+In accordance with the classical theory, the stochastic states $\ket{\psi_t}$ are often referred to as \emph{quantum trajectories} \cite{Ca93_quantum_optics}.
+Their time evolution is described in terms of stochastic Schrödinger equations driven either by jump-processes \cite{GaZo04_quantum_noise} or time-continuous, diffusive processes \cite{Ca93_quantum_optics,Pe98_qsd,BrPe2002_open_quantum}.
+As an example for the latter we mention the \emph{quantum state diffusion} (\textsc{QSD}) in its It\=o- version for a single Linbladian $L_1 = L$ \cite{Pe98_qsd}
+\begin{equation*}
+  \mathrm{d}\ket{\psi'_t} = \left( -\ii \Hsys + \qmean{\adj{L}}_t L - \frac{1}{2} \adj{L}L - \frac{1}{2}\qmean{\adj L}_t \qmean{L}_t \right)\ket{\psi'_t} \dd t + \left( L - \qmean{L}_t \right) \ket{\psi'_t} \dd\cc\xi_t.
+  \label{eq:intro.nonlin_qsd}
+\end{equation*}
+Here, $\mathrm{d}\cc\xi_t$ is a complex-valued standard Brownian motion and $\qmean{\cdot}_t$ denotes the quantum average with respect to $\ket{\psi'_t}$.
+By omitting from \autoref{eq:intro.nonlin_qsd} all terms nonlinear in $\ket{\psi'_t}$, we obtain its equivalent linear form
+\begin{equation}
+  \mathrm{d}\ket{\psi_t} = \left( -\ii\Hsys - \frac{1}{2} \adj{L}L \right)\ket{\psi_t} \dd t + L\ket{\psi_t} \dd\cc\xi_t.
+  \label{eq:intro.lin_qsd}
+\end{equation}
+Both solutions $\ket{\psi_t}$ and $\ket{\psi'_t}$ of the linear and nonlinear stochastic Schrödinger equation, respectively, recover the reduced density operator by averaging over all realizations of the noise $\cc\xi_t$ as stated in \autoref{eq:intro.reduced_operator}.
+However, as we discuss in \autoref{sec:num.spin_boson}, the nonlinear version is better suited for a Monte-Carlo evaluation, since it preserves the norm of the states $\ket{\psi'_t}$.
+Combined with the computational advantages of propagating pure-state trajectories, nonlinear unravellings provide a highly efficient numerical method for the solution of~\ref{eq:intro.linblad} \cite{Ca93_quantum_optics,Pe98_qsd}.
+Indeed, if $N$ denotes the system's Hilbert space dimension, integrating the Linblad master equation directly amounts to solving a system of $N^2$ real-valued, linear, ordinary differential equations.
+Even though the \textsc{QSD}-approach requires the solution of a nonlinear, $2N$-dimensional system of real-valued ODEs for many noise-realizations, the ability to compute trajectories independently is often crucial for the efficient utilization of high-performance computers.
 
 % NMSSE
 %  * based on microscopical model, not unravelling
@@ -160,6 +163,14 @@ Besides its strength in analytical calculations
 %  * can provide master equation
 % Also fermionic environment
 
+The \emph{non-Markovian stochastic Schrödinger equation} (\NMSSE) constitutes a generalization of the stochastic Schrödinger equations~(\ref{eq:intro.nonlin_qsd}) and~\ref{eq:intro.lin_qsd} to the non-Markovian regime.
+It has been derived independently based on a microscopic model of the system and its harmonic environment without any approximations:
+One approach utilizes the full Schrödinger equation in a coherent state basis \cite{Di96_wave_eq}, while the other emanates from the Feynman-Vernon influence functional \cite{St96_lin_nmqsd}.
+Remarkably, the treatment of the \NMSSE does not assume the existence of a master equation for the reduced density matrix at any point.
+Quite on the contrary, by virtue of its exact microscopic foundation, it is a suitable point of departure to derive an approximate master equation for the latter \cite{YuDiGi00_master}.
+Furthermore, within the \NMSSE-formalism all information on the environment is encoded in a single function, namely the bath correlation function.
+This unified approach to arbitrarily structured environments allows to study the influence and emergence of non-Markovian effects.
+Since large parts of this work are based on the \NMSSE, we postpone the detailed account to \autoref{chap:nmqsd}.
 
 
 % Alternative Non-Markovian Description:
@@ -168,30 +179,35 @@ Besides its strength in analytical calculations
 %     * for bcf used in this work, possible to replace Non-Markovian env. by damped oscillators coupled to Markovian bath
 %     => usual trajectoriy treatment
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Established Results and Subject of this Work}
-\label{sec:into.results}
-% * Collission models
-% * Tanimura Hierarchies
-% * NMQSD (also for fermionic)
-% * results
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% We want to solve NMSSE!!!
-%
-% * Analytical solutions
-% TODO ZOFE and functional expansion of O operator
-%  * spectra and transfer in ...
-% All based on a uncontrolled assumption of O operator
-
-% Here we try to do it without; closely related to Tanimura
-% Hierarchy linear and nonlinear
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Outline}
 \label{sec:into.outline}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The main goal of this work is to investigate the dynamics of large open quantum systems coupled to structured environments.
+As a primary example, we study the energy transfer in light-harvesting complexes, which provides insight to the question, to what extent quantum mechanical effects influence the operation of organic cells.
+Since common density-matrix formalisms are limited by their large computational demands, we devise a new method based on non-Markovian quantum trajectories.
+Unlike established approaches to the solution of the \NMSSE \cite{YuDiGiSt99_pertubation,RoStEi11_nmqsd_aggregats}, it does not rely on the auxiliary assumption of the $O$-operator substitution presented in \autoref{sub:nmqsd.lin_nmsse.convolutionless}, but attacks the \NMSSE directly.
+Inspired by the hierarchical equations of motion (\HEOM) for density matrices \cite{Ta06_stochastic}, we deal with memory effects by introducing auxiliary pure-state trajectories.
+The resulting hierarchy of stochastic Schrödinger equations combines the advantages of the \HEOM-approach, namely a systematic way to incorporate memory effects, with the computational virtues of quantum trajectories.\\
+
+
+This work is organized as follows:
+In Chapter 2 we recapitulate the \NMSSE-approach to non-Markovian open quantum systems based on the microscopic model presented in \autoref{sec:nmqsd.model}.
+The derivation of the linear \NMSSE as well as its connection to the Markovian stochastic Schrödinger equations and the master equation formalism is presented in \autoref{sec:nmqsd.lin_nmsse}.
+Subsequently, the nonlinear version of the \NMSSE is reviewed.
+Both versions of the \NMSSE only deal with a zero-temperature initial state; the generalization to arbitrary temperature is carried out in \autoref{sec:nmqsd.temperature}.
+One result of this work, namely a pictorial interpretation of the \NMSSE, which helps to visualize memory effects of the environment, is derived in \autoref{sec:nmqsd.interpretation}.
+We conclude this chapter with an analytically solvable model and discuss some implications of the insights gained to the general case.
+
+Chapter 3 constitutes a central part of this work.
+It contains the derivation of the \NMSSE-hierarchy in its linear (Sect.~\ref{sub:num.sheom.lin}) and its nonlinear version (Sect.~\ref{sub:num.sheom.nonlin}).
+Since the simple form of the hierarchy crucially depends on an exponential bath correlation function (or sums thereof), \autoref{sec:num.expansion} is concerned with an expansion providing the required form.
+Finally, we demonstrate the influence of sample- and hierarchy-size on the accuracy of the results utilizing the Spin-Boson model.
+
+The application of the \NMSSE to more complex systems, namely molecular aggregates, is the subject of Chapter 4.
+In \autoref{sec:app.model} we show how a complex chemical compound is approximately described by the open system model used throughout this work.
+We illustrate the capabilities of the \NMSSE-hierarchy studying exciton energy transfer in light-harvesting systems (Sect.~\ref{sec:app.fmo}) and absorption spectra of molecular aggregates (Sect.~\ref{sec:app.spectra}).
+
+The final Chapter 5 contains a summary of this work as well as a short outlook.
+Throughout this work we employ units with $\hbar = k_\mathrm{B} = 1$.

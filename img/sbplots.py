@@ -14,6 +14,9 @@ sys.path.append('/home/dsuess/Documents/Diplomarbeit/Hierarchical Equations/')
 
 from spinboson import SBHierarchyFromFile
 from libnoise import libnoise as ln
+import spinbosonNN as sbNN
+import spinboson as sb
+from libbath import OscillatorBath
 
 
 
@@ -34,48 +37,209 @@ def plot_single_realization_norm(SB, ax, single_realizations):
 
 # Main plotting routines ######################################################
 
-def depth_plot(outfilename='depth', width=columnwidth, ratio=.4):# {{{1
+def depth_plot(outfilename='depth', width=columnwidth, ratio=.55):# {{{1
    """
       Plots to compare different depths for strongly coupled system
    """
    print('Creating depth plot...')
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
-   subplots_adjust(left=.1, bottom=.09, right=.9, top=.94, wspace=0.3,
+   subplots_adjust(left=.11, bottom=.13, right=.89, top=.96, wspace=0.0,
          hspace=.05)
    dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson-cutoff/'
 
-   ax = subplot(121)
-   axdet = subplot(122)
+   ax1 = subplot(221)
+   ax2 = subplot(222)
+   ax3 = subplot(223)
+   ax4 = subplot(224)
 
-   A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(17))
-   t, avgs_ref = A.get_sigma_avg()
+   matplotlib.rcParams['legend.handlelength'] = 1
+   psi0 = np.array([1., 0.])
 
-   # Plotting the data
-   for D in [0, 1, 2, 4, 8, 16, 17]:
-      A = SBHierarchyFromFile(dirloc + 'sb-strong-{}.pkl'.format(D))
-      t, avgs = A.get_sigma_avg()
-      ax.plot(t, avgs[2], label=D)
-      axdet.plot(t, np.abs(avgs[2] - avgs_ref[2]))
+   g = 0.5
+   gamma = 1.0
+   bath = OscillatorBath(2 * g, gamma, 0)
+   SB = sb.SBHierarchy(0., 1., 1, bath, 8)
+   SB.init_single_realizations(tLength=50, tSteps=10000)
+   t, psit = SB.get_single_hierarchy(psi0)
+
+   for i in [0, 1, 4, 8]:
+      ax3.plot(t, np.sqrt(np.abs(psit[:, i, 0])**2 + np.abs(psit[:, i, 1])**2),
+            label='k={}'.format(i))
+
+   sz_ref = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+   SB.free_single_realizations()
+   for D in [2, 4, 6]:
+      SB = sb.SBHierarchy(0., 1., 1, bath, D)
+      SB.init_single_realizations(tLength=50, tSteps=10000)
+      t, psit = SB.get_single_hierarchy(psi0)
+      sz = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+      ax1.plot(t, np.abs(sz - sz_ref), label='{}'.format(D))
+      SB.free_single_realizations()
+      print('Doing {}'.format(D))
+
+   bath = OscillatorBath(g, gamma / 2, 0)
+   SB = sb.SBHierarchy(0., 1., 1, bath, 8)
+   SB.init_single_realizations(tLength=50, tSteps=10000)
+   t, psit = SB.get_single_hierarchy(psi0)
+
+   for i in [0, 1, 4, 8]:
+      ax4.plot(t, np.sqrt(np.abs(psit[:, i, 0])**2 + np.abs(psit[:, i, 1])**2))
+
+   sz_ref = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+   SB.free_single_realizations()
+   for D in [2, 4, 6]:
+      SB = sb.SBHierarchy(0., 1., 1, bath, D)
+      SB.init_single_realizations(tLength=50, tSteps=10000)
+      t, psit = SB.get_single_hierarchy(psi0)
+      sz = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+      ax2.plot(t, np.abs(sz - sz_ref), label='{}'.format(D))
+      SB.free_single_realizations()
+      print('Doing {}'.format(D))
+
+   bath = OscillatorBath(g, gamma, 0)
+   SB = sb.SBHierarchy(0., 1., 1, bath, 8)
+   SB.init_single_realizations(tLength=50, tSteps=10000)
+   t, psit = SB.get_single_hierarchy(psi0)
+   for i in [0, 1, 4, 8]:
+      ax3.plot(t, np.sqrt(np.abs(psit[:, i, 0])**2 + np.abs(psit[:, i, 1])**2),
+            ls=':')
+      ax4.plot(t, np.sqrt(np.abs(psit[:, i, 0])**2 + np.abs(psit[:, i, 1])**2),
+            ls=':')
+   SB.free_single_realizations()
+
+   ## Plot that data! #########################################################
 
    # Setup the subplot
    ## Only left ones
-   ax.set_xlabel(r'$t \cdot \Delta$')
-   ax.set_ylabel(r'$\langle\sigma_z\rangle$')
+   ax1.set_xticklabels([])
+   ax2.set_xticklabels([])
+   ax3.set_xlabel(r'$t \cdot \Delta$')
+   ax4.set_xlabel(r'$t \cdot \Delta$')
+   ax1.set_ylabel(r'$\vert \langle\sigma_z\rangle - \langle\sigma_z\rangle_\mathrm{ref} \vert$')
+   ax3.set_ylabel(r'$\vert \psi^{(k)}_t \vert \, / \, \vert \psi^{(0)}_t \vert$')
 
-   ax.xaxis.set_major_locator(MaxNLocator(5))
-   ax.yaxis.set_major_locator(MaxNLocator(3))
-   ax.yaxis.set_minor_locator(MaxNLocator(5))
+   #ax1.legend(ncol=3, loc='upper right')
+   ax1.set_yscale('log')
+   ax1.axis([0, 50, 3e-3, 1e1])
+   ax2.set_yscale('log')
+   ax2.axis([0, 50, 3e-3, 1e1])
+   ax2.set_yticklabels([])
+   ax3.set_yscale('log')
+   ax3.axis([0, 50, 5e-4, 3])
+   ax4.set_yscale('log')
+   ax4.axis([0, 50, 5e-4, 3])
+   ax4.set_yticklabels([])
 
-   axdet.set_yscale('log')
 
-   ax.axis([0, 10, 0, 1])
-   axdet.axis([0, 10, 1e-5, 1e0])
-   ax.legend(loc='upper right', ncol=2)
+   ax1.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))
+   ax2.xaxis.set_major_locator(MaxNLocator(5))
+   ax1.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax2.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax1.yaxis.set_minor_locator(LogLocator(numticks=5))
+   ax2.yaxis.set_minor_locator(LogLocator(numticks=5))
+   ax3.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))
+   ax4.xaxis.set_major_locator(MaxNLocator(5))
+   ax3.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax4.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax3.yaxis.set_minor_locator(LogLocator(numticks=5))
+   ax4.yaxis.set_minor_locator(LogLocator(numticks=5))
+
+   ax1.text(2, 3.3, r'\textbf{A}')
+   ax2.text(2, 3.3, r'\textbf{B}')
+   ax3.text(2, 1.1, r'\textbf{C}')
+   ax4.text(2, 1.1, r'\textbf{D}')
+   ax1.legend(ncol=3)
+   ax3.legend(ncol=2, loc='lower right')
+
    savefig('.'.join([outfilename, outformat]))
-
    close()
    print('Success.')
+
+
+
+def depth_plot_terminator(outfilename='terminator', width=columnwidth, ratio=.3):# {{{1
+   """
+      Plots to compare different depths for strongly coupled system
+   """
+   print('Creating depth plot...')
+   figsize = (width / PtPerIn, width * ratio / PtPerIn)
+   figure(figsize=figsize)
+   subplots_adjust(left=.11, bottom=.19, right=.89, top=.94, wspace=0.0,
+         hspace=.05)
+   dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson-cutoff/'
+
+   ax1 = subplot(121)
+   ax2 = subplot(122)
+
+   matplotlib.rcParams['legend.handlelength'] = 1
+   psi0 = np.array([1., 0.])
+
+   #g, gamma, Omega = sb.GANToOurs(0.004, 1., 0.0154)
+   #bath = OscillatorBath(2., .5, 2.)
+   g = 0.5
+   gamma = 1.
+   Omega = 0
+   bath = OscillatorBath(g, gamma, Omega)
+   SB = sb.SBHierarchy(0., 1., 1, bath, 8)
+   SB.init_single_realizations(tLength=50, tSteps=10000)
+   t, psit = SB.get_single_hierarchy(psi0)
+   sz_ref = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+   SB.free_single_realizations()
+   for D in [2, 4, 6]:
+      SB = sb.SBHierarchy(0., 1., 1, bath, D)
+      SB.init_single_realizations(tLength=50, tSteps=10000)
+      t, psit = SB.get_single_hierarchy(psi0)
+      sz = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+      ax1.plot(t, np.abs(sz - sz_ref), label='{}'.format(D))
+      SB.free_single_realizations()
+      print('Doing {}'.format(D))
+
+   SBNN = sbNN.SBHierarchy(0., 1., 1, bath, 8)
+   SBNN.init_single_realizations(tLength=50, tSteps=5000)
+   t, psit = SBNN.get_single_hierarchy(psi0)
+   sz_ref = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+   SBNN.free_single_realizations()
+   for D in [2, 4, 6]:
+      SBNN = sbNN.SBHierarchy(0., 1., 1, bath, D)
+      SBNN.init_single_realizations(tLength=50, tSteps=5000)
+      t, psit = SBNN.get_single_hierarchy(psi0)
+      sz = np.abs(psit[:, 0, 0])**2 - np.abs(psit[:, 0, 1])**2
+      ax2.plot(t, np.abs(sz - sz_ref), label='{}'.format(D))
+      SBNN.free_single_realizations()
+      print('Doing {}'.format(D))
+
+   ## Plot that data! #########################################################
+
+   # Setup the subplot
+   ## Only left ones
+   ax1.set_xlabel(r'$t \cdot \Delta$')
+   ax2.set_xlabel(r'$t \cdot \Delta$')
+   ax1.set_ylabel(r'$\vert \langle\sigma_z\rangle - \langle\sigma_z\rangle_\mathrm{ref} \vert$')
+
+   #ax1.legend(ncol=3, loc='upper right')
+   ax1.set_yscale('log')
+   ax1.axis([0, 50, 1e-5, 10])
+   ax2.set_yscale('log')
+   ax2.axis([0, 50, 1e-5, 10])
+   ax2.set_yticklabels([])
+
+
+   ax1.xaxis.set_major_locator(MaxNLocator(5, prune='upper'))
+   ax2.xaxis.set_major_locator(MaxNLocator(5))
+   ax1.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax2.yaxis.set_major_locator(LogLocator(numticks=5))
+   ax1.yaxis.set_minor_locator(LogLocator(numticks=5))
+   ax2.yaxis.set_minor_locator(LogLocator(numticks=5))
+
+   ax1.text(2, 2.0, r'\textbf{A}')
+   ax2.text(2, 2.0, r'\textbf{B}')
+   ax1.legend(ncol=3)
+
+   savefig('.'.join([outfilename, outformat]))
+   close()
+   print('Success.')
+
 
 def lin_norm_comparisson(outfilename='normcomp', # {{{1
       single_realizations=5, width=columnwidth, ratio=.3):
@@ -143,14 +307,14 @@ def lin_norm_comparisson(outfilename='normcomp', # {{{1
 
 
 def lin_vs_nonlin_averaged(outfilename='linvsnonlin_averaged', # {{{1
-      width=columnwidth, ratio=.8):
+      width=columnwidth, ratio=.75):
    """
       Plots to compare lin vs. nonlin method.
    """
    print('Creating lin vs nonlin plot (sigma_z)...')
    figsize = (width / PtPerIn, width * ratio / PtPerIn)
    figure(figsize=figsize)
-   subplots_adjust(left=.11, bottom=.07, right=.89, top=.94, wspace=0.,
+   subplots_adjust(left=.11, bottom=.09, right=.89, top=.94, wspace=0.,
          hspace=.15)
    dirloc = '/home/dsuess/Documents/Diplomarbeit/archive/spinboson/'
 
@@ -252,3 +416,4 @@ if __name__ == '__main__':
    lin_vs_nonlin_averaged()
    #lin_norm_comparisson(single_realizations=6)
    #depth_plot()
+   #depth_plot_terminator()

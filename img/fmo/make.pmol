@@ -1,5 +1,5 @@
-load monomer_reduced.pdb
-#load 3ENI.pdb
+#load monomer_reduced.pdb
+load 3ENI.pdb
 
 # define the bcls
 select bcl1, (chain A and resi 371)
@@ -73,9 +73,6 @@ label lab6, "6"
 select lab7, id 5940
 label lab7, "7"
 
-select lab8, id 5977
-label lab8, "8"
-
 set label_color, red, lab1
 set label_color, green, lab2
 set label_color, blue, lab3
@@ -83,7 +80,6 @@ set label_color, magenta, lab4
 set label_color, cyan, lab5
 set label_color, orange, lab6
 set label_color, grey, lab7
-set label_color, yellow, lab8
 set label_size, 50
 
 # Use control+shift for repositioning

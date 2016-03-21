@@ -137,8 +137,8 @@ def jaynes_cummings_plot(outfilename='jaynescummings.' + outformat,
    axfree_F.axis([0, 20, -1, 40])
 
    ## And add subfigure caption
-   axdamp_s.text(9, -.88, r'\textbf A', fontsize=11)
-   axfree_s.text(27, -.88, r'\textbf B', fontsize=11)
+   axdamp_s.text(9.25, -.95, r'\textbf A', fontsize=11)
+   axfree_s.text(18.5, -.95, r'\textbf B', fontsize=11)
 
    plt.savefig(outfilename)
    plt.close()

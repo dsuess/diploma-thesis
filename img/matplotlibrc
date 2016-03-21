@@ -56,7 +56,7 @@ text.latex.unicode  : False
 #                              # of the axis range is smaller than the
 #                              # first or larger than the second
 #axes.unicode_minus  : True    # use unicode for the minus symbol
-axes.color_cycle    : k
+axes.color_cycle    : y, b, r, m
 #polaraxes.grid      : True    # display grid on polar axes
 #axes3d.grid         : True    # display grid on 3d axes
 #
@@ -89,7 +89,7 @@ legend.fontsize      : medium
 legend.borderpad     : .7    # border whitspace in fontsize units
 #legend.markerscale   : 1.0    # the relative size of legend markers vs. original
 #legend.labelspacing  : 0.020  # the vertical space between the legend entries
-legend.handlelength  : 1.0   # the length of the legend lines
+legend.handlelength  : 2   # the length of the legend lines
 legend.handletextpad : 0.50   # the space between the legend line and legend text
 #legend.borderaxespad : 0.10   # the border between the axes and legend edge
 legend.shadow        : True

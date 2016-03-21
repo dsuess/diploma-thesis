@@ -1,6 +1,6 @@
-\documentclass[a4paper,11pt,BCOR8mm,twoside,headsepline]{scrbook}
+\documentclass[a4paper,11pt,BCOR=8mm,twoside,headsepline]{scrbook}
 \author{Daniel Süß}
-\title{Stochastical Dynamics of Open Quantum Systems}
+\title{Stochastic Dynamics of Open Quantum Systems}
 
 % Basic input and font encoding
 %\usepackage{scrhack}
@@ -15,6 +15,8 @@
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf}
 \usepackage{subcaption}
+% labels for subfigures are capital
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
 
 \usepackage{cite}
 \usepackage{enumerate}
@@ -92,7 +94,7 @@
 }
 \newcommand{\Texp}[1][\empty]{%
   \ifthenelse{\equal{#1}{\empty}}
-    {\mathrm{exp}_+}
+    {\operatorname{T}_+\mathrm{exp}}
     {\operatorname{T}_+\mathrm{e}^{#1}}
 }
 \newcommand{\varf}[1][\empty]{%
@@ -256,14 +258,16 @@
 
 % centered table header
  \newcommand{\theader}[1]{\multicolumn{1}{c}{#1}}
-
+\clubpenalty10000
+\widowpenalty10000
+\displaywidowpenalty=10000
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\includeonly{introduction}
-%\includeonly{nmqsd}
+%\includeonly{nmqsd,appendix}
 %\includeonly{numerics}
 %\includeonly{application}
-%\includeonly{appendix}
+%\includeonly{conclusions}
 
 \begin{document}
 \frontmatter
@@ -280,9 +284,47 @@
 \appendix
 \include{appendix}
 
-% FIXME OLD CITATION STYLE
-%\bibliographystyle{alpha}
-\bibliographystyle{plain}
+\bibliographystyle{alpha}
+%\bibliographystyle{plain}
 \bibliography{references}
 
+\newpage
+\section*{\centering{Danksagung}}\bigskip
+\thispagestyle{empty}
+
+An erster Stelle möchte ich mich natürlich ganz herzlich bei Herr Prof. Strunz für die Betreuung während der Diplomarbeit bedanken.
+Sie haben es mir durch die Freiheit bei der Aufgabenstellung ermöglicht, den Verlauf dieser Arbeit größtenteils selber zu bestimmen.
+Außerdem haben Sie mich in zahlreichen Diskussionen immer wieder auf den richtigen Weg zurückgebracht.
+Weiterhin möchte ich bei Herr Dr. Großmann dafür bedanken, dass er sich als Zweitgutachter zur Verfügung gestellt hat.\\
+
+Alexander Eisfeld möchte ich für die vielen Gespräche, Korrekturen und Hinweise danken, die maßgeblich zum Entstehen dieser Arbeit beigetragen haben---auch wenn mein erster Entwurf allen deinen Veröffentlichungen widersprach.
+Gerhard Ritschel möchte ich für seine Hilfe bei vielen Details der Rechnungen und für seine Unterstützung bei allem was mit Temperatur zu tun hat bedanken.\\
+
+Natürlich wäre diese Danksagung nicht vollständig ohne eine Erwähnung der ganzen TQO-Arbeitsgruppe.
+Insbesondere möchte ich mich bei Franziska Peter bedanken, auch wenn ich nicht sagen darf wofür.
+Lena Simon möchte ich für das Korrekturlesen in sprichwörtlich letzter Minute danken.
+Bei Richard Hartmann möchte ich mich für die Diskussionen und Erkenntnisse zum Thema dieser Arbeit bedanken, auch wenn ich glaube dass $\gamma \neq 0$ gelten sollte.\\
+
+Bei meinen Eltern möchte ich herzlichst für die tatkräftige Unterstützung während der Studienzeit bedanken.
+
+
+
+
+
+% Alex
+% Gerhard
+%
+% Franzi, Lena
+% Richard
+% Rest der Arbeitsgruppe
+%
+
+\newpage
+\selectlanguage{ngerman}
+\thispagestyle{empty}
+\section*{\centering{Erklärung}}\bigskip
+
+Hiermit versichere ich, dass ich die vorliegende Arbeit ohne unzulässige Hilfe Dritter und ohne Benutzung anderer als der angegebenen Hilfsmittel angefertigt habe. Die aus fremden Quellen direkt oder indirekt übernommenen Gedanken sind als solche kenntlich gemacht. Die Arbeit wurde bisher weder im Inland noch im Ausland in gleicher oder ähnlicher Form einer anderen Prüfungsbehörde vorgelegt.\\[2.3cm]
+Daniel Süß\\
+Dresden, \today
 \end{document}
